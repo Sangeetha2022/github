@@ -8,6 +8,8 @@ import { ConnectorService } from '../apiservices/ConnectorService'
 import * as ncp from 'ncp';
 import * as st from 'stringtemplate-js';
 import { Constant } from '../config/Constant'
+import * as asyncLoop from 'node-async-loop';
+
 export class FrontendWorker {
 
     private frontendSupportWorker = new FrontendSupportWorker();
@@ -16,6 +18,7 @@ export class FrontendWorker {
     private projectGenerationPath = '';
     private seedPath = '';
     private templatePath = '';
+    private clientFramework = '';
 
 
     // FOLDER NAME
@@ -29,6 +32,10 @@ export class FrontendWorker {
     private PACKAGE_FILENAME = 'package.json';
     private AUTH_GUARD_FILENAME = `${this.AUTH_FOLDERNAME.charAt(0).toUpperCase() + this.AUTH_FOLDERNAME.slice(1)}Guard`;
 
+    //REACT FILE NAME
+    private REACT_ROUTING_FILENAME = `routes.tsx`;
+    private REACT_MODIFY_ROUTNG_TEMPLATENAME = `react_modify_routing`;
+
     // TEMPLATE NAME
     private MODIFY_APP_MODULE_TEMPLATENAME = `modify_app_module`;
     private MODIFY_APP_ROUTNG_TEMPLATENAME = `modify_app_routing`;
@@ -41,6 +48,8 @@ export class FrontendWorker {
     }
     private authPackageDependency = [];
     public connectorArrayObject = [];
+
+    private reactAuthPackageDependency = [];
 
     private adminComponent = {
         module: {
@@ -68,6 +77,11 @@ export class FrontendWorker {
         imports: `{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`
     }
 
+    private reactAdminAppRoutingModule = {
+        importDependency: `import  ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()} from './app/${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}';`,
+        imports: `{ path: '/${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()} }`
+    }
+
     private isRoutingModule = {
         path: false
     }
@@ -76,6 +90,12 @@ export class FrontendWorker {
         importDependency: [],
         path: []
     }
+
+    private reactRoutingModuleInfo = {
+        importDependency: [],
+        path: []
+    }
+
     featuredetails: any;
     externaladminfeature: any;
     exterfeaturedetails: any;
@@ -93,11 +113,17 @@ export class FrontendWorker {
             importDependency: [],
             path: []
         }
+
+        this.reactRoutingModuleInfo = {
+            importDependency: [],
+            path: []
+        }
     }
 
     async createAdminComponent(details, callback) {
         this.initializeData();
         console.log('details =========>>>>>', details);
+        this.clientFramework = details.clientframework;
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
         this.templatePath = details.adminTemplatePath;
@@ -126,9 +152,42 @@ export class FrontendWorker {
             console.log('--------Admin feature--html-------', this.externaladminfeature);
         }
         const applicationPath = `${this.projectGenerationPath}/src/app/${this.ADMIN_FOLDERNAME}`;
-        this.generateStaticComponent(details, applicationPath, this.ADMIN_FOLDERNAME, callback);
+        if(details.clientframework === 'react'){
+            console.log('details get a clientframework', details.clientframework );
+            this.generateReactStaticComponent(details, applicationPath, this.ADMIN_FOLDERNAME, callback);
+        } else {
+            this.generateStaticComponent(details, applicationPath, this.ADMIN_FOLDERNAME, callback);
+        }
     }
 
+    async generateReactStaticComponent(details, applicationPath, folderName, callback) {
+        let loginSeedPath;
+        if (folderName === 'profilesettings' || folderName === 'button-renderer') {
+            loginSeedPath = `${this.seedPath}/user/${folderName}`;
+        } else if (details.clientframework === 'react') {
+            loginSeedPath = `${this.seedPath}/src/app/${folderName}`;
+        } 
+        else {
+            loginSeedPath = `${this.seedPath}/${folderName}`;
+        }
+        Common.createFolders(applicationPath);
+        let fileArray = await fs.readdirSync(loginSeedPath);
+        asyncLoop(fileArray, (element, next) => {
+            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, element, () => {
+                next();
+            });
+        }, err => {
+            callback();
+        });
+        // fs.readdirSync(loginSeedPath).forEach(async fileElement => {
+        //     this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, () => {
+        //         console.log('222222222222', folderName);
+        //         callback();
+        //     });
+        // });
+
+
+    }
 
     async generateStaticComponent(details, applicationPath, folderName, callback) {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
@@ -403,43 +462,60 @@ export class FrontendWorker {
     }
 
     async modifyFiles() {
-        const appModulePath = `${this.projectGenerationPath}/src/app`;
-        this.modifyAppModuleFile(appModulePath);
-        // future use
-        this.modifyAppRoutingModuleFile(appModulePath);
-        if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
-            this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
-            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
-        }
-        this.modifyPackageJsonFile();
-        // modify app module
-        // import httpclientmodule in app module files
-        // this.appModuleInfo.importDependency.push();
-        // this.appModuleInfo.imports.push();
-        if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
-            this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
-            this.appModuleInfo.imports.push(this.httpClient.imports);
-        }
-        if (this.connectorArrayObject.length > 0) {
-            this.connectorArrayObject.forEach(connectorObject => {
-                this.routingModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.component';`);
-                this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component }`);
-                this.appModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.module';`);
-                this.appModuleInfo.imports.push(`${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module`);
-            })
-        }
-        if (this.appModuleInfo.importDependency.findIndex(x => x == this.adminComponent.module.importDependency) < 0) {
-            this.appModuleInfo.importDependency.push(this.adminComponent.module.importDependency);
-            this.appModuleInfo.imports.push(this.adminComponent.module.imports);
-        }
-        await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
-            this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, (response) => { });
+        let appModulePath;
+        if(this.clientFramework === 'react'){
+            console.log('react routing modulepath--', this.clientFramework)
+            appModulePath = `${this.projectGenerationPath}/src`;
+            if (this.reactRoutingModuleInfo.importDependency.findIndex(x => x == this.reactAdminAppRoutingModule.importDependency) < 0) {
+                this.reactRoutingModuleInfo.importDependency.push(`import ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()} from './app/${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}';`);
+                this.reactRoutingModuleInfo.path.push(`{ path: '/${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()} },`);
+            }
+            // future use
+            this.modifyAppRoutingModuleFile(appModulePath);
+            this.modifyPackageJsonFile();
 
-        // future use of modify app routing file
-        await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
-            this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, (response) => { });
-        console.log('modifyu files values are -------  ', this.appModuleInfo);
-        console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
+            await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+                this.REACT_ROUTING_FILENAME, this.REACT_MODIFY_ROUTNG_TEMPLATENAME, this.reactRoutingModuleInfo, (response) => { });
+                console.log('modify files values are -app routing files a------  ', this.reactRoutingModuleInfo);
+        } else if(this.clientFramework !== 'react'){
+            appModulePath = `${this.projectGenerationPath}/src/app`;
+            this.modifyAppModuleFile(appModulePath);
+            // future use
+            this.modifyAppRoutingModuleFile(appModulePath);
+            if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
+                this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
+                this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
+            }
+            this.modifyPackageJsonFile();
+            // modify app module
+            // import httpclientmodule in app module files
+            // this.appModuleInfo.importDependency.push();
+            // this.appModuleInfo.imports.push();
+            if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
+                this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
+                this.appModuleInfo.imports.push(this.httpClient.imports);
+            }
+            if (this.connectorArrayObject.length > 0) {
+                this.connectorArrayObject.forEach(connectorObject => {
+                    this.routingModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.component';`);
+                    this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component }`);
+                    this.appModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.module';`);
+                    this.appModuleInfo.imports.push(`${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module`);
+                })
+            }
+            if (this.appModuleInfo.importDependency.findIndex(x => x == this.adminComponent.module.importDependency) < 0) {
+                this.appModuleInfo.importDependency.push(this.adminComponent.module.importDependency);
+                this.appModuleInfo.imports.push(this.adminComponent.module.imports);
+            }
+            await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+                this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, (response) => { });
+
+            // future use of modify app routing file
+            await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+                this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, (response) => { });
+            console.log('modifyu files values are -------  ', this.appModuleInfo);
+            console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
+        }
     }
 
     modifyAppModuleFile(appModulePath) {
@@ -513,41 +589,79 @@ export class FrontendWorker {
     }
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
-        appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
-        console.log('modify app routing module file are -------  ', fs.readFileSync(appRoutingModulePath).toString().split("\n"));
-        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
-            console.log('app routing each one are -------  ', appElement);
-            if (appElement.includes('import') && appElement.includes('from')) {
-                if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
-                    if (appElement.includes('.component')) {
-                        this.routingModuleInfo.importDependency.push(appElement);
-                    } else {
-                        this.routingModuleInfo.importDependency.unshift(appElement);
+        if(this.clientFramework === 'react'){
+            appRoutingModulePath += `/${this.REACT_ROUTING_FILENAME}`;
+            console.log('modify app routing module file are -------  ', fs.readFileSync(appRoutingModulePath).toString().split("\n"));
+            fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
+                console.log('app routing each one are -------  ', appElement);
+                if (appElement.includes('import') && appElement.includes('from')) {
+                    if (this.reactRoutingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                        // if (appElement.includes('.component')) {
+                            this.reactRoutingModuleInfo.importDependency.push(appElement);
+                        // } else {
+                        //     this.reactRoutingModuleInfo.importDependency.unshift(appElement);
+                        // }
+                    }
+
+                }
+                if (appElement.includes('routes: any')) {
+                    this.isRoutingModule.path = true;
+                }
+                if (appElement.includes(']') && !appElement.includes(`canActivate`)) {
+                    this.isRoutingModule.path = false;
+
+                }
+                if (this.isRoutingModule.path) {
+                    console.log('inside the routingmodule path are   ', appElement, ' --routingpath-- ', this.isRoutingModule.path);
+                    if (appElement.includes(`canActivate`)) {
+                        if (this.reactRoutingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                            this.reactRoutingModuleInfo.path.push(appElement.replace('},', '}'));
+                        }
+                    } else if (appElement && !appElement.includes('[') && !appElement.includes(']')) {
+                        if (this.reactRoutingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                            this.reactRoutingModuleInfo.path.push(appElement.replace('},', '}'));
+                        }
                     }
                 }
-
-            }
-            if (appElement.includes('routes: Routes')) {
-                this.isRoutingModule.path = true;
-            }
-            if (appElement.includes(']') && !appElement.includes(`canActivate`)) {
-                this.isRoutingModule.path = false;
-
-            }
-            if (this.isRoutingModule.path) {
-                console.log('inside the routingmodule path are   ', appElement, ' --routingpath-- ', this.isRoutingModule.path);
-                if (appElement.includes(`canActivate`)) {
-                    if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
-                        this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+            })
+            console.log('app rouint after read and wirte -----  ', this.reactRoutingModuleInfo);
+        } else if(this.clientFramework !== 'react'){
+            appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
+            console.log('modify app routing module file are -------  ', fs.readFileSync(appRoutingModulePath).toString().split("\n"));
+            fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
+                console.log('app routing each one are -------  ', appElement);
+                if (appElement.includes('import') && appElement.includes('from')) {
+                    if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                        if (appElement.includes('.component')) {
+                            this.routingModuleInfo.importDependency.push(appElement);
+                        } else {
+                            this.routingModuleInfo.importDependency.unshift(appElement);
+                        }
                     }
-                } else if (appElement && !appElement.includes('[') && !appElement.includes(']')) {
-                    if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
-                        this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+
+                }
+                if (appElement.includes('routes: Routes')) {
+                    this.isRoutingModule.path = true;
+                }
+                if (appElement.includes(']') && !appElement.includes(`canActivate`)) {
+                    this.isRoutingModule.path = false;
+
+                }
+                if (this.isRoutingModule.path) {
+                    console.log('inside the routingmodule path are   ', appElement, ' --routingpath-- ', this.isRoutingModule.path);
+                    if (appElement.includes(`canActivate`)) {
+                        if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                            this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+                        }
+                    } else if (appElement && !appElement.includes('[') && !appElement.includes(']')) {
+                        if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                            this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+                        }
                     }
                 }
-            }
-        })
-        console.log('app rouint after read and wirte -----  ', this.routingModuleInfo);
+            })
+            console.log('app rouint after read and wirte -----  ', this.routingModuleInfo);
+        }
     }
 
     modifyPackageJsonFile() {
@@ -558,11 +672,19 @@ export class FrontendWorker {
         const index = packageInfo.findIndex(x => x === '  "dependencies": {');
         console.log('package index rae -------  ', index);
         if (index > -1) {
-            this.authPackageDependency.forEach(packageElement => {
-                if (packageInfo.findIndex(item => item === packageElement) < 0) {
-                    packageInfo.splice(index + 10, 0, packageElement);
-                }
-            })
+            if(this.clientFramework === 'react') {
+                this.reactAuthPackageDependency.forEach(packageElement => {
+                    if (packageInfo.findIndex(item => item === packageElement) < 0) {
+                        packageInfo.splice(index + 3, 0, packageElement);
+                    }
+                })
+            } else if(this.clientFramework !== 'react') {
+                this.authPackageDependency.forEach(packageElement => {
+                    if (packageInfo.findIndex(item => item === packageElement) < 0) {
+                        packageInfo.splice(index + 10, 0, packageElement);
+                    }
+                })
+            }
             this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo, (response) => { });
         }
         console.log('after added values in package are -------  ', packageInfo);

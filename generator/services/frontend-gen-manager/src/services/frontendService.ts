@@ -49,7 +49,8 @@ export class FrontendService {
             cssGuidelines: [],
             desktop: null,
             mobile: null,
-            flows: []
+            flows: [],
+            clientframework: null
         }
         // const flows = await this.getFlows(details.flows);
         console.log('backend server language  ---- ', details.project);
@@ -201,7 +202,7 @@ export class FrontendService {
 
                 } else {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
-                    let angularDesktopResponse = null;
+                    let angularDesktopResponse = null, reactDesktopResponse = null;
                     if (desktopJSON.length > 0) {
                         if (feature.clientFramework.label == 'Angular 12') {
                             console.log("inside angular 12 angulargenmanager frontend");
@@ -224,7 +225,9 @@ export class FrontendService {
                         }
                         if(feature.clientFramework.label.includes('React')) {
                             feature.desktop = desktopJSON;
-                            // angularDesktopResponse = await this.generateReact(feature);
+                            feature.clientframework = 'react';
+                            reactDesktopResponse = await this.generateReact(feature);
+                            console.log('final react desktop response values are -----  ', reactDesktopResponse);
                         }
                        
                     }
@@ -232,10 +235,12 @@ export class FrontendService {
                         feature.mobile = mobileJSON;
                     }
                     console.log('final flow of angular desktop response ----->>  ', angularDesktopResponse);
-                    if(!angularDesktopResponse) {
+                    if(!angularDesktopResponse || !reactDesktopResponse) {
                         angularDesktopResponse = 'Data not found';
+                        reactDesktopResponse = 'Data not found';
                     }
                     callback(angularDesktopResponse);
+                    callback(reactDesktopResponse);
 
                     // const node = await this.generateNode(feature);
                     // console.log('node %%%%%%%%%%%%% ----- ', util.inspect(node, { showHidden: true, depth: null }));
