@@ -107,13 +107,12 @@ export class BlockService
       label:'Multi-select Dropdown',
       category: 'Special',
       content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-                   <div id="multiselectdropdown" data-gjs-type="multiselect-type" style="width:100%"></div>
+                   <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
                 </div>`,
       draggable: true,
       removable: true,
       attributes:{class:'fa fa-tasks'}
     });
-    this.traitService.addMultiSelectTraits(editor, 'multiselect-type');
   }
 
   addSpecialCharts(editor:any) 

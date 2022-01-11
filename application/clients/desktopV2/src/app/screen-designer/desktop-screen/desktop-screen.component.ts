@@ -18,6 +18,7 @@ import { Dataservice } from 'src/app/broadcast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
 import {trigger,state,style,transition,animate} from '@angular/animations';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
   
 @Component
 ({
@@ -135,7 +136,6 @@ export class DesktopScreenComponent implements OnInit
   public filterModifiers: any;
   modifierUsageObject: any;
   modifiersDetails: any = [];
-  public multiOptions:any=[];
   is_grid_present: Boolean=false;
   is_bootStrapTable_present: Boolean=false;
   isGridPopup:boolean=false;
@@ -221,7 +221,10 @@ export class DesktopScreenComponent implements OnInit
     componentId: '',
     elementName: ''
   };
-  specific_attribute_Event: any[] = [];    
+  specific_attribute_Event: any[] = []; 
+  dropdownList: { item_id: number; item_text: string; }[] = [];
+  selectedItems: { item_id: number; item_text: string; }[] = [];
+  dropdownSettings:IDropdownSettings= {};   
   
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,
               private panelService:PanelService,private projectComponentService:ProjectComponentService,
@@ -453,6 +456,34 @@ export class DesktopScreenComponent implements OnInit
         selectEntity: ['', Validators.required],
         selectField: ['', Validators.required]
       });
+    
+      this.dropdownSettings = 
+      {
+        singleSelection: false,
+        idField: 'item_id',
+        textField: 'item_text',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: true
+      };
+      this.dropdownList = 
+      [
+        { item_id: 1, item_text: 'Mumbai' },
+        { item_id: 2, item_text: 'Bengaluru' },
+        { item_id: 3, item_text: 'Pune' },
+        { item_id: 4, item_text: 'Navsari' },
+        { item_id: 5, item_text: 'New Delhi' }
+      ];  
+  }
+
+  onItemSelect(item: any) 
+  {
+    console.log(item);
+  }
+  onSelectAll(items: any) 
+  {
+    console.log(items);
   }
   addGridBlocks()
   {

@@ -1,5 +1,7 @@
 <div class="mainDiv" id="editor-c">
     <div style="padding: 25px"></div>
+    <ng-multiselect-dropdown [placeholder]="'Click to select'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+    </ng-multiselect-dropdown>
 </div>
 
 <!-- Save screen model popup window -->
@@ -60,6 +62,8 @@
             </div>
             <div class="modal-body">
                 <p>Maximum size limit : 1 MB</p>
+                <ng-multiselect-dropdown [placeholder]="'Click to select'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" (click)="closeImageCode()">Close</button>

@@ -85,7 +85,16 @@ export class CommandService
            eventPopupModel!.style.display = 'block';
         }
         run();
-      }  
+      } 
+      if(component.attributes.type==="highcharts-type" || component.attributes.type==="multiselect-type")
+      {
+        const run=()=>
+        {
+           const eventPopupModel = document.getElementById('warnModal');
+           eventPopupModel!.style.display = 'block';
+        }
+        run();
+      }
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);      
       const removeTriatName = 
@@ -589,7 +598,7 @@ export class CommandService
       const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
       const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager"]');
-      const multiSelectDropdown=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="multiselect"]');
+      const multiSelectDropdown=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="multiselect-type"]');
       const highChart=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="highcharts-type"]');
       const image=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="image"]');
 
@@ -636,12 +645,6 @@ export class CommandService
       {
         multiSelectDropdown.forEach((element:any) => 
         {
-          const run=()=>
-          {
-             const eventPopupModel = document.getElementById('warnModal');
-             eventPopupModel!.style.display = 'block';
-          }
-          run();
           element.attributes.traits.target.set('name', `multiselectdropdown_${element.ccid}`);
         });
       }  
@@ -650,12 +653,6 @@ export class CommandService
       {
         highChart.forEach((element:any) => 
         {
-          const run=()=>
-          {
-             const eventPopupModel = document.getElementById('warnModal');
-             eventPopupModel!.style.display = 'block';
-          }
-          run();
           element.attributes.traits.target.set('name', `highChart_${element.ccid}`);
         });
       }
