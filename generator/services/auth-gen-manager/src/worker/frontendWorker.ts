@@ -259,7 +259,7 @@ export class FrontendWorker {
             console.log('login react generate', this.clientframework);
             loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
         } else if(this.clientframework !== 'react'){
-            const loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
+            loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
         }
         this.generateStaticComponent(loginApplicationPath, this.clientframework, this.LOGIN_FOLDERNAME, () => {
             if(this.clientframework === 'react'){
