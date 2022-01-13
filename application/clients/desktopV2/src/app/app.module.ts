@@ -36,6 +36,7 @@ import {   AgGridModule } from 'ag-grid-angular';
 import { ConnectorManagerModule } from './techarchitecture-manager/techarchitecture-manager.module';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { MenuBuilderComponent } from './menu-builder/menu-builder.component';
+import { TemplateManagerComponent } from './template-manager/template-manager.component';
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams) {
     return JSON.stringify(params);
@@ -55,6 +56,7 @@ export function httpLoaderfactory(http:HttpClient){
      ConfigManagerComponent,
      FlowManagerComponent,
      MenuBuilderComponent,
+     TemplateManagerComponent,
   ],
   imports: 
   [
