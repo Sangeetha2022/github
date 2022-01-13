@@ -25,16 +25,18 @@ export class AuthService {
         pathFile: '',
         folder: '',
         templatepath: '',
+        fluentdFolder: '',
         proxyFolder: '',
         camundaFolder: '',
-         gcamFolder:'',
-         securityPath: '',
+        gcamFolder:'',
+        securityPath: '',
         authProxyPath: '',
-         gcamPath:'',
-         systemCredsManagerPath: '',
-         systemCredsManagerFolder: '',
-         gepFileManagerPath: '',
-         gepFileManagerFolder: '',
+        gcamPath:'',
+        fluentdPath: '',
+        systemCredsManagerPath: '',
+        systemCredsManagerFolder: '',
+        gepFileManagerPath: '',
+        gepFileManagerFolder: '',
         camundaPath: '',
         apigatewaypath: '',
         FrontendLogin: '',
@@ -49,8 +51,8 @@ export class AuthService {
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private authProxyConfig = new AuthProxyWorker();
-     private projectName = '';
-     private sourcePath: any;
+    private projectName = '';
+    private sourcePath: any;
     private ports = {
         security: 8003,
         camunda: 8002,
@@ -72,6 +74,7 @@ export class AuthService {
     private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager';
     private GCAM_FOLDERNAME = 'gcam';
     private GEP_FILE_MANAGER = 'gepfilemanager';
+    private FLUENTD_FOLDERNAME = 'fluentd';
 
     public async auth(req: Request, callback) {
          console.log('path ---- >>>', req.query.projectName, req);
@@ -112,6 +115,8 @@ export class AuthService {
         this.authGenFiles.gcamFolder = this.sourcePath + `/${this.GCAM_FOLDERNAME}`;
         this.authGenFiles.gepFileManagerPath = `${this.authGenFiles.pathFile}/${this.GEP_FILE_MANAGER}`;
         this.authGenFiles.gepFileManagerFolder = this.sourcePath + `/${this.GEP_FILE_MANAGER}`;
+        this.authGenFiles.fluentdPath = `${this.authGenFiles.pathFile}/${this.FLUENTD_FOLDERNAME}`;
+        this.authGenFiles.fluentdFolder = this.sourcePath + `/${this.FLUENTD_FOLDERNAME}`;
 
         console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
         console.log(" this.authGenFiles.authProxyPath", this.authGenFiles.authProxyPath);
@@ -148,6 +153,10 @@ export class AuthService {
             if (this.authGenFiles.gcamPath) {
                 this.createFolder();
                 this.gcamService(callback)
+            }
+            if (this.authGenFiles.fluentdPath) {
+                this.createFolder();
+                this.fluentdService(callback)
             }
             
         }
@@ -186,6 +195,11 @@ export class AuthService {
         if (this.authGenFiles.gcamPath) {
             if (!fs.existsSync(this.authGenFiles.gcamFolder)) {
                 fs.mkdirSync(this.authGenFiles.gcamFolder);
+            }
+        }
+        if (this.authGenFiles.fluentdPath) {
+            if (!fs.existsSync(this.authGenFiles.fluentdFolder)) {
+                fs.mkdirSync(this.authGenFiles.fluentdFolder);
             }
         }
     }
@@ -803,15 +817,17 @@ export class AuthService {
         this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
+
+    //gcamService
     public async gcamService(callback) {
         const screens = await this.getMenubuilder();
         console.log('-----screens-----', screens);
         
         ncp.limit = 16;
-        console.log("gcamService--->",this.authGenFiles. gcamPath)
-        console.log("gcamService--->",this.authGenFiles. gcamFolder)
+        console.log("gcamService--->",this.authGenFiles.gcamPath)
+        console.log("gcamService--->",this.authGenFiles.gcamFolder)
         await ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, async (err) => {
-            console.log("gcam-->",this.authGenFiles. gcamPath);
+            console.log("gcam-->",this.authGenFiles.gcamPath);
             console.log("gcam-->",this.authGenFiles.gcamFolder);
             if (err) {
                 console.error('---error occured in the ncp of gcam----', err);
@@ -842,6 +858,30 @@ export class AuthService {
             console.log('code added.....');
         });
     }
+
+    //fluentd
+    public async fluentdService(callback) {
+        const screens = await this.getMenubuilder();
+        console.log('-----screens-----', screens);
+        
+        ncp.limit = 16;
+        console.log("fluentdService--->",this.authGenFiles.fluentdPath)
+        console.log("fluentdService--->",this.authGenFiles.fluentdFolder)
+        await ncp(this.authGenFiles.fluentdPath, this.authGenFiles.fluentdFolder, { clobber: false }, async (err) => {
+            console.log("fluentd-->",this.authGenFiles.fluentdPath);
+            console.log("fluentd-->",this.authGenFiles.fluentdFolder);
+            if (err) {
+                console.error('---error occured in the ncp of fluentd----', err);
+            }
+
+            this.workernode.createfile(screens, this.authGenFiles.fluentdFolder, this.authGenFiles.templatepath, (data => {
+                console.log('------workerdata----', data);
+               //return callback(Routes)
+            }));
+
+        });
+    }
+
     async generateServerFile(applicationPath, templatePath, templateName, fileName, information) {
         console.log('generateServerfile are ----- ', applicationPath, ' --templatePath---  ', templatePath, ' --fileName-- ', fileName, ' --information-- ', information)
         templatePath = path.resolve(__dirname, templatePath);
@@ -855,6 +895,7 @@ export class AuthService {
             console.log(`${fileName}.ts has been generated`)
         })
     }
+
     getMenubuilder() {
         return new Promise(resolve => {
             this.menubuilder.Menubuilder(this.authGenFiles.projectId, (data) => {
