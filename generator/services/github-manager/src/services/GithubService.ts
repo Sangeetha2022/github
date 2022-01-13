@@ -86,7 +86,7 @@ export class GitHubService {
         }).then(() => {
             return git.addRemote('origin', config_url)
         }).then(() => {
-            return git.push('origin', 'master');
+            return git.push('origin', 'main');
         }).then(() => {
             return git.checkoutLocalBranch('geppetto');
         }).then(() => {
