@@ -874,11 +874,6 @@ export class AuthService {
                 console.error('---error occured in the ncp of fluentd----', err);
             }
 
-            this.workernode.createfile(screens, this.authGenFiles.fluentdFolder, this.authGenFiles.templatepath, (data => {
-                console.log('------workerdata----', data);
-               //return callback(Routes)
-            }));
-
         });
     }
 

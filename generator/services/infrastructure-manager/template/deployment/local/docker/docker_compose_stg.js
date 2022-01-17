@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Thu Jan 13 2022 22:31:24 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jan 17 2022 13:39:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -736,8 +736,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: elasticsearch");
+    w.write("container_name: elasticsearch-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("restart: always");
@@ -837,8 +838,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: kibana");
+    w.write("container_name: kibana-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("restart: always");
@@ -878,6 +880,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("image: fluentd-");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("build: ../../../application/services/default_services/fluentd/fluend");
     w.popIndentation();
     w.write("\n");
@@ -902,8 +909,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: fluentd");
+    w.write("container_name: fluentd-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
@@ -918,17 +926,17 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 231, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 232, column: 19 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 231, column: 48 });
+        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 232, column: 48 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("      - ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 232, column: 39 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 233, column: 39 }));
                      w.write("\n");
             }, [
             { name: "custom_node"     }
@@ -941,35 +949,35 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 236, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 237, column: 19 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 236, column: 48 });
+        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 237, column: 48 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("  ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 237, column: 21 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 238, column: 21 }));
                      w.write(": ");
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("build: ../../../application/services/custom_services/");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 238, column: 70 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 239, column: 70 }));
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("image: ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 239, column: 24 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 240, column: 24 }));
                      w.write("-");
                      st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("container_name: ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 240, column: 33 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 241, column: 33 }));
                      w.write("-");
                      st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
@@ -980,9 +988,9 @@ r = function(w, rc) {
                      w.pushIndentation("      ");
                      w.write("- ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 242, column: 21 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 243, column: 21 }));
                      w.write(":");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 242, column: 40 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 243, column: 40 }));
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("env_file: .env");
@@ -1033,7 +1041,7 @@ r = function(w, rc) {
     w.write("volumes:");
     w.write("\n");
     w.pushIndentation("  ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 255, column: 18 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 256, column: 18 }));
     w.popIndentation();
     w.write("-volume:");
     w.write("\n");

@@ -180,7 +180,7 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.16.2
-    container_name: elasticsearch
+    container_name: elasticsearch-$uuid$
     restart: always
     environment:
       - cluster.name=elasticsearch
@@ -206,7 +206,7 @@ services:
 
   kibana:
     image: kibana:7.16.2
-    container_name: kibana
+    container_name: kibana-$uuid$
     restart: always
     ports:
       - 5601:5601
@@ -217,13 +217,14 @@ services:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
 
   fluentd:
+    image: fluentd-$uuid$
     build: ../../../application/services/default_services/fluentd/fluend
     volumes:
       - ../../../application/services/default_services/fluentd/conf:/fluentd/etc
     links:
       - "elasticsearch"
     restart: always
-    container_name: fluentd
+    container_name: fluentd-$uuid$
     ports:
       - "24224:24224"
       - "24224:24224/udp"
