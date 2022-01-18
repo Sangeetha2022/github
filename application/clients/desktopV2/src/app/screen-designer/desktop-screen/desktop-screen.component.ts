@@ -17,7 +17,7 @@ import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { Dataservice } from 'src/app/broadcast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
-import {trigger,state,style,transition,animate} from '@angular/animations';
+import { trigger,state,style,transition,animate } from '@angular/animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
   
 @Component

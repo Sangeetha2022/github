@@ -106,8 +106,12 @@ export class BlockService
       id: 'multiselect',
       label:'Multi-select Dropdown',
       category: 'Special',
-      content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-                   <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
+      content: `<div style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
+                   <select data-gjs-type="multiselect-type">
+                      <option value="1">Chennai</option>
+                      <option value="2">Bengaluru</option>
+                      <option value="3">Trivandrum</option>
+                   </select>
                 </div>`,
       draggable: true,
       removable: true,
