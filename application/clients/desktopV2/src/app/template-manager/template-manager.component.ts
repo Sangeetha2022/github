@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TemplateManagerService } from './template-manager.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 @Component
 ({
@@ -27,6 +28,7 @@ export class TemplateManagerComponent implements OnInit
       this.spinner.hide();
       if (response && response.body && response.body.length > 0) 
       {
+        console.log("response on modify button click:",response);
         this.router.navigate(['/desktopscreen'], 
         {
           queryParams: 

@@ -9,7 +9,7 @@
     </mat-tree-node>
 
 
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding (dragover)="handleDragOver($event, node);" (dragend)="handleDragEnd($event, node);" (drop)="handleDrop($event, node);" (click)="logNode(node)">
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding (dragover)="handleDragOver($event, node);" (dragend)="handleDragEnd($event);" (drop)="handleDrop($event, node);" (click)="logNode(node)">
         <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.item">
         <mat-icon class="mat-icon-rtl-mirror">
           {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}

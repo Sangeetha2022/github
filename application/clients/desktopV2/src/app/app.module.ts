@@ -37,6 +37,8 @@ import {AgGridModule} from 'ag-grid-angular';
 import {ConnectorManagerModule} from './techarchitecture-manager/techarchitecture-manager.module';
 import {FlowManagerComponent} from './flow-manager/flow-manager.component';
 import {MenuBuilderComponent} from './menu-builder/menu-builder.component';
+import {TreeDragComponent} from './menu-builder/tree-drag/tree-drag.component';
+import {MatTreeModule} from '@angular/material/tree';
 import {TemplateManagerComponent} from './template-manager/template-manager.component';
 export class MyMissingTranslationHandler implements MissingTranslationHandler 
 {
@@ -62,6 +64,7 @@ export function httpLoaderfactory(http:HttpClient)
      ConfigManagerComponent,
      FlowManagerComponent,
      MenuBuilderComponent,
+     TreeDragComponent,
      TemplateManagerComponent,
   ],
   imports: 
@@ -78,6 +81,7 @@ export function httpLoaderfactory(http:HttpClient)
     FlexLayoutModule,
     MatIconModule,
     MatToolbarModule,
+    MatTreeModule,
     MatButtonModule,
     MatRadioModule,
     MatDividerModule,
