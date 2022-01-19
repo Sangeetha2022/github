@@ -16,9 +16,9 @@ export class SefService {
         const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0 && x["special-events"].length == 0);
         this.iterateScreens(primaryScreens, details, (response) => {
             this.iterateScreens(secondaryScreens, details, (response) => {
-                generateHtmlWorker.modifyDependency(details, (response, err) => {
+                // generateHtmlWorker.modifyDependency(details, (response, err) => {
                     callback({ Message: 'feature screens are generated successfully' });
-                })
+                // })
             })
         });
         // routeWorker.generateRouteWorker(details , (res , err) => {

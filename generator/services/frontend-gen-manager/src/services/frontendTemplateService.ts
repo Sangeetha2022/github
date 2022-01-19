@@ -71,7 +71,8 @@ export class FrontendTemplateService {
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
-                        project_id: details.projectId
+                        project_id: details.projectId,
+                        clientframework: 'angular12'
 
                     }
                     console.log("tempFrontend===",tempFrontend);
@@ -103,7 +104,8 @@ export class FrontendTemplateService {
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
-                        project_id: details.projectId
+                        project_id: details.projectId,
+                        clientframework: 'angular13'
 
                     }
                     console.log("tempFrontend===",tempFrontend);
