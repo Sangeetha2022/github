@@ -144,6 +144,26 @@ export class FrontendWorker {
         `   "rxjs-compat": "6.5.2",`,
         `   "@auth0/angular-jwt": "2.1.2",`,
         `   "@types/i18next-sprintf-postprocessor": "^0.2.0",`,
+        `   "angular-6-social-login": "^1.1.1",`,
+        `   "@ng-select/ng-select": "^5.0.3",`,
+        `   "ag-grid-angular": "^20.0.0",`,
+        `   "ag-grid-community": "^20.0.0",`,
+        `   "angular-i18next": "^7.0.0",`,
+        `   "angular-validation-message-i18next": "^1.2.0",`,
+        `   "i18next": "^17.0.14",`,
+        `   "i18next-browser-languagedetector": "^3.0.3",`,
+        `   "i18next-sprintf-postprocessor": "^0.2.2",`,
+        `   "i18next-xhr-backend": "^3.1.2",`,
+        `   "angular-validation-message": "^2.0.1",`,
+        `   "moment": "^2.26.0",`,
+    ]
+
+    private angular12AuthPackageDependency = [
+        `   "rxjs-compat": "6.5.2",`,
+        `   "@auth0/angular-jwt": "2.1.2",`,
+        `   "@types/i18next-sprintf-postprocessor": "^0.2.0",`,
+        `   "angular-6-social-login": "^1.1.1",`,
+        `   "@ng-select/ng-select": "^8.1.1",`,
         `   "ag-grid-angular": "^26.0.0",`,
         `   "ag-grid-community": "^26.0.0",`,
         `   "angular-i18next": "^7.0.0",`,
@@ -1100,6 +1120,12 @@ export class FrontendWorker {
                 this.reactAuthPackageDependency.forEach(packageElement => {
                     if (packageInfo.findIndex(item => item === packageElement) < 0) {
                         packageInfo.splice(index + 3, 0, packageElement);
+                    }
+                })
+            } else if(this.clientframework === 'angular12' || this.clientframework === 'angular13') {
+                this.angular12AuthPackageDependency.forEach(packageElement => {
+                    if (packageInfo.findIndex(item => item === packageElement) < 0) {
+                        packageInfo.splice(index + 10, 0, packageElement);
                     }
                 })
             } else if(this.clientframework !== 'react') {

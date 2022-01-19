@@ -125,7 +125,7 @@
     background-color: #ffffff;
     border-radius: 8px 8px 8px 8px;
     padding: 5px 15px 5px 15px;
-    box-shadow: 2px 2px 9px 5px rgb(170 170 170 / 7%);
+    box-shadow: 2px 2px 9px 5px rgba(170, 170, 170, 0.7);
     margin: 0 15px 0 15px;
 }
 
@@ -202,7 +202,7 @@
 }
 
 #we45hg {
-    background-color: rgb(248, 220, 220);
+    background-color: rgba(248, 220, 220);
     width: 80px;
     border-radius: 15%;
 }
@@ -439,7 +439,7 @@ body {
 
 .btn.btn-primary {
     background-color: #00789a;
-    border: 0 solid rgb(0, 93, 192);
+    border: 0 solid rgba(0, 93, 192);
     padding: 6px 20px 6px 20px;
     transition: background-color 0.2s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
