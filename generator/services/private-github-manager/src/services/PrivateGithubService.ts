@@ -121,7 +121,7 @@ export class PrivateGitHubService {
         }).then(() => {
             return git.addRemote('origin', config_url)
         }).then(() => {
-            return git.push('origin', 'main');
+            return git.push('origin', 'HEAD:main');
         }).then(() => {
             return git.checkoutLocalBranch('geppetto');
         }).then(() => {
