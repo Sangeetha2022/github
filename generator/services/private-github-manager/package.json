@@ -30,7 +30,7 @@
         "nodemon": "^1.18.9",
         "request": "^2.88.0",
         "request-promise-native": "^1.0.5",
-        "simple-git": "^1.107.0",
+        "simple-git": "^2.48.0",
         "ts-node": "^8.10.2",
         "tweetnacl-util": "^0.15.1",
         "tweetsodium": "0.0.5",
