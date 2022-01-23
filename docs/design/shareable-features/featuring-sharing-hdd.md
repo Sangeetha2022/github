@@ -73,10 +73,10 @@ ___
 
 ### Shared Features Manager
 
-The Share Features Manager is a Geppetto microservice that manages the ***GFC*** files for all shared components in a Geppetto installation.
+The Shared Features Manager is a Geppetto microservice that manages the ***GFC*** files for all shared components in a Geppetto installation.
 All the high level information and functions of the Shared Feature Manager are:
 
-- Microservice name: SharedFeatManager
+- Microservice name: SharedFeaturesManager
 - Requirements:
   - initializeALL - reads all ***GFC*** files for all components and inserts data into DB
   - initalizeOne - reads one ***GFC** file and inserts data into DB
@@ -102,4 +102,7 @@ It is expected that each sharable feature will probably need a certain amount of
 
 ### Shared Features Generation Manager
 
+- Microservice name: SharedFeaturesGenManager
+- Requirements:
+generates/copies the files for a shared feature for the project being generated taking into consideration the metadata that is needed to interact with the generated application. The most basic example of the metadata that needs to be handled is any updates needed to the Admin area/screen of the generated application. Using our sample feature ***gepItemTagsManager*** the ***SharedFeaturesGenManager*** would need to add the "pill/image" for ***gepItemTagsManager*** to the Admin screen of the generated application since only Admins are allowed to manage (created/update/delete) "Tags"
 
