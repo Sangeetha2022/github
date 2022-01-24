@@ -67,7 +67,9 @@ ___
 ### The Geppetto Feature Config (***GFC***) File
 
 The ***GFC*** file captures the meta data for the component being shared. An example of the ***GFC*** can be found [here](./sample-gepFeatureConfig.json)
-It is imperative that the ***GFC*** for a shared component be placed in the root directory of the component. Using ***gepItemTagsManager***  as our example its ***GFC*** would be placed in the folder named "gepItemTagsManager". For a complete description of the components that make up the ***GFC*** [see: Geppetto Feature Config Details](./gfc-file-details.md)
+It is imperative that the ***GFC*** for a shared component be placed in the root directory of the component. Using ***gepItemTagsManager***  as our example its ***GFC*** would be placed in the folder named "gepItemTagsManager". For a complete description of the components that make up the ***GFC*** [see: Geppetto Feature Config Details](./gfc-file-details.md).
+
+The ***GFC*** is the basis for the Entity for the microservices that will perform the processes needed to add and generate a shared feature.
 
 ___
 
