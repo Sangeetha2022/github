@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Mon Jan 17 2022 13:39:15 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jan 24 2022 19:31:43 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -111,7 +111,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: localhost:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -179,7 +179,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -225,7 +225,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -296,7 +296,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -363,7 +363,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -430,7 +430,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -501,7 +501,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -566,7 +566,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -633,7 +633,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -715,7 +715,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("fluentd-address: http://127.0.0.1:24224");
+    w.write("fluentd-address: 0.0.0.0:24224");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -1017,7 +1017,7 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("fluentd-address: http://127.0.0.1:24224");
+                     w.write("fluentd-address: 0.0.0.0:24224");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");

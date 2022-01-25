@@ -21,7 +21,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
     
@@ -38,7 +38,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -50,7 +50,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -68,7 +68,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -85,7 +85,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -102,7 +102,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -120,7 +120,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
   
@@ -136,7 +136,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -153,7 +153,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
      
@@ -174,7 +174,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 
@@ -247,7 +247,7 @@ $\ $$\ $$custom_node.name$:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: http://127.0.0.1:24224
+        fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
 };separator="\n"$$endif$
