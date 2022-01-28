@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { customAlphabet } from 'nanoid'
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
@@ -229,7 +230,8 @@ export class DesktopScreenComponent implements OnInit
               private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,
               private sharedService:SharedService,private customTraitService:CustomTraitsService, 
               private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
-              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService) 
+              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,
+              private toasterNotify: ToastrService) 
   {
       this.columnDefs= 
       [
@@ -1220,6 +1222,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           console.log('storage id are -------------    ', data);
           if(data.body.code==='ERR_OUT_OF_RANGE')
           {
+            this.toasterNotify.warning('Images upload TOO:'+ data.body.code);
                const run=()=>
               {
                 const eventPopupModel = document.getElementById('statusCodeModal');

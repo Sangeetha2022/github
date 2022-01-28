@@ -171,6 +171,9 @@ services:
       - authproxy
       - securitymanager
       - systemcredentialmanager
+$if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
+$\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
+};separator=""$$endif$
     logging:
       driver: "fluentd"
       options:
@@ -228,10 +231,6 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-
-$if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
-$\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
-};separator=""$$endif$
 
 
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
