@@ -6,10 +6,13 @@ import { DesktopScreenComponent } from './desktop-screen/desktop-screen.componen
  import { NgxSpinnerModule } from 'ngx-spinner';
 import { ScreenDesignerRoutingModule } from './screen-designer-routing.module';
 import { AgGridModule } from 'ag-grid-angular';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
-@NgModule({
+@NgModule
+({
   declarations: [DesktopScreenComponent],
-  imports: [
+  imports: 
+  [
      CommonModule,
      FormsModule,
      CKEditorModule,
@@ -17,6 +20,7 @@ import { AgGridModule } from 'ag-grid-angular';
      NgxSpinnerModule,
      ScreenDesignerRoutingModule,
      AgGridModule.withComponents([]),
+     NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class ScreenDesignerModule { }

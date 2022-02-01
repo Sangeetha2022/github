@@ -9,13 +9,15 @@ import { DataService } from 'src/shared/data.service';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { Router } from '@angular/router';
 
-@Component({
+@Component
+({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
 
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit 
+{
   panelOpenState = false;
   myAllProjects:any=[];
   cloneAllProjects: any = [];
@@ -37,9 +39,10 @@ export class ProjectComponent implements OnInit {
   public defaultscreenvalue: any;
   public defaultFeatureInfo: any;
   createProject:FormGroup=new FormGroup({});
-   created_date: String='';
-   public projectName: String = '';
-    templateObj= {
+  created_date: String='';
+  public projectName: String = '';
+  templateObj= 
+  {
     app_ui_template: '',
     app_ui_template_id: '',
     app_ui_template_name: ''
@@ -48,19 +51,17 @@ export class ProjectComponent implements OnInit {
   public defaultEntityInfo: any;
   public flowsArray:any;
   public entitydetails: { 'entities': { 'entityType': any; 'entityId': any; }; 'name': any; 'description': any; 'updated_date': number; }[] = [];
-  constructor(private projectsService:ProjectService,
-    private formBuilder: FormBuilder,
-    private logger:LoggingService,
-    private spinner: NgxSpinnerService,  
-    private toastr: ToastrService,
-    private validatorService: ValidatorService,
-    private dataService: DataService,
-    private templateScreenService:TemplateScreenService,
-    private router:Router) { }
 
-  ngOnInit(): void {
-    this.createProject = this.formBuilder.group({
-      name: ['', Validators.compose([
+  constructor(private projectsService:ProjectService,private formBuilder: FormBuilder,private logger:LoggingService,
+              private spinner: NgxSpinnerService,private toastr: ToastrService,private validatorService: ValidatorService,
+              private dataService: DataService,private templateScreenService:TemplateScreenService,private router:Router) { }
+
+  ngOnInit(): void 
+  {
+    this.createProject = this.formBuilder.group
+    ({
+      name: ['', Validators.compose
+      ([
         Validators.required,
         Validators.pattern('')
       ])],
@@ -70,18 +71,25 @@ export class ProjectComponent implements OnInit {
       template: [''],
     });
     this.lang = navigator.language;
-    if (this.lang.includes('ta')) {
+    if (this.lang.includes('ta')) 
+    {
       this.lang = 'Tamil';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
-    } else if (this.lang.includes('en')) {
+    } 
+    else if (this.lang.includes('en')) 
+    {
       this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
       console.log('eng');
-    } else if (this.lang.includes('es')) {
+    } 
+    else if (this.lang.includes('es')) 
+    {
       this.lang = 'Spanish';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
       console.log('span');
-    } else {
+    } 
+    else 
+    {
       this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
     }
@@ -90,78 +98,99 @@ export class ProjectComponent implements OnInit {
     this.getAllTemplates();
     this.getTemplateParser();
     this.getAllFlows();
-    setTimeout(() => {
+    setTimeout(() => 
+    {
       this.onSecondoryLangSelect();
     }, 1000);
   }
   
   //Getting UserProjects By theie Id
-  getProjectByUserId() {
+  getProjectByUserId() 
+  {
     this.spinner.show();
     this.myAllProjects = [];
-    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
-      if (data) {
+    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(data => 
+    {
+      if (data) 
+      {
         this.spinner.hide();
         this.myAllProjects = data.body;
       }
-    }, error => {
+    }, 
+    error => 
+    {
       this.logger.log('error',error);
     });
   }
   //Get template parser and store it in localstorage
-  getTemplateParser() {
+  getTemplateParser() 
+  {
     this.spinner.show();
-    this.templateScreenService.getTemplateParser(this.logId).subscribe(response => {
+    this.templateScreenService.getTemplateParser(this.logId).subscribe(response => 
+    {
       this.spinner.hide();
       console.log('getTemplate parser response in project are --- ', response);
-      if (response) {
+      if (response) 
+      {
         localStorage.setItem('templateparser', JSON.stringify(response.body));
       }
     },
-      error => {
+    error => 
+    {
         console.log('Check the browser console to see more info.', 'Error!');
-      });
+    });
   }
    
   //Getting All UserTemplates
-  getAllTemplates() {
+  getAllTemplates() 
+  {
     this.spinner.show();
-    this.templateScreenService.getAllTemplates(this.logId).subscribe(gepTemp => {
+    this.templateScreenService.getAllTemplates(this.logId).subscribe(gepTemp => 
+    {
       console.log('gepTemp', gepTemp);
       this.spinner.hide();
       this.gepTemplates = gepTemp.body;
       this.gepTempImages = this.gepTemplates.template_image;
     },
-      error => {
+    error => 
+    {
         console.log('Check the browser console to see more info.', 'Error!');
-      });
+    });
   }
   //Getting All Flows by inputing LogId
-  getAllFlows() {
-    this.projectsService.getAllFlows(this.logId).subscribe((response) => {
+  getAllFlows() 
+  {
+    this.projectsService.getAllFlows(this.logId).subscribe((response) => 
+    {
       this.flowsArray = response.body;
     })
   }
 
   //Getting All ClonedProjects by their Id
-  getCloneProjectById() {
+  getCloneProjectById() 
+  {
     this.spinner.show();
     this.cloneAllProjects = [];
-    this.projectsService.getProjectByAll(this.UserId, this.logId).subscribe(async data => {
-      if (data) {
-         this.spinner.hide();
+    this.projectsService.getProjectByAll(this.UserId, this.logId).subscribe(async data => 
+    {
+      if (data) 
+      {
+        this.spinner.hide();
         let sampleData = data.body.filter((global:any) => global.shared_visibility === 'Global');
         this.cloneAllProjects = sampleData;
       }
-    }, error => {
+    }, 
+    error => 
+    {
       this.logger.log('error',error);
     });
   }
-    //Used to Cloned the Select Project
-    cloned_data:any;
-    async cloneProject(project:any) {
-     
-      const cloneproject = {
+  //Used to Cloned the Select Project
+  cloned_data:any;
+  async cloneProject(project:any) 
+  {
+      const cloneproject = 
+      {
         project_id: project._id,
         project_name: project.name,
         user_id: sessionStorage.getItem('Id'),
@@ -171,24 +200,29 @@ export class ProjectComponent implements OnInit {
         claimed: 't',
         parent_gen_id: '0'
       };
-      this.projectsService.cloneProject(cloneproject, this.logId).subscribe(data => {
-        this.cloned_data=data;
+      this.projectsService.cloneProject(cloneproject, this.logId).subscribe(data => 
+      {
+         this.cloned_data=data;
          var firstBody = this.cloned_data['body'];
          var addData = firstBody['body'];
-        setTimeout(() => {
-          if (cloneproject.project_id !== addData._id) {
+         setTimeout(() => 
+         {
+          if (cloneproject.project_id !== addData._id) 
+          {
             this.toastr.success('PROJECT CLONED: ' + addData.project_unique_id + '', '',
-              {
+            {
                 closeButton: true,
                 disableTimeOut: false
-              });
+            });
           }
           this.getCloneProjectById();
           this.getProjectByUserId();
-        }, 1500);
-  
-      }, error => {
-        this.toastr.error('Failed!', 'Operation', {
+         }, 1500);  
+      }, 
+      error => 
+      {
+        this.toastr.error('Failed!', 'Operation', 
+        {
           closeButton: true,
           disableTimeOut: false
         });
@@ -196,38 +230,47 @@ export class ProjectComponent implements OnInit {
     }
 
     //Open the Popup Model Box
-    openModal() {
+    openModal() 
+    {
       this.displayModel = 'block';
     }
 
     //Open the Template Model Box
-    openTemplateModal() {
+    openTemplateModal() 
+    {
       this.displayTemplateModel = 'block';
     }
 
      //Open the Delete Model Box
-    openDeleteModel(proj:any) {
-    this.idToDelete = proj._id;
-    this.delmodal = 'block';
-  }
+    openDeleteModel(proj:any) 
+    {
+      this.idToDelete = proj._id;
+      this.delmodal = 'block';
+    }
 
   //Getting All FormControls
   get form_control() { return this.createProject.controls; }
 
   //To Delete Project by their id
-  deleteMyProjects() {
-    this.projectsService.deleteProjectFlowByProjectId(this.idToDelete, this.logId).subscribe(data => {
-      if (data) {
+  deleteMyProjects() 
+  {
+    this.projectsService.deleteProjectFlowByProjectId(this.idToDelete, this.logId).subscribe(data => 
+    {
+      if (data) 
+      {
         this.delmodal = 'none';
         this.getProjectByUserId();
       }
-    }, error => {
+    }, 
+    error => 
+    {
       this.logger.log('error',error);
     });
   }
   
   //To close the Model Popup box
-  onCloseHandled() {
+  onCloseHandled() 
+  {
     this.delmodal = 'none';
     this.displayModel = 'none';
     this.displayTemplateModel = 'none';
@@ -243,73 +286,92 @@ export class ProjectComponent implements OnInit {
   }
 
   //To close the Template Model Popup box
-  closeTemplateModal() {
+  closeTemplateModal() 
+  {
     this.displayTemplateModel = 'none';
   }
 
   //Get the Selected Template and Storing to Template details to Template Object
-  onTemplateSelect(template:any) {
-    this.templateObj = {
+  onTemplateSelect(template:any) 
+  {
+    this.templateObj = 
+    {
       app_ui_template: template.name,
       app_ui_template_id: template._id,
       app_ui_template_name: template.template_name
     };
+    console.log("templateObj:",this.templateObj);
     this.closeTemplateModal();
   }
 
   //To View the selected Template on window
-  onPreviewClick(template:any) {
-    if (template.name) {
+  onPreviewClick(template:any) 
+  {
+    if (template.name) 
+    {
       window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}/index.html`);
     }
   }
 
   //Assining Secondary Languages and calling in Change model in primary dropdown
-  onSecondoryLangSelect() {
+  onSecondoryLangSelect() 
+  {
     this.secondoryLanguages = this.primaryLanguages;
     this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== this.createProject.value.primaryLanguage)
   }
 
-  editProject(project:any) {
+  editProject(project:any) 
+  {
     this.logger.log('log',project);
     this.dataService.setProjectInfo(project);
-    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data => {
+    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data => 
+    {
       console.log('after get the project template ----  ', data);
       const response = data.body;
       localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
       localStorage.setItem('scripts', JSON.stringify(response['scripts']));
       localStorage.setItem('css_guidelines', JSON.stringify(response['css-guidelines']));
       localStorage.setItem('templateName', project.app_ui_template);
-
-    }, error => {
+    }, 
+    error => 
+    {
       console.log('cannot able to template details');
     });
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
   //To Create New Project
-  async projectCreate(){
+  async projectCreate()
+  {
     this.submitted = true;
-        if (this.createProject.invalid) {
+    if (this.createProject.invalid) 
+    {
         return;
-      }
+    }
     this.projectName = this.createProject.value.name.toLowerCase();
     this.validatorService.checkNamingConvention(this.projectName);
     this.validatorService.checkReserveWords(this.projectName);
-    this.validatorService.currentProjectInfo.subscribe(data => {
-      if (data === null) {
+    this.validatorService.currentProjectInfo.subscribe(data => 
+    {
+      if (data === null) 
+      {
         this.invalidName = true;
-      } else {
+      } 
+      else 
+      {
         this.invalidName = false;
       }
     });
-    this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+    this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => 
+    {
       this.isReserveWord = reserveWord;
     });
-    if (!this.createProject.value.secondaryLanguage) {
+    if (!this.createProject.value.secondaryLanguage) 
+    {
       this.createProject.value.secondaryLanguage = null;
     }
-    const dataToSave = {
+    const dataToSave = 
+    {
       name: this.createProject.value.name.toLowerCase(),
       description: this.createProject.value.description,
       default_module_id: null,
@@ -360,29 +422,37 @@ export class ProjectComponent implements OnInit {
       UserId: sessionStorage.getItem('Id'),
       logsid: this.logId
     };
-    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(async (data) => {
+    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(async (data) => 
+    {
       this.getProjectByUserId();
       this.getCloneProjectById();
-      if (data) {
+      if (data) 
+      {
         this.myAllProjects = data.body;
-        await this.myAllProjects.forEach((userProjects: { name: String; }) => {
-          if (userProjects.name === this.projectName) {
+        await this.myAllProjects.forEach((userProjects: { name: String; }) => 
+        {
+          if (userProjects.name === this.projectName) 
+          {
             this.isProjectExit = true;
           }
         });
-        if (!this.isProjectExit && !this.invalidName && !this.isReserveWord) {
-          this.projectsService.addProject(dataToSave, this.logId).subscribe(response => {
-            if (response) {
+        if (!this.isProjectExit && !this.invalidName && !this.isReserveWord) 
+        {
+          this.projectsService.addProject(dataToSave, this.logId).subscribe(response => 
+          {
+            if (response) 
+            {
               const projectDetail = response.body;
               this.created_date = projectDetail.created_date;
               this.dataService.setProjectInfo(projectDetail);
 
               //create default entity api
-              this.projectsService.createDefaultEntity(projectDetail._id, this.logId).subscribe(
-                (defaultRes) => {
+              this.projectsService.createDefaultEntity(projectDetail._id, this.logId).subscribe((defaultRes) => 
+              {
                   this.entitydetails = [];
                   this.defaultEntityInfo = defaultRes.body;
-                  this.entitydetails = [
+                  this.entitydetails = 
+                  [
                     {
                       'entities':
                       {
@@ -394,66 +464,78 @@ export class ProjectComponent implements OnInit {
                       'updated_date': Date.now()
                     }
                   ];
-                  this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
-                    async (defaultFeature) => {
+                  this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(async (defaultFeature) => 
+                  {
                       this.defaultFeatureInfo = defaultFeature.body;
                       console.log('defaut feature data =======>>', this.defaultFeatureInfo);
-                     let gpSefFlowArray = this.flowsArray.map(({_id,_v,...rest}:any)=>({ ...rest })).filter((flow:any) => flow.name === 'GpSEF');
+                      let gpSefFlowArray = this.flowsArray.map(({_id,_v,...rest}:any)=>({ ...rest })).filter((flow:any) => flow.name === 'GpSEF');
                       let updateFlowInFeature = await this.saveManyProjectFlow(gpSefFlowArray);
                       let updateEntityinFeature = await this.updateInFeatureEntity();
                       let createSefScreen = await this.createSefScreen(projectDetail);
-                    }, error => {
+                  }, 
+                  error => 
+                  {
                       console.error('cannot able to create the default feature for this project ', error);
-                    })
-                }, (error) => {
+                  })
+              }, 
+              (error) => 
+              {
                   console.error('cannot able to create the default entity for this project ', error);
-                });
-                     // create default screens
-              this.projectsService.createDefaultScreens(projectDetail._id, this.logId).subscribe(
-                (defaultscreen) => {
+              });
+              
+              // create default screens
+              this.projectsService.createDefaultScreens(projectDetail._id, this.logId).subscribe((defaultscreen) => 
+              {
                   this.defaultscreenvalue = defaultscreen.response;
-                }, (error) => {
+              }, 
+              (error) => 
+              {
                   console.error('cannot able to create the default screens for this project', error);
-                });
-                    // create default menus
-              this.projectsService.createDefaultMenu(
-                projectDetail._id,
-                dataToSave.default_human_language,
-                dataToSave.other_human_languages,
-                this.logId
-              ).subscribe(
-                (defaultMenuResponse) => {
-                }, (error) => {
-                  console.error('cannot able to create the default menu for this project ', error);
-                });
-                  // Save user template
-              this.projectsService.getGepTemplate(dataToSave.app_ui_template, this.logId).subscribe(data => {
+              });
+              
+              // create default menus
+              this.projectsService.createDefaultMenu(projectDetail._id,dataToSave.default_human_language,
+                                                     dataToSave.other_human_languages,this.logId).subscribe((defaultMenuResponse) => { }, 
+                                                     (error) => 
+                                                     {
+                                                        console.error('cannot able to create the default menu for this project ', error);
+                                                     });
+              // Save user template
+              this.projectsService.getGepTemplate(dataToSave.app_ui_template, this.logId).subscribe(data => 
+              {
                 data.body.project_id = projectDetail._id;
-                if (data && data.body) {
-                  this.projectsService.addProjectTemplate(data.body, this.logId).subscribe(postRes => {
-                  });
+                if (data && data.body) 
+                {
+                  this.projectsService.addProjectTemplate(data.body, this.logId).subscribe(postRes => 
+                  {  });
                 }
               });
             }
             this.getProjectByUserId();
             this.getCloneProjectById();
-          }, error => {
+          }, 
+          error => 
+          {
             console.error('cannot able to save the project', error);
           });
           this.onCloseHandled();
         }
       }
-    }, error => {
+    }, 
+    error => 
+    {
       console.error('cannot able to get all the projects.', error);
     });
   }
-  async saveManyProjectFlow(projectFlowList:any) { 
-    return new Promise((resolve, reject) => {
+  async saveManyProjectFlow(projectFlowList:any) 
+  { 
+    return new Promise((resolve, reject) => 
+    {
       this.spinner.show();
-    this.projectsService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(
-      async (response) => {
-       
-        if (response.body) {
+      this.projectsService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(async (response) => 
+      {       
+        if (response.body) 
+        {
           // get only the specific values
           this.flowDeatilsArray = response.body;
           this.spinner.hide();
@@ -464,26 +546,31 @@ export class ProjectComponent implements OnInit {
           resolve(updatefeature);
         }
       },
-      error => {
+      error => 
+      {
         console.log('cannot able to save the many projectFlows');
       });
     })
   }
-   saveFlowsInFeature() {
-    return new Promise((resolve, reject) => {
+  saveFlowsInFeature() 
+  {
+    return new Promise((resolve, reject) => 
+    {
       console.log('inside promise',this.defaultFeatureInfo);
-      this.projectsService.updateFeature(this.defaultFeatureInfo, this.logId).subscribe(
-        (response: any) => {
+      this.projectsService.updateFeature(this.defaultFeatureInfo, this.logId).subscribe((response: any) => 
+      {
           console.log('save in flow --in feature -->>', response);
           resolve(response);
-        },
-        error => {console.log('error',error);
-         });
+      },
+      error => {console.log('error',error);});
     })
   }
-  updateInFeatureEntity() {
-    return new Promise((resolve, reject) => {
-      this.projectsService.Updatefeaturedetailsentity(this.defaultFeatureInfo._id, this.entitydetails, this.logId).subscribe(data => {
+  updateInFeatureEntity() 
+  {
+    return new Promise((resolve, reject) => 
+    {
+      this.projectsService.Updatefeaturedetailsentity(this.defaultFeatureInfo._id, this.entitydetails, this.logId).subscribe(data => 
+      {
         this.logger.log('log',data);
         resolve(data);
       })
@@ -491,11 +578,13 @@ export class ProjectComponent implements OnInit {
   }
 
   //Creating Sef Screens
-  createSefScreen(projectDetail:any) {
-    return new Promise(resolve => {
+  createSefScreen(projectDetail:any) 
+  {
+    return new Promise(resolve => 
+    {
       let sefFlowData = this.flowDeatilsArray.filter((x:any) => x.name === 'GpSEF');
-     // console.log('sefFlowData',sefFlowData);
-      let data = {
+      let data = 
+      {
         "htmlId" : "template-x2d",
         "componentId" : "c2189",
         "elementName" : "button_template-iowtv",
@@ -504,9 +593,9 @@ export class ProjectComponent implements OnInit {
         "flowName" : "GpSEF",
         "flow" : sefFlowData[0]._id
       }
-      console.log('lo',data);
-      
-      this.projectsService.createSefScreens(projectDetail._id, this.defaultFeatureInfo._id, data, this.logId).subscribe(res => {
+      console.log('lo',data);      
+      this.projectsService.createSefScreens(projectDetail._id, this.defaultFeatureInfo._id, data, this.logId).subscribe(res => 
+      {
         this.logger.log('log',res);
         resolve(res);
       })
