@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { customAlphabet } from 'nanoid'
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
@@ -234,8 +233,7 @@ export class DesktopScreenComponent implements OnInit
               private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,
               private sharedService:SharedService,private customTraitService:CustomTraitsService, 
               private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
-              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,
-              private toasterNotify: ToastrService) 
+              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService) 
   {
       this.columnDefs= 
       [
@@ -1249,12 +1247,16 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.saveRemoteStorage();
         this.getScreenById();
         this.closeScreeName();
+        console.log("SHOW");
+        this.spinner.show();
         this.editor.store((data:any) => 
         {
           console.log("Data:",data);
           this.screen_id = data.body._id;
           this.scr=data.body.screenName;
           console.log("ScreenName:",this.scr);
+          console.log("HIDE");
+          this.spinner.hide();
           this.getScreenById();
         });
       }

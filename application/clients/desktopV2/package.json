@@ -32,7 +32,7 @@
         "angular-i18next": "^10.3.0",
         "angular-material": "^1.2.3",
         "bootstrap": "^5.0.2",
-        "grapesjs": "^0.17.29",
+        "grapesjs": "^0.18.2",
         "grapesjs-accordion": "^1.0.10",
         "grapesjs-blocks-flexbox": "^0.1.1",
         "grapesjs-custom-code": "^0.1.3",

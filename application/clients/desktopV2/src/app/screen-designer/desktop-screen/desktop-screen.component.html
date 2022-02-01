@@ -3,109 +3,109 @@
 </div>
 
 <!-- Save screen model popup window -->
-<div class="modal" id="myModal" tabindex="-1" role="dialog" style="display: none">
-    <div class="modal-dialog modal-md" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Screen</h5>
-                <button type="button" class="close" (click)="closeScreeName()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div class=" modal " id="myModal " tabindex="-1 " role="dialog " style="display: none ">
+    <div class="modal-dialog modal-md " role="dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="exampleModalLabel ">Screen</h5>
+                <button type="button " class="close " (click)="closeScreeName() " aria-label="Close ">
+                    <span aria-hidden="true ">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
-                    <div class="col-sm-8">
-                        <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()" class="form-control" (keypress)="omit_special_char($event)">
-                        <small *ngIf="screenNameExist" style="font-style: italic;color: red;">Screen Name already exists!</small>
+            <div class="modal-body ">
+                <div class="form-group row ">
+                    <label for="screen-name " class="col-sm-4 col-form-label ">Screen Name</label>
+                    <div class="col-sm-8 ">
+                        <input type="text " [(ngModel)]="screenName " (ngModelChange)="isScreenNameExist() " class="form-control " (keypress)="omit_special_char($event) ">
+                        <small *ngIf="screenNameExist " style="font-style: italic;color: red; ">Screen Name already exists!</small>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeScreeName()">Close</button>
-                <button type="button" class="btn btn-primary" (click)="updateScreeName()">Update</button>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " (click)="closeScreeName() ">Close</button>
+                <button type="button " class="btn btn-primary " (click)="updateScreeName() ">Update</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal" id="warnModal" tabindex="-1" role="dialog" style="display: none">
-    <div class="modal-dialog modal-md" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:red">Apologies!</h5>
-                <button type="button" class="close" (click)="closeWarn()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div class="modal " id="warnModal " tabindex="-1 " role="dialog " style="display: none ">
+    <div class="modal-dialog modal-md " role="dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="exampleModalLabel " style="color:red ">Apologies!</h5>
+                <button type="button " class="close " (click)="closeWarn() " aria-label="Close ">
+                    <span aria-hidden="true ">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
                 <p>Component is still under construction...</p>
                 <p>Some generation features may not work!</p>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger" (click)="closeWarn()">Close</button>
+            <div class="modal-footer ">
+                <button class="btn btn-danger " (click)="closeWarn() ">Close</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal" id="imageSizeModal" tabindex="-1" role="dialog" style="display: none">
-    <div class="modal-dialog modal-md" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:blue">Info</h5>
-                <button type="button" class="close" (click)="closeImageCode()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div class="modal " id="imageSizeModal " tabindex="-1 " role="dialog " style="display: none ">
+    <div class="modal-dialog modal-md " role="dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="exampleModalLabel " style="color:blue ">Info</h5>
+                <button type="button " class="close " (click)="closeImageCode() " aria-label="Close ">
+                    <span aria-hidden="true ">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
                 <p>Maximum size limit : 1 MB</p>
-                <ng-multiselect-dropdown [placeholder]="'Click to select'" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                <ng-multiselect-dropdown [placeholder]=" 'Click to select' " [settings]="dropdownSettings " [data]="dropdownList " [(ngModel)]="selectedItems " (onSelect)="onItemSelect($event) " (onSelectAll)="onSelectAll($event) ">
                 </ng-multiselect-dropdown>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger" (click)="closeImageCode()">Close</button>
+            <div class="modal-footer ">
+                <button class="btn btn-danger " (click)="closeImageCode() ">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- entity and its field div popup model-->
-<div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-sm" role="dialog">
-        <div class="modal-content">
-            <div class="container">
-                <form class="m-3 p-2">
-                    <button type="button" class="btn-close pull-right" aria-label="Close" (click)="onCloseModel()"></button>
-                    <div class="form-group">
-                        <label id="fields_heading">Fields</label>
+<div *ngIf="isFieldPopupModal " id="modalDiv " class="modal " tabindex="-1 " role="dialog " style="display: block ">
+    <div class="modal-dialog modal-sm " role="dialog ">
+        <div class="modal-content ">
+            <div class="container ">
+                <form class="m-3 p-2 ">
+                    <button type="button " class="btn-close pull-right " aria-label="Close " (click)="onCloseModel() "></button>
+                    <div class="form-group ">
+                        <label id="fields_heading ">Fields</label>
                         <br>
                         <br>
-                        <select class="form-select" id="dropdown_style" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
-                             <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
+                        <select class="form-select " id="dropdown_style " name="entityFields " [(ngModel)]="entityFields.entityfieldname " (ngModelChange)="onChangeentityfield() ">
+                             <option *ngFor="let field of fields " [value]="field.name " selected>{{ field.name }}</option>
                         </select>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <div class="form-group fieldpopbtn">
-                    <button type="button" class="btn btn-primary" (click)="onCloseModel()">Ok</button>
+            <div class="modal-footer ">
+                <div class="form-group fieldpopbtn ">
+                    <button type="button " class="btn btn-primary " (click)="onCloseModel() ">Ok</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- events action popup model -->
-<div id="EventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
-    <div class="modal-dialog modal-lg" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="display: block;">
-                <button type="button" class="btn-close pull-right" (click)="closeEventPopup(false)" aria-label="Close"></button>
-                <h3 id="fields_heading">Choose an Flow</h3>
+<div id="EventPopup " class="modal " tabindex="-1 " role="dialog " style="display: none ">
+    <div class="modal-dialog modal-lg " role="dialog ">
+        <div class="modal-content ">
+            <div class="modal-header " style="display: block; ">
+                <button type="button " class="btn-close pull-right " (click)="closeEventPopup(false) " aria-label="Close "></button>
+                <h3 id="fields_heading ">Choose an Flow</h3>
             </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row" *ngIf="selectedFlowObj && selectedFlowObj.length > 0">
+            <div class="modal-body ">
+                <div class="container ">
+                    <div class="row " *ngIf="selectedFlowObj && selectedFlowObj.length> 0">
                         <div class="col-md-6 col-sm-8 col-xs-6">
                             <b>Selected Flow Action</b>: &nbsp;&nbsp; {{selectedFlowObj[0].actionOnData}}
                         </div>

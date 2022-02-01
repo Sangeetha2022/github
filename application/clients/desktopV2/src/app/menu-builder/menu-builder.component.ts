@@ -51,6 +51,18 @@ export class MenuBuilderComponent implements OnInit
       this.project_id = params.projectId;
     });
     this.getMenuByProjectId();
+    const run=()=>
+    {
+           const eventPopupModel = document.getElementById('warnModal');
+           eventPopupModel!.style.display = 'block';
+    }
+    run();
+  }
+
+  closeWarn() 
+  {
+      const model = document.getElementById('warnModal');
+      model!.style.display = 'none';
   }
 
   getSelectedMenu() 

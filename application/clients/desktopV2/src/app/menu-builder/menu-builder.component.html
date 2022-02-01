@@ -2,6 +2,26 @@
     <img class="loading-image" src='../../assets/img/loading-animation.gif' />
 </ngx-spinner>
 
+<div class="modal" id="warnModal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:red">Apologies!</h5>
+                <button type="button" class="close" (click)="closeWarn()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Component is still under construction...</p>
+                <p>Some generation features may not work!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="closeWarn()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div style="padding-right: 20px;">
     <div class="container">
         <div class="row">
