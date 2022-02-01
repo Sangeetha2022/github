@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { customAlphabet } from 'nanoid'
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
@@ -224,7 +225,8 @@ export class DesktopScreenComponent implements OnInit
   specific_attribute_Event: any[] = []; 
   dropdownList: { item_id: number; item_text: string; }[] = [];
   selectedItems: { item_id: number; item_text: string; }[] = [];
-  dropdownSettings:IDropdownSettings= {};   
+  dropdownSettings:IDropdownSettings= {};  
+  public scr:string=''; 
   
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,
               private panelService:PanelService,private projectComponentService:ProjectComponentService,
@@ -232,7 +234,8 @@ export class DesktopScreenComponent implements OnInit
               private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,
               private sharedService:SharedService,private customTraitService:CustomTraitsService, 
               private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
-              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService) 
+              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,
+              private toasterNotify: ToastrService) 
   {
       this.columnDefs= 
       [
@@ -1248,22 +1251,15 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.closeScreeName();
         this.editor.store((data:any) => 
         {
-          console.log('storage id are -------------    ', data);
-          if(data.body.code==='ERR_OUT_OF_RANGE')
-          {
-               const run=()=>
-              {
-                const eventPopupModel = document.getElementById('statusCodeModal');
-                eventPopupModel!.style.display = 'block';
-              }
-              run();
-          }    
-          console.log("Response code:",data.code);
+          console.log("Data:",data);
           this.screen_id = data.body._id;
+          this.scr=data.body.screenName;
+          console.log("ScreenName:",this.scr);
           this.getScreenById();
         });
       }
   }
+
   onCloseModel() 
   {
       this.entityFields['entityfieldname'] = {};

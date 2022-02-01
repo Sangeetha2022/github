@@ -17,7 +17,7 @@
                     <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
                     <div class="col-sm-8">
                         <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()" class="form-control" (keypress)="omit_special_char($event)">
-                        <small *ngIf="screenNameExist" style="font-style: italic;color: red;">This screen Name is Exist.</small>
+                        <small *ngIf="screenNameExist" style="font-style: italic;color: red;">Screen Name already exists!</small>
                     </div>
                 </div>
             </div>

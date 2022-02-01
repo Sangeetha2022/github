@@ -62,11 +62,13 @@ export class MenuBuilderComponent implements OnInit
         this.descriptionBeforeUpdate = data;
         this.dataService.currentMenuBuilderSource.subscribe(updatedmenuDetails => 
         {
+          console.log("UpdatedmenuDetails:",updatedmenuDetails);
           updatedmenuDetails.forEach((menuData :any)=> 
           {
             if (menuData.featuremenu[0].description.feature === this.descriptionBeforeUpdate) 
             {
               this.name = menuData.featuremenu[0].name.feature;
+              this.description=menuData.featuremenu[0].description.feature;
             } 
             else 
             {
@@ -241,14 +243,18 @@ export class MenuBuilderComponent implements OnInit
 
   updateMenuBuilder(description: any) 
   {
+    console.log("Description:",description);
     this.menuDetails.forEach((element:any) => 
     {
+      console.log("Update menu details:",this.menuDetails);
       if (element.featuremenu[0].description.feature === this.descriptionBeforeUpdate) 
       {
+        console.log("If part");
         element.featuremenu[0].description.feature = description;
       } 
       else 
       {
+        console.log("Else part");
         element.screenmenu.forEach((sData:any) => 
         {
           sData.description.screen.forEach((screen: String, index: any) => 
@@ -261,6 +267,7 @@ export class MenuBuilderComponent implements OnInit
         });
       }
     });
+    console.log("Currentdetails:",this.currentMenuDetails);
     this.updateMenuById(this.currentMenuDetails._id, this.currentMenuDetails);
   }
 
@@ -269,6 +276,7 @@ export class MenuBuilderComponent implements OnInit
     this.spinner.show();
     this.menuBuilderService.updateMenuById(id, menu, this.logId).subscribe(fMenu => 
     {
+      console.log("fmenu:",fMenu);
       this.spinner.hide();
       this.database.initialize(fMenu.body.menuDetails);
       this.dataService.setMenuBuilder(fMenu.body.menuDetails);

@@ -36,6 +36,9 @@ jobs:
           aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-authproxy  --image-scanning-configuration scanOnPush=true  --region us-east-1
           aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-camunda  --image-scanning-configuration scanOnPush=true  --region us-east-1
           aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager  --image-scanning-configuration scanOnPush=true  --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam  --image-scanning-configuration scanOnPush=true  --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager  --image-scanning-configuration scanOnPush=true  --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd  --image-scanning-configuration scanOnPush=true  --region us-east-1
           {{#each custom_features}}
           aws ecr create-repository --repository-name geppetto-generatedcode-{{../project_name}}-{{../project_unique_id}}-{{this.name}}  --image-scanning-configuration scanOnPush=true  --region us-east-1
           {{/each}}
@@ -74,6 +77,21 @@ jobs:
           docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:$IMAGE_TAG .
           docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:$IMAGE_TAG
           echo "Successfully build the  docker image for securitymanager and pushed to aws ecr"
+
+          cd ../gcam
+          docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam:$IMAGE_TAG
+          echo "Successfully build the docker image for gcam  and pushed to aws ecr"
+
+          cd ../gepfilemanager
+          docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager:$IMAGE_TAG
+          echo "Successfully build the  docker image for gepfilemanager and pushed to aws ecr"
+
+          cd ../fluentd/fluend
+          docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd:$IMAGE_TAG
+          echo "Successfully build the  docker image for fluentd and pushed to aws ecr"
 
           cd ../../custom_services/apigateway
           docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway:$IMAGE_TAG .
@@ -174,7 +192,7 @@ jobs:
         working-directory: ./application/client/web/{{project_name}}/src/environments
         run: |
           rm -rf environment.ts
-          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
+          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, UPLOAD_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:3015`, production: false };' >> environment.ts
       - name: Production build
         working-directory: ./application/client/web/{{project_name}}
         run: ng build

@@ -29,8 +29,10 @@ export class TreeDragService
         if (element.featuremenu.length > 0) 
         {
           array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
+          console.log("Array:",array);
           this.menuBuilder = array;
           const data = this.buildFileTree(this.menuBuilder, 0);
+          console.log("Data:",data);
           this.dataChange.next(data);
         } 
         else 
@@ -53,8 +55,12 @@ export class TreeDragService
   {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => 
     {
+      console.log("Accumalator:",accumulator);
+      console.log("Key:",key);
       const value = obj[key];
+      console.log("Value:",value);
       const node = new TodoItemNode();
+      console.log("Node:",node);
       node.item = key;
       if (value != null) 
       {

@@ -73,9 +73,12 @@ export class TreeDragComponent implements OnInit
   {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
+    console.log("Treecontrol:",this.treeControl);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    console.log("DataSource:",this.dataSource);
     database.dataChange.subscribe(data => 
     {
+      console.log("TreedragData:",data);
       this.dataSource.data = [];
       this.dataSource.data = data;
     });
@@ -147,6 +150,7 @@ export class TreeDragComponent implements OnInit
 
   logNode(node:any) 
   {
+    console.log("ClickLogNode:",node);
     this.selectedItem = node.item;
     this.dataService.setSelectedMenuInfo(this.selectedItem);
     this.menuBuilder.getSelectedMenu();

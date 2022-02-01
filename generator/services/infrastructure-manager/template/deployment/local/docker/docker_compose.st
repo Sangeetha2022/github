@@ -18,6 +18,13 @@ services:
       timeout: 10s
       retries: 5
       start_period: 40s
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
+    
   vault:
     image: vault
     container_name: vault-$uuid$
@@ -28,12 +35,24 @@ services:
         VAULT_DEV_ROOT_TOKEN_ID: vault-geppetto-2021
     cap_add:
       - IPC_LOCK
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   camunda:
     image: geppettodistribution/camunda-local:Jan2021
     container_name: camunda-$uuid$
     ports:
       - "0000:8080"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   authproxy:
     build: ../../../application/services/default_services/authproxy
@@ -46,6 +65,12 @@ services:
       - mongo
       - gcam
       - camunda
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   securitymanager:
     build: ../../../application/services/default_services/securitymanager
@@ -57,6 +82,12 @@ services:
     depends_on:
       - mongo
       - camunda
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   systemcredentialmanager:
     build: ../../../application/services/default_services/systemcredentialmanager
@@ -68,6 +99,12 @@ services:
     depends_on:
       - mongo
       - vault
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   camundaservice:
     build: ../../../application/services/default_services/camunda
@@ -80,6 +117,12 @@ services:
       - mongo
       - camunda
       - securitymanager
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
   
   gepfilemanager:
     build: ../../../application/services/default_services/gepfilemanager
@@ -90,6 +133,12 @@ services:
     env_file: .env
     depends_on:
       - mongo
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 
   gcam:
     build: ../../../application/services/default_services/gcam
@@ -101,6 +150,12 @@ services:
     depends_on:
       - mongo
       - vault
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
      
 
   apigateway:
@@ -119,6 +174,63 @@ services:
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
 };separator=""$$endif$
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
+
+  elasticsearch:
+    image: elasticsearch:7.16.2
+    container_name: elasticsearch-$uuid$
+    restart: always
+    environment:
+      - cluster.name=elasticsearch
+      - node.name=elasticsearch
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 262144 # maximum number of open files for the Elasticsearch user, set to at least 65536 on modern systems
+        hard: 262144
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    expose:
+      - 9200
+    ports:
+      - 9200:9200
+      - 9600:9600 # required for Performance Analyzer
+
+  kibana:
+    image: kibana:7.16.2
+    container_name: kibana-$uuid$
+    restart: always
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
+  fluentd:
+    image: fluentd-$uuid$
+    build: ../../../application/services/default_services/fluentd/fluend
+    volumes:
+      - ../../../application/services/default_services/fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    restart: always
+    container_name: fluentd-$uuid$
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
 
 
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
@@ -131,10 +243,17 @@ $\ $$\ $$custom_node.name$:
     env_file: .env
     depends_on:
       - mongo
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 0.0.0.0:24224
+        fluentd-async-connect: "true"
+        tag: fluent
 };separator="\n"$$endif$
 
 volumes:
   $projectdetails.project_name$-volume:
     driver: local
+  elasticsearch:
 
 >>

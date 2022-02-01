@@ -164,8 +164,7 @@ getFeatureByProjectId()
   this.spinner.show();
   this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(response => 
   {
-        console.log(this.project_id,this.logId);
-        console.log(response);        
+        console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
         console.log("project feature data",this.projectFeatureData);

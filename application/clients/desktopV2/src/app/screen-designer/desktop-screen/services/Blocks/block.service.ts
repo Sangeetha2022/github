@@ -150,7 +150,7 @@ export class BlockService
         class: 'fa fa-table'
       },
       content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-                   <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-alpine"></div>
+                   <div id="myGrid" style="width: auto; height: 50%" class="ag-theme-alpine"></div>
                 </div>`,
       draggable: true,
       removable: true

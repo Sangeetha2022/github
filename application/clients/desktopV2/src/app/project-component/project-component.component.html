@@ -1,14 +1,11 @@
 <ngx-spinner bdColor="rgba(231,220,220,0.33)" size="small" color="#b2acac" [fullScreen]="true">
     <img class="loading-image" src='./assets/images/loading-animation.gif' />
 </ngx-spinner>
+<div class="col-md-12 my-4 p-4" id="fgh">
+    <button class="btn btn-lg btn-success" id="ihclgr" (click)="generateCode()">Generate Application</button>
+    <h3 id="project_heading">{{ project_display_Name }}</h3>
+</div>
 <div class="container">
-    <h1 style="text-align: center;">Project Components</h1>
-    <h5 id="project_heading">Project Name: {{ project_display_Name }}</h5>
-    <div class="row">
-        <div class="col-md-12 my-4 p-4">
-            <button class="btn btn-lg btn-success" id="ihclgr" (click)="generateCode()">Generate Application</button>
-        </div>
-    </div>
     <div class="row">
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">

@@ -31,6 +31,8 @@ import { TemplateTopNav } from '../strategy/HTML/generateTopNavigation/TopNav';
 import { TopTemplateHeader } from '../strategy/HTML/generateTopNavigation/TopNavHeader';
 import { TopTemplateLanding } from '../strategy/HTML/generateTopNavigation/TopNavLanding';
 import { TopTemplateFooter } from '../strategy/HTML/generateTopNavigation/TopNavFooter';
+import * as ncp from 'ncp';
+
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
@@ -49,6 +51,8 @@ export class ReactTemplateService {
     private exec = childProcess.exec;
     private details = null;
     private generationPath = '';
+    private reactSeedPath = '';
+    private reactGeneratePath = '';
     private templatePath = '';
     private grapesjsCSS = '';
     private menuDetails = '';
@@ -67,7 +71,11 @@ export class ReactTemplateService {
     private projectName = '';
     private htmlContent: string = '';
 
-    public createReactTemplate(req: Request, callback: CallableFunction) {
+    //seedbasefolder
+    public reactBase = 'baseCode';
+    public saveGeneratePath = 'local';
+
+    public async createReactTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
         console.log('req from template manager', util.inspect(JSON.stringify(this.details), { showHidden: true, depth: null }));
         const data = this.details.template['gjs-components'][0];
@@ -92,11 +100,14 @@ export class ReactTemplateService {
         this.generationPath = this.details.projectGenerationPath;
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && npx create-react-app ${this.projectName} --template typescript --routing=false --style=scss --skip-install && cd ${this.projectName} && rm -rf node_modules package_lock.json`, (error, stdout, stderr) => {
-            console.log('error exec ----->>>>    ', error);
-            console.log('stdout exec ----->>>>    ', stdout);
-            console.log('stderr exec ----->>>>    ', stderr);
-            if (stdout || stderr) {
+        this.reactSeedPath = this.details.project.templateLocation.authTemplatePath + `/${this.reactBase}`
+        this.reactGeneratePath = this.generationPath + `/${this.projectName}`;
+        ncp.limit = 16;
+        await ncp(this.reactSeedPath, this.reactGeneratePath, { clobber: false }, async (err) => {
+            if (err) {
+                console.error('---error occured ---', err);
+            }
+            if (!err) {
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
                 // console.log('iterateData filter are -----  ', this.iterateData);

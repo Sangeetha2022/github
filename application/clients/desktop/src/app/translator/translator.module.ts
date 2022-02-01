@@ -7,7 +7,7 @@ import {
 import i18nextXHRBackend from 'i18next-xhr-backend';
 import i18nextLanguageDetector from 'i18next-browser-languagedetector';
 import { I18NextValidationMessageModule } from 'angular-validation-message-i18next';
-import sprintf from 'i18next-sprintf-postprocessor';
+import * as sprintf from 'i18next-sprintf-postprocessor';
 import { APP_INITIALIZER, ApplicationRef, LOCALE_ID } from '@angular/core';
 
 const i18nextOptions = {
