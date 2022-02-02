@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class Constants {
+
+export class Constants 
+{
         public static DESKTOP_ROUTER = '/desktop';
         public static MOBILE_ROUTER = '/mobile';
 
@@ -10,7 +12,7 @@ export class Constants {
         public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
         public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
 
-          // modifier apis
+        // modifier apis
         public static get saveModifier(): string { return this.DESKTOP_ROUTER + '/modifier/save'; }
         public static get saveModifierUsage(): string { return this.DESKTOP_ROUTER + '/modifier/usage/save'; }
         public static get updateModifier(): string { return this.DESKTOP_ROUTER + '/modifier/update'; }
@@ -71,7 +73,7 @@ export class Constants {
         //get the feature entities 
         public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }
 
-            // shared application
+        // shared application
         public static get sharedApplication(): string { return this.DESKTOP_ROUTER + '/shared/getbyproject/'; }
         public static get sharedAppImport(): string { return  '/shared/upload'; }
 
@@ -86,6 +88,7 @@ export class Constants {
         public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
         public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
         public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
+        public static get getProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template';}
         public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
         public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
         public static get updateProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/update';}
@@ -102,32 +105,33 @@ export class Constants {
 
         // menu apis
         public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
+        public static get saveMenu(): String { return this.DESKTOP_ROUTER + '/menu/save'; }
+        public static get getMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/getbyprojectid'; }
+        public static get updateMenuById(): String { return this.DESKTOP_ROUTER + '/menu/update'; }
+        public static get updateMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/updatemenubyproject'; }
+
         // cloned application
-
         public static get clonedApplication(): string { return this.DESKTOP_ROUTER + '/clone/getbyproject' }
-
-        public static get getConstantReservedWords(): String {
-        return `break,case,comment,continue,default,delete,do,else,export,for,function,if,import,in,label,new,return,
-        switch,this,typeof,var,void,while,with,abstract,boolean,decimal,integer,mixed,
-        byte,char,double,false,final,float,goto,implements,instanceOf,int,interface,long,native,null,package,private,protected,
-        protected,public,short,static,synchronized,throws,transient,true,catch,class,const,debugger,enum,extends,finally,super,throw,try,
-        alert,Anchor,Area,arguments,Array,assign,blur,Boolean,Button,callee,caller,captureEvents,Checkbox,clearInterval,clearTimeout,close,
-        closed,confirm,constructor,Date,defaultStatus,document,Element,escape,eval,FileUpload,find,
-        focus,Form,Frame,Frames,Function,getClass,Hidden,history,home,Image,Infinity,InnerHeight,InnerWidth,
-        isFinite,isNan,java,JavaArray,JavaClass,JavaObject,JavaPackage,length,Link,Location,locationbar,Math,menubar,
-        MimeType,moveBy,moveTo,NaN,navigate,navigator,netscape,Number,Object,onBlur,
-        onError,onFocus,onLoad,onUnload,opener,Option,outerHeight,
-        OuterWidth,Packages,pageXoffset,pageYoffset,parent,parseFloat,parseInt,Password,
-        personalbar,Plugin,print,prompt,prototype,Radio,ref,RegExpreleaseEvents,Reset,resizeBy,resizeTo,routeEvent,scroll,
-        scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
-        Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window,id`;
+        public static get getConstantReservedWords(): String 
+        {
+            return `break,case,comment,continue,default,delete,do,else,export,for,function,if,import,in,label,new,return,
+                    switch,this,typeof,var,void,while,with,abstract,boolean,decimal,integer,mixed,
+                    byte,char,double,false,final,float,goto,implements,instanceOf,int,interface,long,native,null,package,private,protected,
+                    protected,public,short,static,synchronized,throws,transient,true,catch,class,const,debugger,enum,extends,finally,super,throw,try,
+                    alert,Anchor,Area,arguments,Array,assign,blur,Boolean,Button,callee,caller,captureEvents,Checkbox,clearInterval,clearTimeout,close,
+                    closed,confirm,constructor,Date,defaultStatus,document,Element,escape,eval,FileUpload,find,
+                    focus,Form,Frame,Frames,Function,getClass,Hidden,history,home,Image,Infinity,InnerHeight,InnerWidth,
+                    isFinite,isNan,java,JavaArray,JavaClass,JavaObject,JavaPackage,length,Link,Location,locationbar,Math,menubar,
+                    MimeType,moveBy,moveTo,NaN,navigate,navigator,netscape,Number,Object,onBlur,
+                    onError,onFocus,onLoad,onUnload,opener,Option,outerHeight,
+                    OuterWidth,Packages,pageXoffset,pageYoffset,parent,parseFloat,parseInt,Password,
+                    personalbar,Plugin,print,prompt,prototype,Radio,ref,RegExpreleaseEvents,Reset,resizeBy,resizeTo,routeEvent,scroll,
+                    scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
+                    Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window,id`;
         }
-
-        public static get getConstantSpecialCharacters(): String {
-                return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|
-                \\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
-            }
-       
-            public static get desktopscreen(): String { return this.DESKTOP_ROUTER + '/desktopscreen'; }      
-  
+        public static get getConstantSpecialCharacters(): String 
+        {
+            return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|\\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
+        }       
+        public static get desktopscreen(): String { return this.DESKTOP_ROUTER + '/desktopscreen'; }      
 }
