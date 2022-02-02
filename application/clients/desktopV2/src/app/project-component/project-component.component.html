@@ -3,94 +3,105 @@
 </ngx-spinner>
 <div class="col-md-12 my-4 p-4" id="fgh">
     <button class="btn btn-lg btn-success" id="ihclgr" (click)="generateCode()">Generate Application</button>
-    <h3 id="project_heading">{{ project_display_Name }}</h3>
+    <h1 id="project_heading">{{ project_display_Name }}</h1>
 </div>
-<div class="container">
-    <div class="row">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">My Features </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn" id="ihclgr" color="primary" (click)="openFeatureDialog()">Add Features</button>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-sm-4" *ngFor="let feature of
+
+<div class="container-md-12 mx-5 p-4">
+    <mat-accordion [togglePosition]="'before'">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header style="padding:3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>My Features</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row mx-4 pl-5">
+                <div class="col-sm-4" *ngFor="let feature of
                     projectFeatureData; let i= index">
-                        <div class="card p-2">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/gear.png" alt="">
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
-                                        <p id="Entry_text_description" class="card-text">{{feature.description}}</p>
-                                    </div>
+                    <div class="card p-2" style="width:25rem; height:15rem;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <img src="./assets/images/project_components/gear.png" alt="">
                                 </div>
-                                <div class="d-grid gap-2 mt-3">
-                                    <button class="btn btn-primary" id="button_color" type="button" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,
+                                <div class="col-lg-8">
+                                    <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
+                                    <p id="Entry_text_description" class="card-text">{{feature.description}}</p>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <button class="btn btn-primary" id="button_color" type="button" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,
                                         projectId: project_id}">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 mx-4 p-4">
+                    <button class="btn" id="ihcl" color="primary" (click)="openFeatureDialog()">Add Features</button>
+                </div>
+                <div class="col-2 mx-4 p-4">
+                    <button class="btn" id="ihcl" color="primary" (click)="openFeatureDialog()">Add Features</button>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Entities</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-4" *ngFor="let entity of projectEntity; let i= index">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <img src="./assets/images/project_components/entity.png" alt="">
+                                </div>
+                                <div class="col-lg-8">
+                                    <p id="Entry_text_heading" class="card-title">{{entity.name}}</p>
+                                    <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 ">
+                                    <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-block btn-outline-danger w-100 mt-3" [disabled]="entity.is_default" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading"> Entities</mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn" id="ihclgr" color="primary">Add Entity</button>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-sm-4" *ngFor="let entity of projectEntity; let i= index">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/entity.png" alt="">
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <p id="Entry_text_heading" class="card-title">{{entity.name}}</p>
-                                        <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 ">
-                                        <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <button class="btn btn-block btn-outline-danger w-100 mt-3" [disabled]="entity.is_default" (click)="openDeleteModel(entity)" type="button">Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <app-techarchitecture-manager></app-techarchitecture-manager>
-            <mat-expansion-panel [expanded]="false">
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Menu Builder</mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-menu-builder></app-menu-builder>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="false">
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Template Manager</mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-template-manager [projectId]="project_id"> </app-template-manager>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
+            </div>
+        </mat-expansion-panel>
+        <app-techarchitecture-manager></app-techarchitecture-manager>
+        <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Menu Builder</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-menu-builder></app-menu-builder>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Template Manager</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-template-manager [projectId]="project_id"> </app-template-manager>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
+
 
 <!-- ADD FEATURE DIALOG BOX -->
 
