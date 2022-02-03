@@ -17,31 +17,27 @@
             <div class="row mx-4 pl-5">
                 <div class="col-sm-4" *ngFor="let feature of
                     projectFeatureData; let i= index">
-                    <div class="card p-2" style="width:25rem; height:15rem;">
+                    <div class="card p-2" id="po" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,projectId: project_id}" style="width:25rem; height:9rem;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <img src="./assets/images/project_components/gear.png" alt="">
+                                    <img src="./assets/images/project_components/Feature icon.png" alt="">
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-lg-8 p-4">
                                     <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
                                     <p id="Entry_text_description" class="card-text">{{feature.description}}</p>
                                 </div>
-                            </div>
-                            <div class="d-grid gap-2 mt-3">
-                                <button class="btn btn-primary" id="button_color" type="button" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,
-                                        projectId: project_id}">View</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-2 mx-4 p-4">
+            <div class="row mt-4">
+                <div class="col-1 mx-4 p-4">
                     <button class="btn" id="ihcl" color="primary" (click)="openFeatureDialog()">Add Features</button>
                 </div>
-                <div class="col-2 mx-4 p-4">
-                    <button class="btn" id="ihcl" color="primary" (click)="openFeatureDialog()">Add Features</button>
+                <div class="col-4 mx-5 p-4">
+                    <button class="btn" id="ih" color="primary" (click)="openFeatureDialog()">Feature Library</button>
                 </div>
             </div>
         </mat-expansion-panel>
