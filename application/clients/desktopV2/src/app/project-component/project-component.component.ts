@@ -23,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EntityManagerComponent implements OnInit 
 {
+  isClick:boolean=false;
   menuFeatureName: any = [];
   menuBuilderDetails: any = [];
   dataMenu: any;
@@ -96,6 +97,11 @@ export class EntityManagerComponent implements OnInit
   openFeatureDialog(): void 
   {
     this.displayFeatureModel = 'block';
+  }
+
+  openFeatureLibrary()
+  {
+    this.isClick=true;
   }
 
 //Radio button change event for add feature
