@@ -9,6 +9,35 @@
     float: right;
 }
 
+#ihcl {
+    white-space: nowrap;
+    background-color: #5DB18C;
+    color: #ffffff;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+#ih {
+    white-space: nowrap;
+    color: #5DB18C;
+    border-color: #5DB18C;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+#po {
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+#po:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 #fgh {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -65,6 +94,7 @@
     width: 100%;
     font-family: Montserrat, sans-serif;
     font-weight: 500;
+    font-size: 15px;
     color: #404040;
     padding: 0 0 0 10px;
     margin: 5px 0 0 0;
@@ -86,8 +116,7 @@
     width: 100%;
     font-family: Montserrat, sans-serif;
     color: #302C5E;
-    font-weight: 700;
-    font-size: 19px;
+    font-size: 27px;
     padding: 0 0 0 10px;
 }
 
