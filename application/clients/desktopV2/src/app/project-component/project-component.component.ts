@@ -23,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EntityManagerComponent implements OnInit 
 {
+  result:string='';
   isClick:boolean=false;
   menuFeatureName: any = [];
   menuBuilderDetails: any = [];

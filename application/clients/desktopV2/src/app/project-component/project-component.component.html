@@ -20,7 +20,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <img src="./assets/images/project_components/Feature icon.png" alt="">
+                                    <img src="./assets/images/project_components/feature icon.png" alt="">
                                 </div>
                                 <div class="col-lg-8 p-4">
                                     <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
@@ -37,6 +37,18 @@
                 </div>
                 <div class="col-4 mx-5 p-4">
                     <button class="btn" id="ih" color="primary" (click)="openFeatureLibrary()">Feature Library</button>
+                </div>
+            </div>
+            <div class="card m-4 p-4" style="width:112rem;height:25rem;" *ngIf="isClick">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p id="Entry_text_heading">Feature Library</p>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="result" id="ser" placeholder="Search..." [(ngModel)]="result" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </mat-expansion-panel>
@@ -118,10 +130,9 @@
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name" (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
                                 featurForm.submitted && name.invalid }" required />
-                            <div *ngIf="isFeatureExist" style="color: red">Feature name already exist</div>
-                            <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed</div>
-                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
-                            </div>
+                            <div *ngIf="isFeatureExist" style="color: red">Feature name already exists!</div>
+                            <div *ngIf="invalidName" style="color: red">Name must start with an alphabet.Special charaters are not allowed!</div>
+                            <div *ngIf="isReserveWord" style="color: red">Name must not be a reserve word!</div>
                         </div>
                         <div class="form-group mt-3" *ngIf="showAddFeature || showImportFeature">
                             <label for="description">Description</label>
