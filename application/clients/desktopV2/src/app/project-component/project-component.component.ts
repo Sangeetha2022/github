@@ -102,7 +102,7 @@ export class EntityManagerComponent implements OnInit
 
   openFeatureLibrary()
   {
-    this.isClick=true;
+    this.isClick=!this.isClick;
   }
 
 //Radio button change event for add feature
