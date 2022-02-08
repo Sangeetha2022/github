@@ -49,6 +49,7 @@ import {
     AngularTemplateControllerV12,
     AngularControllerV13,
     AngularTemplateControllerV13,
+    SharedFeaturesController,
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
@@ -97,7 +98,8 @@ let apisController = [
     new ExternalfeatureController(),
     new ModifierManagerController(),
     new DefaultServicesController(),
-    new GepFileManagerController()
+    new GepFileManagerController(),
+    new SharedFeaturesController(),
 ]
 
 class App {
