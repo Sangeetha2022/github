@@ -12,6 +12,9 @@ import { ProjectComponentService } from './project-component.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ValidatorService } from 'src/shared/validator.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { EntitypopUpComponent } from '../project-component/entitypop-up/entitypop-up.component';
+import { PEntity } from '../project-component/interface/Entity';
 
 
 @Component
@@ -73,12 +76,27 @@ export class EntityManagerComponent implements OnInit
     type: ''
   };
   public POPUP_MODAL_VARIABLENAME = 'popupmodal';
+  isPrimaryEntityPresent!: Boolean;
+  entityid: any;
+  public entity: PEntity = 
+  {
+      name: '',
+      description: '',
+      entity_type: '',
+      project_id: '',
+      created_by: '',
+      last_modified_by: '',
+      updated_at: new Date(),
+      field: []
+  };
+  entitydetails: any[] = [];
+  updateEntityId: any;
 
   constructor(private spinner:NgxSpinnerService,private database: TreeDragService,private projectService:ProjectService,
               private route: ActivatedRoute,private dataService:DataService,private projectComponentService: ProjectComponentService,
               private logger:LoggingService,private validatorService: ValidatorService,private router: Router,
               private toastr: ToastrService,private menuBuilderService: MenuBuilderService,
-              private screenService: ScreenDesignerService,) { }
+              private screenService: ScreenDesignerService,private dialog: MatDialog) { }
 
   ngOnInit(): void 
   {
@@ -92,6 +110,105 @@ export class EntityManagerComponent implements OnInit
     this.getFeatureByProjectId();
     this.getAllEntityByProjectId();
     this.getMenuBuilderByProjectId();
+  }
+
+  //To open the entity model dialog box
+  saveEntityModel() 
+  {
+        this.openDialog(true, null);
+  }
+
+  //Function used to open Entity popup component and save the value
+  openDialog(isSaveOption:any, objectValue:any): void 
+  {
+        const dialogDataValue = 
+        {
+            savedEntity: {},
+            projectId: this.project_id,
+            isPrimaryEntityPresent: this.isPrimaryEntityPresent,
+        };
+        console.log("dialogDataValue",dialogDataValue);        
+        if (isSaveOption) 
+        {
+            dialogDataValue.savedEntity = {};
+        } 
+        else 
+        {
+            dialogDataValue.savedEntity = objectValue;
+        }
+        const dialogRef = this.dialog.open(EntitypopUpComponent, 
+        {
+            width: '350px',
+            data: dialogDataValue
+        });
+        dialogRef.afterClosed().subscribe(entityData => 
+        {
+            if (entityData) 
+            {
+                this.entityid = entityData.entity_id;
+                this.entity.project_id = this.project_id;
+                this.entity.name = entityData.name;
+                this.entity.description = entityData.description;
+                this.entity.entity_type = entityData.entityType;
+                this.entity.field = entityData.field;
+                if (entityData !== undefined) 
+                {
+                    if (objectValue === null) 
+                    {
+                        if (entityData.selectentity === 'Existing') 
+                        {
+                            this.AddEntity(this.entity);
+                        } 
+                        else 
+                        {
+                            // this.saveEntity(this.entity);
+                        }
+                    } 
+                    else 
+                    {
+                        const tempObj = 
+                        {
+                            id: '',
+                            name: '',
+                            description: '',
+                            entity_type: ''
+                        };
+                        tempObj.id = this.updateEntityId;
+                        tempObj.name = entityData.name;
+                        tempObj.description = entityData.description;
+                        tempObj.entity_type = entityData.entityType;
+                        // this.updateEntity(tempObj);
+                    }
+                }
+            }
+        });
+  }
+
+  //Function is used to save the entity values if exisisting entity present
+  AddEntity(entityData:any) 
+  {
+        entityData._id = this.entityid;
+        this.entitydetails = 
+        [
+            {
+                'entities':
+                {
+                    'entityType': entityData.entity_type,
+                    'entityId': this.entityid
+                },
+                'name': entityData.name,
+                'description': entityData.description,
+                'updated_date': Date.now()
+            }
+        ];
+        this.projectComponentService.createEntity(this.entity, this.logId).subscribe(response => 
+        {
+                if(response)
+                {
+                    console.log("Response Success:",response);
+                }
+               
+        });       
   }
 
   //To open add feature dialog box

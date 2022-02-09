@@ -4,6 +4,7 @@
             <p id="entity_heading">Entity</p>
         </div>
     </div>
+
     <!-- Add Entity Radiobutton popup -->
     <div *ngIf="hide">
         <div class="row">
@@ -51,6 +52,7 @@
             </mat-radio-group>
         </div>
     </div>
+
     <!-- For Secondary Entity -->
     <div *ngIf="existing" class="row">
         <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [defaultColDef]="defaultColDef" [animateRows]="true" (selectionChanged)="onSelectionChanged($event)"
