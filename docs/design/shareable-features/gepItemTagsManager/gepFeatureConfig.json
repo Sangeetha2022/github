@@ -1,7 +1,8 @@
 {
     "feature-name": "gepItemTagsManager",
+    "version": 1,
     "sharing-visibility-status": "admin",
-    "type": "external-QUESTION: what are other types?",
+     "type": "external",
     "last-modified-date": "01-20-2022",
     "description": "Generic component to manage tags for any entity",
     "author-email": "gepinfo@gmail.com",
