@@ -105,47 +105,47 @@ export class EntityManagerComponent implements OnInit
     this.isClick=!this.isClick;
   }
 
-//Radio button change event for add feature
-radioChange(event:any) 
-{
-  if (event.value === 'Import Feature') 
+  //Radio button change event for add feature
+  radioChange(event:any) 
   {
+    if (event.value === 'Import Feature') 
+    {
        this.showImportFeature = true;
        this.showAddFeature = false;
        this.showUploadFeature = false;
-  }
-  if (event.value === 'Upload Feature') 
-  {
+    }
+    if (event.value === 'Upload Feature') 
+    {
        this.formData = new FormData();
        this.showImportFeature = false;
        this.showAddFeature = false;
        this.showUploadFeature = true;
-  }
-  if (event.value === 'Create Feature') 
-  {    
+    }
+    if (event.value === 'Create Feature') 
+    {    
        this.showImportFeature = false;
        this.showAddFeature = true;
        this.showUploadFeature = false;
+    }
   }
-}
 
-onFeatureChange(event:any) 
-{
-  if (event.length <= 0) 
+  onFeatureChange(event:any) 
   {
+    if (event.length <= 0) 
+    {
       this.isFeatureExist = false;
       this.isReserveWord = false;
       this.invalidName = false;
+    }
   }
-}
-onReady(eventData:any) 
-{
-  eventData.plugins.get('FileRepository').createUploadAdapter = function (loader:any) { };
-}
+  onReady(eventData:any) 
+  {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader:any) { };
+  }
   
-//to get the Project name and details
-getProjectById() 
-{
+  //to get the Project name and details
+  getProjectById() 
+  {
     this.spinner.show();
     this.projectService.getProjectById(this.project_id, this.logId).subscribe(response => 
     {
@@ -163,42 +163,42 @@ getProjectById()
             this.menuBuilder.language = this.menuLanguages[0];
         }
     });
-}
+  }
 
-//GET PROJECT FEATURE BY ID
-getFeatureByProjectId() 
-{
-  this.spinner.show();
-  this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(response => 
+  //GET PROJECT FEATURE BY ID
+  getFeatureByProjectId() 
   {
+    this.spinner.show();
+    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(response => 
+    {
         console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
         console.log("project feature data",this.projectFeatureData);
-  },
-  error => { });
-}
-//To get the All entity by project id
-getAllEntityByProjectId() 
-{
-  this.spinner.show();
-  this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe((data) => 
+    },
+    error => { });
+  }
+  //To get the All entity by project id
+  getAllEntityByProjectId() 
   {
+    this.spinner.show();
+    this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe((data) => 
+    {
           this.spinner.hide();
           console.log('all entity data', data.body);
           this.allEntity = data.body;
           this.projectEntity = this.allEntity;
           this.dataService.setAllEntity(this.allEntity);
-  },
-  (error) => {console.log('cannot able to get all entity based on projectId ---- ', error);});
-}
+    },
+    (error) => {console.log('cannot able to get all entity based on projectId ---- ', error);});
+  }
 
-getMenuBuilderByProjectId() 
-{
-  this.spinner.show();
-  this.menuFeatureName = [];
-  this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+  getMenuBuilderByProjectId() 
   {
+    this.spinner.show();
+    this.menuFeatureName = [];
+    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+    {
       this.spinner.hide();
       if (menuBuilderData.body && menuBuilderData.body.length !== 0) 
       {
@@ -322,29 +322,29 @@ getMenuBuilderByProjectId()
               }
           });
       }
-  });
-}
+    });
+  }
 
-//To get the selected project
-getSelectedProject() 
-{
-  this.spinner.show();
-  this.dataService.currentProjectInfo.subscribe((data) => 
+  //To get the selected project
+  getSelectedProject() 
   {
+    this.spinner.show();
+    this.dataService.currentProjectInfo.subscribe((data) => 
+    {
           this.spinner.hide();
           this.selectedProject = data;
-  });
-}
+    });
+  }
   
-//To close the feature model popup box
-closeFeatureCreateModel() 
-{
+  //To close the feature model popup box
+  closeFeatureCreateModel() 
+  {
         this.displayFeatureModel = 'none';
-}
+  }
 
-//To create the new feature
-createFeature() 
-{
+  //To create the new feature
+  createFeature() 
+  {
     this.featureInfo.name = this.featureInfo.name.toLowerCase();
     this.featureInfo.project = this.project_id;
     this.validatorService.checkNamingConvention(this.featureInfo.name);

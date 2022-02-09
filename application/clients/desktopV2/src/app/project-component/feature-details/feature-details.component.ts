@@ -592,6 +592,7 @@ export class FeatureDetailsComponent implements OnInit
             dialogDataValue.savedEntity = objectValue;
         }
         this.broadcastservice.changeFeatureId(this.feature_id);
+        console.log("FeatureID:",this.feature_id);
         const dialogRef = this.dialog.open(EntitypopUpComponent, 
         {
             width: '350px',
