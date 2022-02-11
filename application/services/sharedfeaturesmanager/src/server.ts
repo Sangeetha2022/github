@@ -14,8 +14,8 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = process.env.mongoUrl;
-    // public mongoUrl: string = 'mongodb://admin:password@127.0.0.1:27017/GeppettoStage?authSource=admin';
+    // public mongoUrl: string = process.env.mongoUrl;
+    public mongoUrl: string = 'mongodb://admin:password@127.0.0.1:27017/GeppettoStage?authSource=admin';
 
     constructor() { 
         this.logger.setupLogger();

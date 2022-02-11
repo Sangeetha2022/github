@@ -123,5 +123,5 @@ export const gfcSchema = new Schema({
    }
 })
 
-const gfcModel = mongoose.model('gepfeatures_config', gfcSchema, 'gepfeatures_config');
+const gfcModel = mongoose.model('shareable_features', gfcSchema, 'shareable_features');
 export default gfcModel;

@@ -158,8 +158,7 @@ export class UserComponent implements OnInit {
     }
     console.log("USER-->",dataToSave);
     this.loginservice.signup(dataToSave).subscribe(response => {
-      console.log("data",response);
-        window.location.reload();
+      this.ngOnInit();
     }, error => {
       console.error('error:', error);
     });
@@ -185,13 +184,12 @@ export class UserComponent implements OnInit {
       const rows = e.rowData;
       console.log("datas",rows);
       console.log("da",rows._id);
-    this.userService.deleteUser(rows._id).subscribe(response => {
-      console.log("data",response);
-    }, error => {
-      console.error('error:', error);
-    });
-    location.reload();
-    }
+      this.userService.deleteUser(rows._id).subscribe(response => {
+          this.ngOnInit();
+        }, error => {
+          console.error('error:', error);
+        });
+      }
     }
     onFileSelected(event:any) {
       this.selectedFiles = event.target.files;

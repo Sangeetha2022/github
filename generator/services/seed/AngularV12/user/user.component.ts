@@ -151,7 +151,7 @@ export class UserComponent implements OnInit {
       'avatar': this.img
     }
     this.loginservice.signup(dataToSave).subscribe(response => {
-        window.location.reload();
+      this.ngOnInit();
     }, error => {
       console.error('error:', error);
     });
@@ -172,11 +172,11 @@ export class UserComponent implements OnInit {
     if (confirm('Are you sure you want to delete this?')) {
       const rows = e.rowData;
       this.userService.deleteUser(rows._id).subscribe(response => {
-    }, error => {
-      console.error('error:', error);
-    });
-    location.reload();
-    }
+        this.ngOnInit();
+        }, error => {
+          console.error('error:', error);
+        });
+      }
     }
     onFileSelected(event:any) {
       this.selectedFiles = event.target.files;
