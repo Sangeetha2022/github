@@ -13,6 +13,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
+import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 
 @NgModule
 ({
@@ -22,6 +23,7 @@ import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitec
     EntitypopUpComponent,
     EntityFieldComponent,
     FieldPopupModalComponent,
+    ProjentitypopUpComponent,
   ],
   imports: 
   [

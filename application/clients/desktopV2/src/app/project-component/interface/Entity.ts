@@ -15,7 +15,6 @@ export interface PEntity
 {
     name: String;
     description: String;
-    entity_type: String;
     project_id: String;
     created_by: String;
     last_modified_by: String;

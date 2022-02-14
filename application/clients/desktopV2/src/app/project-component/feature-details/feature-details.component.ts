@@ -396,7 +396,7 @@ export class FeatureDetailsComponent implements OnInit
         });
         dialogRef.afterClosed().subscribe(screenData => 
         {
-            console.log('screen data ar e---------------- ', screenData);
+            console.log('screen data are---------------- ', screenData);
             if (screenData) 
             {
                 this.router.navigate(['/desktopscreen'], 
