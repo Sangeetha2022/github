@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Fri Jan 07 2022 13:23:41 GMT+0530 (India Standard Time)
+ * Compiled on Tue Feb 15 2022 19:20:56 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -72,8 +72,8 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 43 }));
     w.write("ui-");
     st.write(w, s, g, rc, s.uuid);
-    w.write(" --restart=unless-stopped -d -p 5055:5000 ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 123 }));
+    w.write(" --restart=unless-stopped -d -p 5055:80 ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 121 }));
     w.write("ui-");
     st.write(w, s, g, rc, s.uuid);
     w.write("\n");
@@ -99,7 +99,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("sleep 50");
+    w.write("sleep 80");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");

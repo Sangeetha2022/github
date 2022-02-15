@@ -118,13 +118,28 @@ export class DependencyWorker {
     this.modifyenvoriments_prod(env, env_file_name_prod);
   }
 
+  generateNginxConfFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/${Constant.NGINX_FOLDERNAME}`;
+    const proxyArray = [{ ...Constant.proxyWeb }, { ...Constant.proxyMobile }];
+    console.log('proxyArray for nginx are --- ', proxyArray);
+    const temp = {
+      proxy: {
+        projectName: details.project.name,
+        components: proxyArray
+      }
+    }
+    componentSupportWorker.handleBarsFile(`${templatePath}/NginxConf.hbs`, temp, filePath, Constant.NGINX_CONFIG);
+    callback("NginxConf file generated")
+  }
+
   generateProxyFile(generationPath, templatePath, details, callback) {
     // shared file path
     const filePath = `${generationPath}/`;
     const temp = {
     }
     componentSupportWorker.handleBarsFile(`${templatePath}/ProxyConfig.handlebars`, temp, filePath, Constant.PROXY_CONFIG_FILENAME);
-    callback("Nginx file generated")
+    callback("ProxyConfig file generated")
   }
 
   generateDockerFile(generationPath, templatePath, details, callback) {
@@ -134,7 +149,7 @@ export class DependencyWorker {
       fileName: details.project.name
     }
     componentSupportWorker.handleBarsFile(`${templatePath}/Dockerfile.handlebars`, temp, filePath, Constant.DOCKERFILE_FILENAME);
-    callback("Nginx file generated")
+    callback("DockerFile file generated")
   }
 
   generateTranslatorModuleFile(generationPath, templatePath, details, callback) {
