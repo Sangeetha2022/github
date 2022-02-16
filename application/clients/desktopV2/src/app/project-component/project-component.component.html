@@ -16,11 +16,11 @@
             </mat-expansion-panel-header>
             <div class="row mx-4 pl-5">
                 <div class="col-4" *ngFor="let feature of projectFeatureData; let i= index">
-                    <div class="card p-2" id="po" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,projectId: project_id}" style="width:30rem; height:9rem;">
+                    <div class="card mt-3 p-2" id="po" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,projectId: project_id}" style="width:30rem; height:9rem;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <img src="./assets/images/project_components/Feature icon.png" alt="">
+                                    <img src="./assets/images/shareable_features/feature icon.png" alt="">
                                 </div>
                                 <div class="col-lg-8 p-4">
                                     <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
@@ -39,6 +39,159 @@
                     <button class="btn" id="ih" color="primary" (click)="openFeatureLibrary()">Feature Library</button>
                 </div>
             </div>
+            <div class="card m-4 p-4" style="width:112rem;height:50rem;" *ngIf="isClick">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8 p-4">
+                            <p id="Entry_text_heading">Feature Library</p>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="result" id="ser" placeholder="Search..." [(ngModel)]="result" />
+                        </div>
+                    </div>
+                    <div class="row m-4 p-4">
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/user.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">User</p>
+                                            <p id="Entry_text_description" class="card-text">Management</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/vault.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Vault</p>
+                                            <p id="Entry_text_description" class="card-text">Administration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/security.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Security</p>
+                                            <p id="Entry_text_description" class="card-text">Manager</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-4 p-4">
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/notifications.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Notifications</p>
+                                            <p id="Entry_text_description" class="card-text">Gep</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/file manager.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">File Manager</p>
+                                            <p id="Entry_text_description" class="card-text">Gep</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/wordpress.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Wordpress</p>
+                                            <p id="Entry_text_description" class="card-text">Administration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-4 p-4">
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/grapesjs.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">GrapesJs</p>
+                                            <p id="Entry_text_description" class="card-text">Administration</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/grid.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Grid</p>
+                                            <p id="Entry_text_description" class="card-text">Connector</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="card p-2" id="po" style="width:30rem; height:9rem;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="./assets/images/shareable_features/connector.png" alt="">
+                                        </div>
+                                        <div class="col-lg-8 p-4">
+                                            <p id="Entry_text_heading" class="card-title">Default Icon</p>
+                                            <p id="Entry_text_description" class="card-text">Connector</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </mat-expansion-panel>
         <mat-expansion-panel>
             <mat-expansion-panel-header style="padding: 3%;">
@@ -46,34 +199,34 @@
                     <h3>Entities</h3>
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="row">
-                <div class="col-lg-12">
-                    <button class="btn" id="ihclgr" color="primary">Add Entity</button>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-sm-4" *ngFor="let entity of projectEntity; let i= index">
-                    <div class="card">
+            <div class="row mx-4 pl-5">
+                <div class="col-3" *ngFor="let entity of projectEntity; let i= index">
+                    <div class="card mt-3 p-2" id="op" style="width:27rem; height:12rem;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <img src="./assets/images/project_components/entity.png" alt="">
+                                    <img src="./assets/images/project_components/entity.png" alt="" style="height:130px;width:100px;">
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-lg-8 p-3">
                                     <p id="Entry_text_heading" class="card-title">{{entity.name}}</p>
                                     <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 ">
-                                    <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
-                                </div>
-                                <div class="col-lg-6">
-                                    <button class="btn btn-block btn-outline-danger w-100 mt-3" [disabled]="entity.is_default" (click)="openDeleteModel(entity)" type="button">Delete</button>
+                                    <div class="row pt-3">
+                                        <div class="col-lg-3">
+                                            <button class="btn btn-link" id="ent1" (click)="editEntityField(entity)">Edit</button>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button class="btn btn-link" id="ent2" [disabled]="entity.is_default" (click)="openDeleteModel(entity)">Delete</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-1 mx-4 p-4">
+                    <button class="btn" id="ihcl" color="primary" (click)="saveEntityModel()">Add Entity</button>
                 </div>
             </div>
         </mat-expansion-panel>
@@ -97,9 +250,7 @@
     </mat-accordion>
 </div>
 
-
 <!-- ADD FEATURE DIALOG BOX -->
-
 <div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureModel}">
     <div class="modal-dialog modal-lg" role="dialog">
         <div class="feature modal-content">
@@ -118,10 +269,9 @@
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name" (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
                                 featurForm.submitted && name.invalid }" required />
-                            <div *ngIf="isFeatureExist" style="color: red">Feature name already exist</div>
-                            <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed</div>
-                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
-                            </div>
+                            <div *ngIf="isFeatureExist" style="color: red">Feature name already exists!</div>
+                            <div *ngIf="invalidName" style="color: red">Name must start with an alphabet.Special charaters are not allowed!</div>
+                            <div *ngIf="isReserveWord" style="color: red">Name must not be a reserve word!</div>
                         </div>
                         <div class="form-group mt-3" *ngIf="showAddFeature || showImportFeature">
                             <label for="description">Description</label>
@@ -143,19 +293,18 @@
         </div>
     </div>
 </div>
+
 <!-- To Delete Entity Popup model -->
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top':
-    '100px','display':deletePopup}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top':'100px','display':deletePopup}">
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <div class="delete modal-body">
-                <p>Please confirm to delete this entity ? </p>
+                <p>Are you sure to delete this entity?</p>
             </div>
             <div class="modal-footer" style="padding: 5px">
                 <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
             </div>
         </div>
-
     </div>
 </div>

@@ -3,13 +3,11 @@
 </ngx-spinner>
 <div class="container">
     <h1 style="text-align: center;">Feature Details</h1>
-
     <div class="row">
         <div class="col-lg-12">
             <p id="project_heading">Selected Feature: {{ selectedFeatureName }}</p>
         </div>
     </div>
-
     <div class="row" style="margin-top: 5%;">
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
@@ -67,7 +65,6 @@
                         </ag-grid-angular>
                     </div>
                 </div>
-
             </mat-expansion-panel>
             <mat-expansion-panel>
                 <mat-expansion-panel-header style="padding: 3%;">
@@ -102,6 +99,7 @@
         </mat-accordion>
     </div>
 </div>
+
 <!-- TO Display Delete model popup -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
     <div class="modal-dialog modal-sm" role="dialog">
@@ -116,6 +114,7 @@
         </div>
     </div>
 </div>
+
 <!-- TO Display Delete screen model popup -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletescreenPopup}">
     <div class="modal-dialog modal-sm" role="dialog">
@@ -130,6 +129,7 @@
         </div>
     </div>
 </div>
+
 <!-- To display feature flow model in ag grid -->
 <div id="EventPopup" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
     <div class="modal-dialog modal-lg flow_popup" role="dialog">

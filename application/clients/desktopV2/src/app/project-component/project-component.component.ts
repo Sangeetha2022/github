@@ -12,6 +12,9 @@ import { ProjectComponentService } from './project-component.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ValidatorService } from 'src/shared/validator.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
+import { PEntity } from '../project-component/interface/Entity';
 
 
 @Component
@@ -23,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EntityManagerComponent implements OnInit 
 {
+  result:string='';
   isClick:boolean=false;
   menuFeatureName: any = [];
   menuBuilderDetails: any = [];
@@ -72,12 +76,25 @@ export class EntityManagerComponent implements OnInit
     type: ''
   };
   public POPUP_MODAL_VARIABLENAME = 'popupmodal';
+  entityid: any;
+  public entity: PEntity = 
+  {
+      name: '',
+      description: '',
+      project_id: '',
+      created_by: '',
+      last_modified_by: '',
+      updated_at: new Date(),
+      field: []
+  };
+  entitydetails: any[] = [];
+  updateEntityId: any;
 
   constructor(private spinner:NgxSpinnerService,private database: TreeDragService,private projectService:ProjectService,
               private route: ActivatedRoute,private dataService:DataService,private projectComponentService: ProjectComponentService,
               private logger:LoggingService,private validatorService: ValidatorService,private router: Router,
               private toastr: ToastrService,private menuBuilderService: MenuBuilderService,
-              private screenService: ScreenDesignerService,) { }
+              private screenService: ScreenDesignerService,private dialog: MatDialog) { }
 
   ngOnInit(): void 
   {
@@ -93,6 +110,66 @@ export class EntityManagerComponent implements OnInit
     this.getMenuBuilderByProjectId();
   }
 
+  //To open the entity model dialog box
+  saveEntityModel() 
+  {
+        this.openDialog();
+  }
+
+  //Function used to open ProjEntity popup component and save the value
+  openDialog() 
+  {
+        const dialogRef = this.dialog.open(ProjentitypopUpComponent, 
+        {
+            width: '350px',
+        });
+        dialogRef.afterClosed().subscribe(entityData => 
+        {
+            if (entityData) 
+            {
+                this.entityid = entityData.entity_id;
+                this.entity.project_id = this.project_id;
+                this.entity.name = entityData.name;
+                this.entity.description = entityData.description;
+                if (entityData !== undefined) 
+                {
+                  console.log("EntityData:",entityData);
+                  this.saveEntity(this.entity);
+                    
+                }
+            }
+        });
+  }
+
+  saveEntity(entityData:any) 
+  {
+        delete entityData._id;
+        entityData.project_id = this.project_id;
+        this.projectComponentService.createEntity(entityData, this.logId).subscribe((response) => 
+        {
+                console.log("Response:",response);
+                this.updateEntityId = response.body._id;
+                this.entitydetails = [];
+                this.entitydetails = 
+                [
+                    {
+                        'entities':
+                        {
+                            'entityId': response.body._id
+                        },
+                        'name': entityData.name,
+                        'description': entityData.description,
+                        'updated_date': Date.now()
+                    }
+                ];
+                this.getAllEntityByProjectId();
+        },
+        (error) => 
+        {
+           console.log('error cannot able to save the entities ', error);
+        });
+  }
+
   //To open add feature dialog box
   openFeatureDialog(): void 
   {
@@ -101,50 +178,50 @@ export class EntityManagerComponent implements OnInit
 
   openFeatureLibrary()
   {
-    this.isClick=true;
+    this.isClick=!this.isClick;
   }
 
-//Radio button change event for add feature
-radioChange(event:any) 
-{
-  if (event.value === 'Import Feature') 
+  //Radio button change event for add feature
+  radioChange(event:any) 
   {
+    if (event.value === 'Import Feature') 
+    {
        this.showImportFeature = true;
        this.showAddFeature = false;
        this.showUploadFeature = false;
-  }
-  if (event.value === 'Upload Feature') 
-  {
+    }
+    if (event.value === 'Upload Feature') 
+    {
        this.formData = new FormData();
        this.showImportFeature = false;
        this.showAddFeature = false;
        this.showUploadFeature = true;
-  }
-  if (event.value === 'Create Feature') 
-  {    
+    }
+    if (event.value === 'Create Feature') 
+    {    
        this.showImportFeature = false;
        this.showAddFeature = true;
        this.showUploadFeature = false;
+    }
   }
-}
 
-onFeatureChange(event:any) 
-{
-  if (event.length <= 0) 
+  onFeatureChange(event:any) 
   {
+    if (event.length <= 0) 
+    {
       this.isFeatureExist = false;
       this.isReserveWord = false;
       this.invalidName = false;
+    }
   }
-}
-onReady(eventData:any) 
-{
-  eventData.plugins.get('FileRepository').createUploadAdapter = function (loader:any) { };
-}
+  onReady(eventData:any) 
+  {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader:any) { };
+  }
   
-//to get the Project name and details
-getProjectById() 
-{
+  //to get the Project name and details
+  getProjectById() 
+  {
     this.spinner.show();
     this.projectService.getProjectById(this.project_id, this.logId).subscribe(response => 
     {
@@ -162,42 +239,42 @@ getProjectById()
             this.menuBuilder.language = this.menuLanguages[0];
         }
     });
-}
+  }
 
-//GET PROJECT FEATURE BY ID
-getFeatureByProjectId() 
-{
-  this.spinner.show();
-  this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(response => 
+  //GET PROJECT FEATURE BY ID
+  getFeatureByProjectId() 
   {
+    this.spinner.show();
+    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(response => 
+    {
         console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
         console.log("project feature data",this.projectFeatureData);
-  },
-  error => { });
-}
-//To get the All entity by project id
-getAllEntityByProjectId() 
-{
-  this.spinner.show();
-  this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe((data) => 
+    },
+    error => { });
+  }
+  //To get the All entity by project id
+  getAllEntityByProjectId() 
   {
+    this.spinner.show();
+    this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe((data) => 
+    {
           this.spinner.hide();
           console.log('all entity data', data.body);
           this.allEntity = data.body;
           this.projectEntity = this.allEntity;
           this.dataService.setAllEntity(this.allEntity);
-  },
-  (error) => {console.log('cannot able to get all entity based on projectId ---- ', error);});
-}
+    },
+    (error) => {console.log('cannot able to get all entity based on projectId ---- ', error);});
+  }
 
-getMenuBuilderByProjectId() 
-{
-  this.spinner.show();
-  this.menuFeatureName = [];
-  this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+  getMenuBuilderByProjectId() 
   {
+    this.spinner.show();
+    this.menuFeatureName = [];
+    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+    {
       this.spinner.hide();
       if (menuBuilderData.body && menuBuilderData.body.length !== 0) 
       {
@@ -321,29 +398,29 @@ getMenuBuilderByProjectId()
               }
           });
       }
-  });
-}
+    });
+  }
 
-//To get the selected project
-getSelectedProject() 
-{
-  this.spinner.show();
-  this.dataService.currentProjectInfo.subscribe((data) => 
+  //To get the selected project
+  getSelectedProject() 
   {
+    this.spinner.show();
+    this.dataService.currentProjectInfo.subscribe((data) => 
+    {
           this.spinner.hide();
           this.selectedProject = data;
-  });
-}
+    });
+  }
   
-//To close the feature model popup box
-closeFeatureCreateModel() 
-{
+  //To close the feature model popup box
+  closeFeatureCreateModel() 
+  {
         this.displayFeatureModel = 'none';
-}
+  }
 
-//To create the new feature
-createFeature() 
-{
+  //To create the new feature
+  createFeature() 
+  {
     this.featureInfo.name = this.featureInfo.name.toLowerCase();
     this.featureInfo.project = this.project_id;
     this.validatorService.checkNamingConvention(this.featureInfo.name);
