@@ -118,13 +118,28 @@ export class DependencyWorker {
     this.modifyenvoriments_prod(env, env_file_name_prod);
   }
 
+  generateNginxConfFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/${Constant.NGINX_FOLDERNAME}`;
+    const proxyArray = [{ ...Constant.proxyWeb }, { ...Constant.proxyMobile }];
+    console.log('proxyArray for nginx are --- ', proxyArray);
+    const temp = {
+      proxy: {
+        projectName: details.project.name,
+        components: proxyArray
+      }
+    }
+    componentSupportWorker.handleBarsFile(`${templatePath}/NginxConf.hbs`, temp, filePath, Constant.NGINX_CONFIG);
+    callback("NginxConf file generated")
+  }
+
   generateProxyFile(generationPath, templatePath, details, callback) {
     // shared file path
     const filePath = `${generationPath}/`;
     const temp = {
     }
     componentSupportWorker.handleBarsFile(`${templatePath}/ProxyConfig.handlebars`, temp, filePath, Constant.PROXY_CONFIG_FILENAME);
-    callback("Nginx file generated")
+    callback("ProxyConfig file generated")
   }
 
   generateDockerFile(generationPath, templatePath, details, callback) {
@@ -134,7 +149,7 @@ export class DependencyWorker {
       fileName: details.project.name
     }
     componentSupportWorker.handleBarsFile(`${templatePath}/Dockerfile.handlebars`, temp, filePath, Constant.DOCKERFILE_FILENAME);
-    callback("Nginx file generated")
+    callback("DockerFile file generated")
   }
 
   generateTranslatorModuleFile(generationPath, templatePath, details, callback) {
@@ -179,15 +194,15 @@ export class DependencyWorker {
 
   modifyenvoriments_prod(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);
-    if (environment[1].replace(/\s/g, '') == "WEB_API:'http://<YourDomainNameorLiveIPaddress>',") {
+    if (environment[1].replace(/\s/g, '') == "WEB_API:'http://'+window.location.hostname+':8000/web',") {
       console.log("Already prods envoriments is upto date")
     } else {
       const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
       let temp = '';
       temp += `${environment[serveIndex]}`;
-      temp += `\n  WEB_API: 'http://<Your Domain Name or Live IP address>',`;
-      temp += `\n  UPLOAD_API: 'http://<Your Domain Name or Live IP address>',`,
-      temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+      temp += `\n  WEB_API: 'http://'+window.location.hostname+':8000/web',`;
+      temp += `\n  UPLOAD_API: 'http://'+window.location.hostname+':3015',`;
+      temp += `\n  MOBILE_API: '/api/mobile',`;
       environment.splice(serveIndex, 1, temp);
       dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
         console.log('successfully write the prod environment file');

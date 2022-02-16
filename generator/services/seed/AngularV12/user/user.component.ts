@@ -3,6 +3,7 @@ import { AdminService } from '../admin/admin.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ButtonRendererComponent } from './button-renderer/button-renderer.component';
 // import { ImageFormatterComponent } from "./Imageformatter/ImageFormatterComponent";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
  import { UserService } from './user.service';
 import { LoginService } from '../login/login.service';
 import { SharedService } from 'src/shared/shared.service';
@@ -38,6 +39,7 @@ export class UserComponent implements OnInit {
   public Userdetails:any;
   public submit:any;
   public dataToSave:any;
+  public signupform:any;
   public Userobject = {
     'firstname': '',
     'lastname': '',
@@ -57,6 +59,14 @@ export class UserComponent implements OnInit {
   }
 
   Users() {
+    this.signupform = new FormGroup({
+      signupdata: new FormGroup({
+        firstname: new FormControl(null, [Validators.required , Validators.pattern('(?!-)[a-zA-Z-]*[a-zA-Z]$')]),
+        lastname: new FormControl(null, [Validators.required ,Validators.pattern('(?!-)[a-zA-Z-]*[a-zA-Z]$')]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-8])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')])
+      })
+    });
     this.adminservice.Getallusers().subscribe(data => {
       this.rowData = data;
       this.Userdetails = data;
@@ -150,8 +160,26 @@ export class UserComponent implements OnInit {
       'username': this.Userobject.username,
       'avatar': this.img
     }
-    this.loginservice.signup(dataToSave).subscribe(response => {
-        window.location.reload();
+    console.log(dataToSave)
+    this.submit = true;
+
+    // stop here if form is invalid
+    if (this.signupform.invalid) {
+      return;
+    }
+    const singupinfo = {
+      firstname: this.signupform.value.signupdata.firstname,
+      lastname: this.signupform.value.signupdata.lastname,
+      email: this.signupform.value.signupdata.email,
+      password: this.signupform.value.signupdata.password,
+      'role': this.Userobject.role,
+      'id': this.Userobject.id,
+      'username': this.Userobject.username,
+      'avatar': this.img
+    };
+    console.log(singupinfo)
+    this.loginservice.signup(singupinfo).subscribe(response => {
+      this.ngOnInit();
     }, error => {
       console.error('error:', error);
     });
@@ -172,11 +200,11 @@ export class UserComponent implements OnInit {
     if (confirm('Are you sure you want to delete this?')) {
       const rows = e.rowData;
       this.userService.deleteUser(rows._id).subscribe(response => {
-    }, error => {
-      console.error('error:', error);
-    });
-    location.reload();
-    }
+        this.ngOnInit();
+        }, error => {
+          console.error('error:', error);
+        });
+      }
     }
     onFileSelected(event:any) {
       this.selectedFiles = event.target.files;
