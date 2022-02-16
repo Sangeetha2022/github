@@ -185,6 +185,7 @@ export class FrontendWorker {
         `  "@types/react": "^17.0.0",`,
         `  "@types/react-dom": "^17.0.0",`,
         `  "axios": "^0.20.0",`,
+        `  "@types/react-router-dom": "^5.3.0",`,
         `  "react-router-dom": "^5.3.0",`,
         `  "react-i18next": "^7.0.0",`,
         `  "react-moment": "1.1.1",`,

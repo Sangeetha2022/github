@@ -15,14 +15,14 @@ do
          echo "Creating new docker images and containers"
          cd \$WEBCODE
          docker build -t $projectdetails.project_name$ui-$uuid$ .
-         docker run --name $projectdetails.project_name$ui-$uuid$ --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui-$uuid$
+         docker run --name $projectdetails.project_name$ui-$uuid$ --restart=unless-stopped -d -p 5055:80 $projectdetails.project_name$ui-$uuid$
          sleep 15
          echo "UI build is done..."
 
          cd \$COMPOSEPATH
          docker-compose up -d --build
          echo "uploading the mongo script..."
-         sleep 50
+         sleep 80
          docker cp mongo.js mongo-$uuid$:/data/db/
          docker exec -ti mongo-$uuid$ mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$_$uuid$ /data/db/mongo.js
          sleep 10

@@ -108,6 +108,16 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
+  
+  # sharedfeaturesmanager:
+  #   build: ../../application/services/sharedfeaturesmanager
+  #   image: sharedfeaturesmanager
+  #   container_name: sharedfeaturesmanager
+  #   ports:
+  #     - "3017:3017"
+  #   env_file: ../../.env
+  #   depends_on:
+  #     - mongo
 
   securitymanager:
     build: ../../application/services/securitymanager

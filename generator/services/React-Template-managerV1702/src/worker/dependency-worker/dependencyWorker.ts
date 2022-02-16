@@ -184,8 +184,8 @@ export class DependencyWorker {
       const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
       let temp = '';
       temp += `${environment[serveIndex]}`;
-      temp += `\n  WEB_API: 'http://<Your Domain Name or Live IP address>',`;
-      temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+      temp += `\n  WEB_API: 'http://'+window.location.hostname+':8000/web',`;
+      temp += `\n  MOBILE_API: '/api/mobile',`;
       environment.splice(serveIndex, 1, temp);
       dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
         console.log('successfully write the prod environment file');

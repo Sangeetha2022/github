@@ -24,7 +24,6 @@ services:
         fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
-    
   vault:
     image: vault
     container_name: vault-$uuid$
@@ -123,7 +122,7 @@ services:
         fluentd-address: 0.0.0.0:24224
         fluentd-async-connect: "true"
         tag: fluent
-  
+
   gepfilemanager:
     build: ../../../application/services/default_services/gepfilemanager
     image: gepfilemanager-$uuid$

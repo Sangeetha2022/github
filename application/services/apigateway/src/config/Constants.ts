@@ -23,6 +23,7 @@ export class Constants {
     public static externalfeature: String;
     public static gepFileUrl: String;
     public static modifierUrl: String;
+    public static SharedFeaturesUrl: String;
 
 
     //generator - declaration
@@ -79,7 +80,8 @@ export class Constants {
                 Constants.sharedUrl = Constants.appUrl + ":3050";
                 Constants.externalfeature = Constants.appUrl + ":3016";
                 Constants.gepFileUrl = process.env.gepfilemanager + ":3015";
-                Constants.modifierUrl = process.env.modifiermanager + ":3030"
+                Constants.modifierUrl = process.env.modifiermanager + ":3030";
+                Constants.SharedFeaturesUrl = process.env.sharedfeaturesmanager + ":3017";
 
                 //generator
                 Constants.projectGenUrl = process.env.generationmanager + ":5000";
@@ -128,7 +130,8 @@ export class Constants {
                 Constants.cloneUrl = Constants.appUrl + ":3051";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
                 Constants.externalfeature = Constants.appUrl + ":3016";
-                Constants.modifierUrl = Constants.appUrl + "3030"
+                Constants.modifierUrl = Constants.appUrl + ":3030";
+                Constants.SharedFeaturesUrl = Constants.appUrl + ":3017";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";

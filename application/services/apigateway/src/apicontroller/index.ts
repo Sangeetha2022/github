@@ -19,11 +19,10 @@ export * from './clone.Controller';
 export * from './externalfeature.controller';
 export * from './gepfilemanager.controller';
 export * from './modifiermanager.controller';
-
+export * from './sharedfeatures.controller';
 
 
 // generator
-
 export * from './generator/generation.controller';
 export * from './generator/code.controller';
 export * from './generator/backend.controller';

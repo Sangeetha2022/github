@@ -26,6 +26,7 @@ export class Constant {
   public static SHARED_FILENAME: String = 'shared.service.ts';
   public static PROXY_CONFIG_FILENAME: String = 'proxy.conf.ts';
   public static NGINX_FILENAME: String = 'default.conf';
+  public static NGINX_CONFIG: String = 'nginx.config'
   public static DOCKERFILE_FILENAME: String = 'Dockerfile';
   public static DEFAULT_CONF_FILENAME: String = 'default.conf';
   public static ANGULAR_JSON_FILENAME: String = 'angular.json';
