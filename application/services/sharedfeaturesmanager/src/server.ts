@@ -22,7 +22,7 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
-        this.mongoSeedData();
+        // this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -34,7 +34,7 @@ class App {
 
     private mongoSetup(): void {
         // mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
             .then(res => { console.log('mongodb connected') })
             .catch(err => { console.log('mongo error in connection:', err) });
     }
