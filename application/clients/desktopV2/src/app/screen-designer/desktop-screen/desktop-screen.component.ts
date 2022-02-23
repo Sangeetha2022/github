@@ -59,6 +59,8 @@ export class DesktopScreenComponent implements OnInit
   isLifeCycleRow: boolean=false;
   isCustomPopup:boolean = false;
   public componentLifeCycle: any[] = [];
+  public images: any = [];
+  public uploadUrl: any;
   entityFields: any = 
   {
     entityfieldname: '',
@@ -384,7 +386,23 @@ export class DesktopScreenComponent implements OnInit
         },
         assetManager:
         {
+          // assets: [ ],
           assets: [ ],
+          // uploadText: 'Drop files here or click to upload',
+          //upload: ,
+          uploadFile: async(e:any) => {
+            var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+              const formData: FormData = new FormData();
+              formData.append('fileKey', files, files.name);
+              let result = await fetch('http://localhost:3015/uploads3', {
+                method: 'POST',
+                body: formData
+              });
+              const response = await result.json();
+              console.log(response);
+              console.log(response.data);
+              this.images = response.data;
+  	      }
         },
         canvas: 
         {
@@ -435,6 +453,18 @@ export class DesktopScreenComponent implements OnInit
       {
         component.setId(component.getId());
       });
+
+      this.editor.AssetManager.add({
+        src: `${this.images}`,
+        height: 300,
+        width: 200,
+      });
+      this.editor.on('asset:upload:response', (response: any) => {
+        var result = JSON.parse(response);
+        this.editor.AssetManager.add(result.data);
+        console.log('desktop screen images upload', result);
+      });
+      
       this.getScreenById();
       this.getScreenByProjectId();
       this.getFeatureById();

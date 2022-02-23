@@ -42,4 +42,14 @@ export class AttachmentController {
 
         })
     }
+
+    public uploadS3(req: Request, res: Response) {
+        new CustomLogger().showLogger('info', 'Enter into attachmentController.ts: uploadS3');
+        attachmentService.UploadS3(req, (response) => {
+            res.status(201);
+            console.log(response);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from attachmentController.ts: uploadS3');
+        })
+    }
 }
