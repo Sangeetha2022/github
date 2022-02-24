@@ -3,7 +3,7 @@ var vault = require("node-vault")({ apiVersion: 'v1', endpoint: process.env.vaul
 
 export class CredentialConfig {
     credentialsConfig(callback) {
-        vault.read('kv/kubernetes/sourcecode/github').then((result) => {
+        vault.read('private/privateGit/credentials/githubactions').then((result) => {
             callback(result.data);
         })
     }

@@ -387,21 +387,23 @@ export class DesktopScreenComponent implements OnInit
         assetManager:
         {
           // assets: [ ],
-          assets: [ ],
+          assets: [ this.images ],
           // uploadText: 'Drop files here or click to upload',
-          //upload: ,
+          upload: '',
           uploadFile: async(e:any) => {
             var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
               const formData: FormData = new FormData();
               formData.append('fileKey', files, files.name);
-              let result = await fetch('http://localhost:3015/uploads3', {
+
+              let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, {
                 method: 'POST',
+                headers: {...formData.get},
                 body: formData
               });
               const response = await result.json();
               console.log(response);
-              console.log(response.data);
-              this.images = response.data;
+              let json = { type: 'image', src: `${response.data}`, width: 300, height: 200 }
+              this.editor.AssetManager.add(json);
   	      }
         },
         canvas: 
@@ -454,17 +456,6 @@ export class DesktopScreenComponent implements OnInit
         component.setId(component.getId());
       });
 
-      this.editor.AssetManager.add({
-        src: `${this.images}`,
-        height: 300,
-        width: 200,
-      });
-      this.editor.on('asset:upload:response', (response: any) => {
-        var result = JSON.parse(response);
-        this.editor.AssetManager.add(result.data);
-        console.log('desktop screen images upload', result);
-      });
-      
       this.getScreenById();
       this.getScreenByProjectId();
       this.getFeatureById();
