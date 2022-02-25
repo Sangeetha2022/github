@@ -108,4 +108,32 @@ export class AttachmentService {
         });
     }
 
+    public UploadS3(req, callback) {
+        new CustomLogger().showLogger('info', 'Enter into attachmentService.ts: uploads3services');
+        let busboy = new Busboy({ headers: req.headers });
+        const id = uuid();
+        let fileKey, s3URL, fileName, mimeType, enCoding;
+        let size = 0;
+        // busboy.on('file', (fieldname, file, filename, encoding, mimetype, size) => {
+        //     console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype, + ', size' + size);
+        //     fileName = filename;
+        //     mimeType = mimetype;
+        //     enCoding = encoding;
+        //     console.log(file);
+        //     file.on('data', async(data) => {
+        //         fileKey = "grapesjsimages/" + fileName;
+        //         s3URL = "" + fileKey;
+        //         let temp = await attachmentToS3Dao.grapejsUploadS3(data, fileKey, mimeType, enCoding);
+        //         callback(temp);
+        //     });
+        // });
+        busboy.on('finish', async() => {
+            let result = req.files.fileKey;
+            let image = result.data;
+            fileKey = "grapesjsimages/" + result.name;
+            let temp = await attachmentToS3Dao.grapejsUploadS3(image, fileKey, result.mimeType, result.enCoding);
+            callback(temp);
+        })
+        req.pipe(busboy);
+    }
 }

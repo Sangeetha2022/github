@@ -10,7 +10,7 @@
         "baseUrl": "./lib"
     },
     "include": [
-        "src/**/*.ts", "src/models/NodeModels.ts",
+        "src/**/*.ts", "src/models/NodeModels.ts", "src/commandservices/commands.ts",
     ],
     "exclude": [
         "node_modules"

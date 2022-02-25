@@ -5,6 +5,8 @@ import * as bodyParser from 'body-parser';
 import { Routes } from './routes/routes';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
+const busboy = require('connect-busboy');
+const busboyBodyParser = require('busboy-body-parser');
 import { WinstonLogger } from './config/WinstonLogger';
 
 const PORT = 3015;
@@ -26,6 +28,8 @@ class App {
     }
 
     private initializeMiddlewares() {
+        this.app.use(busboy());
+        this.app.use(busboyBodyParser());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         //this.app.use(cors({ credentials: true, origin: true }))
