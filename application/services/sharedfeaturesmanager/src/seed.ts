@@ -22,6 +22,7 @@ export class FeedSeedData {
                 let featuresData = JSON.parse(data);
                 featuresconfig.findOneAndUpdate({ feature_name: featuresData['feature_name'] },
                     featuresData, { new: true }, (err, data) => {
+                        console.log('seed data', data)
                         if(data === null){
                             new CustomLogger().showLogger('info', `New feature add ${featuresData['feature_name']}`)
                             let featuresSave = new featuresconfig(featuresData);

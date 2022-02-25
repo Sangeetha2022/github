@@ -206,6 +206,7 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
+      - vault
 
   deletemanager:
     build: ../../application/services/deletetmanager

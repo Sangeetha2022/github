@@ -5,7 +5,9 @@ import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
   production: false,
   Port: ":3000",
+  uploadPort: ":3015",
   BaseHost: 'http://' + window.location.hostname,
+  UploadHost: 'http://' + window.location.hostname,
   logging:{
     level: NgxLoggerLevel.TRACE,
    serverLogLevel: NgxLoggerLevel.ERROR,

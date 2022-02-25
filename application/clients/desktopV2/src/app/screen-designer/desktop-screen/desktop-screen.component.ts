@@ -59,6 +59,8 @@ export class DesktopScreenComponent implements OnInit
   isLifeCycleRow: boolean=false;
   isCustomPopup:boolean = false;
   public componentLifeCycle: any[] = [];
+  public images: any = [];
+  public uploadUrl: any;
   entityFields: any = 
   {
     entityfieldname: '',
@@ -384,7 +386,25 @@ export class DesktopScreenComponent implements OnInit
         },
         assetManager:
         {
-          assets: [ ],
+          // assets: [ ],
+          assets: [ this.images ],
+          // uploadText: 'Drop files here or click to upload',
+          upload: '',
+          uploadFile: async(e:any) => {
+            var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+              const formData: FormData = new FormData();
+              formData.append('fileKey', files, files.name);
+
+              let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, {
+                method: 'POST',
+                headers: {...formData.get},
+                body: formData
+              });
+              const response = await result.json();
+              console.log(response);
+              let json = { type: 'image', src: `${response.data}`, width: 300, height: 200 }
+              this.editor.AssetManager.add(json);
+  	      }
         },
         canvas: 
         {
@@ -435,6 +455,7 @@ export class DesktopScreenComponent implements OnInit
       {
         component.setId(component.getId());
       });
+
       this.getScreenById();
       this.getScreenByProjectId();
       this.getFeatureById();
