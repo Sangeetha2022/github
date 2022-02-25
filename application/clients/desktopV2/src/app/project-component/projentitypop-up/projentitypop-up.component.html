@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p id="entity_heading">Add Entity</p>
+        </div>
+    </div>
+
+    <!-- To create new entity -->
+    <div class="row p-4">
+        <div class="col-lg-12">
+            <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="modelObject.name">
+        </div>
+        <div class="col-lg-12 mt-2">
+            <label>Description</label>
+            <input type="text" class="form-control" [(ngModel)]="modelObject.description">
+        </div>
+        <div class="col-lg-12 mt-2">
+            <div class="d-flex justify-content-center">
+                <div class="p-2 mt-4">
+                    <button class="btn btn-danger" (click)="onNoClick()">Close</button>
+                </div>
+                <div class="p-2 mt-4">
+                    <button id="create_btn" type="button" [mat-dialog-close]="modelObject" class="btn btn-info">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
