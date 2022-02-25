@@ -733,7 +733,7 @@ export class TraitsService
     let selectedEntityName = '';
     let selectedEntity;
     const gridOptionsInString:any = JSON.stringify(screensVariable.agGridObject);
-    const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
+    console.log("GridOptions:",gridOptionsInString);
     comps.addType(buttonName, 
     {
       model: defaultModel.extend
@@ -744,7 +744,6 @@ export class TraitsService
           droppable: false,
           'bootStrapTableCheckBox': true,
           gridOptions: gridOptionsInString,
-          secGrid: secGridString,
           script: function () 
           {
             const gridOptions = JSON.parse('{[ gridOptions ]}');
@@ -752,29 +751,10 @@ export class TraitsService
             {
               let columnDefs:any = [];
               let rowData:any = [];
-              if (gridOptions && gridOptions.custom_field && gridOptions.custom_field.length > 0) 
+              if (gridOptions.custom_field.length > 0) 
               {
-                  columnDefs = [];
-                  gridOptions.custom_field.forEach((element:any) => 
-                  {
-                    for (let i = 0; i < 10; i++) 
-                    {
-                      const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
-                      Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
-                      rowData.push(newObject);
-                    }
-                    const temp = 
-                    {
-                        headerName: '',
-                        field: '',
-                        sortable: true,
-                        colId: ''
-                    };
-                    temp.headerName = element.columnname;
-                    temp.field = element.columnname;
-                    temp.colId = element.columnid;
-                    columnDefs.push(temp);
-                  });
+                  columnDefs = gridOptions.default_field;
+                  console.log("Default_field ColumnDefs:",columnDefs);
               } 
               else 
               {
@@ -816,7 +796,7 @@ export class TraitsService
               function createRowData() 
               {
                 const tempData = [];
-                for (let i = 0; i < 10; i++) 
+                for (let i = 0; i < 5; i++) 
                 {
                   // create sample row item
                   const rowItem = 

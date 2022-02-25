@@ -3,11 +3,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Injectable()
-export class SharedService {
-
+export class SharedService 
+{
     // base host
     public static BaseHost = environment.BaseHost;
-
     private envPort = environment.Port;
 
     // App Service
@@ -15,11 +14,12 @@ export class SharedService {
    //public Apigateway: String = "https://dev-v2api.geppettosoftware.com";
 
     message:string='';
-    setMessage(data:any){
-this.message=data;
+    setMessage(data:any)
+    {
+       this.message=data;
     }
-    getMessage(){
+    getMessage()
+    {
         return this.message;
     }
-
 }

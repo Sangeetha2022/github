@@ -146,7 +146,37 @@ export class DesktopScreenComponent implements OnInit
     componentId: '',
     entityId: '',
     custom_field: [],
-    default_field: [],
+    default_field:
+    [{
+      headerName: 'A',
+      field: 'a',
+      sortable: true,
+      colId: 'col1_id',
+    },
+    {
+      headerName: 'B',
+      field: 'b',
+      sortable: true,
+      colId: 'col2_id',
+    },
+    {
+      headerName: 'C',
+      field: 'c',
+      sortable: true,
+      colId: 'col3_id',
+    },
+    {
+      headerName: 'D',
+      field: 'd',
+      sortable: true,
+      colId: 'col4_id',
+    },
+    {
+      headerName: 'E',
+      field: 'e',
+      sortable: true,
+      colId: 'col5_id',
+    }],
     event: ''
   };
   agGridArray: any[] = [];
@@ -435,6 +465,7 @@ export class DesktopScreenComponent implements OnInit
       {
         component.setId(component.getId());
       });
+            
       this.getScreenById();
       this.getScreenByProjectId();
       this.getFeatureById();
@@ -1187,6 +1218,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.screenName = this.existScreenDetail[0]['screenName'];
                 this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
+                console.log("AgGridObject:",this.agGridObject);
                 this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                 this.screenFlows = this.existScreenDetail[0]['flows_info'];
                 this.routeFlows = this.existScreenDetail[0]['route_info'];
@@ -1194,16 +1226,16 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                 this.linkArray = this.existScreenDetail[0]['link_info'];
                 this.addGridBlocks();
-                // change colname array
-                if (this.agGridObject && this.agGridObject.custom_field.length > 0)
+                //change colname array
+                if (this.agGridObject.custom_field.length > 0)
                 {
-                  this.columnOptions = [];
                   this.agGridObject.custom_field.forEach((customField:any) => 
                   {
                     const temp = { value: '', name: '' };
                     temp.value = customField.columnid;
                     temp.name = customField.columnname;
                     this.columnOptions.push(temp);
+                    console.log("Custom ColumnOptions:",this.columnOptions);
                   });
                   console.log(' gjs component------------ value -------', this.agGridObject);
                 }
@@ -1247,7 +1279,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.saveRemoteStorage();
         this.getScreenById();
         this.closeScreeName();
-        console.log("SHOW");
         this.spinner.show();
         this.editor.store((data:any) => 
         {
@@ -1255,7 +1286,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           this.screen_id = data.body._id;
           this.scr=data.body.screenName;
           console.log("ScreenName:",this.scr);
-          console.log("HIDE");
           this.spinner.hide();
           this.getScreenById();
         });
