@@ -349,15 +349,16 @@ export class CustomTraitsService
                         sortable: true,
                         colId: agGridObject.columnid,
                     });
-                    console.log("columnDefs.push", columnDefs)
+                    console.log("columnDefs.push", columnDefs);
                     screen_designer.agGridObject.default_field=columnDefs;
                     screen_designer.agGridObject.custom_field.push(agGridObject);
+                    console.log("Custom_field:",screen_designer.agGridObject.custom_field);
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
                     screen_designer.columnOptions=columnOptions;
                     console.log("Screen_designer.columnOptions:",screen_designer.columnOptions);
-                    screen_designer.newColumnOptions.forEach((columnElement:any) =>
+                    screen_designer.columnOptions.forEach((columnElement:any) =>
                     {
                                               columnDefs.forEach((columnEl:any)=>
                                               {

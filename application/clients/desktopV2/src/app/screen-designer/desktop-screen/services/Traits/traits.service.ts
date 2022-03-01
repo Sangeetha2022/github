@@ -755,6 +755,7 @@ export class TraitsService
               {
                   columnDefs = gridOptions.default_field;
                   console.log("Default_field ColumnDefs:",columnDefs);
+                  rowData=createRowData();
               } 
               else 
               {
@@ -949,15 +950,15 @@ export class TraitsService
           console.log("Selected Column:",selectedColumns);
           selectedColumns.headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
-          screensVariable.newColumnDefs.forEach((columnEl:any)=>
+          screensVariable.agGridObject.default_field.forEach((columnEl:any)=>
                                  {
                                     if(columnEl.colId===screensVariable.selectedColumnId)
                                     {
                                        columnEl.headerName=enteredColName;
                                     }   
                                  });
-          console.log("ColumnDefs after:",screensVariable.newColumnDefs);                  
-          screensVariable.newColumnOptions.forEach((columnElement:any) =>
+          console.log("ColumnDefs after:",screensVariable.agGridObject.default_field);                  
+          screensVariable.columnOptions.forEach((columnElement:any) =>
                                            {
                                               if (columnElement.value === screensVariable.selectedColumnId)
                                               {
@@ -965,7 +966,7 @@ export class TraitsService
                                               }
                                            });
 
-          console.log("gjsthis.columnOptions:",screensVariable.newColumnOptions);
+          console.log("gjsthis.columnOptions:",screensVariable.columnOptions);
           const component = screensVariable.editor.getSelected();
           component.removeTrait('columns');
           component.addTrait
@@ -974,7 +975,7 @@ export class TraitsService
             label: 'columns',
             name: 'columns',
             changeProp: 1,
-            options: screensVariable.newColumnOptions,
+            options: screensVariable.columnOptions,
           }, { at: 1 });
           screensVariable.selectedColumnId='';
         },

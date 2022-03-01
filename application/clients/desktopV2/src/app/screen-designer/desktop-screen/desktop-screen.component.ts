@@ -179,6 +179,14 @@ export class DesktopScreenComponent implements OnInit
       sortable: true,
       colId: 'col5_id',
     }],
+    rowData:
+    {      
+      a: 'aa' + Math.floor(Math.random() * 10000),
+      b: 'bb' + Math.floor(Math.random() * 10000),
+      c: 'cc' + Math.floor(Math.random() * 10000),
+      d: 'dd' + Math.floor(Math.random() * 10000),
+      e: 'ee' + Math.floor(Math.random() * 10000)
+    },
     event: ''
   };
   agGridArray: any[] = [];
@@ -416,25 +424,24 @@ export class DesktopScreenComponent implements OnInit
         },
         assetManager:
         {
-          // assets: [ ],
-          assets: [ this.images ],
-          // uploadText: 'Drop files here or click to upload',
+          embedAsBase64: true,
           upload: '',
-          uploadFile: async(e:any) => {
-            var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-              const formData: FormData = new FormData();
-              formData.append('fileKey', files, files.name);
-
-              let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, {
-                method: 'POST',
-                headers: {...formData.get},
-                body: formData
-              });
-              const response = await result.json();
-              console.log(response);
-              let json = { type: 'image', src: `${response.data}`, width: 300, height: 200 }
-              this.editor.AssetManager.add(json);
-  	      }
+          // uploadFile: async(e:any) => 
+          // {
+          //     var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+          //     const formData: FormData = new FormData();
+          //     formData.append('fileKey', files, files.name);
+          //     let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, 
+          //     {
+          //       method: 'POST',
+          //       headers: {...formData.get},
+          //       body: formData
+          //     });
+          //     const response = await result.json();
+          //     console.log(response);
+          //     let json = { type: 'image', src: `${response.data}`, width: 300, height: 200 }
+          //     this.editor.AssetManager.add(json);
+  	      // }
         },
         canvas: 
         {
@@ -1160,7 +1167,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           is_grid_present: this.is_grid_present,
           is_bootStrapTable_present: this.is_bootStrapTable_present,
           screenOption: this.screenOption,
-          specific_attribute_Event: this.specific_attribute_Event
+          specific_attribute_Event: this.specific_attribute_Event,
+          columnOptions:this.columnOptions
         });
       }
   }
@@ -1238,6 +1246,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                 console.log("AgGridObject:",this.agGridObject);
+                
+                console.log("Saved ColumnOptions:",this.columnOptions);
                 this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                 this.screenFlows = this.existScreenDetail[0]['flows_info'];
                 this.routeFlows = this.existScreenDetail[0]['route_info'];
@@ -1248,11 +1258,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 //change colname array
                 if (this.agGridObject.custom_field.length > 0)
                 {
-                  this.agGridObject.custom_field.forEach((customField:any) => 
+                  this.columnOptions=[];
+                  this.agGridObject.default_field.forEach((customField:any) => 
                   {
                     const temp = { value: '', name: '' };
-                    temp.value = customField.columnid;
-                    temp.name = customField.columnname;
+                    temp.value = customField.colId;
+                    temp.name = customField.headerName;
                     this.columnOptions.push(temp);
                     console.log("Custom ColumnOptions:",this.columnOptions);
                   });
