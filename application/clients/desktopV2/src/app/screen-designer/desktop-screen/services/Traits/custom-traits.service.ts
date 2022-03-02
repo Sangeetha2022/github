@@ -404,7 +404,7 @@ export class CustomTraitsService
                 button.onclick=()=>
                 {
                     const component = screen_designer.editor.getSelected();
-                    const columnDefs = screen_designer.newColumnDefs;
+                    const columnDefs = screen_designer.agGridObject.default_field;
                     if(screen_designer.selectedColumnId==='')
                     {
                         alert("Select a column to remove!");
@@ -421,16 +421,15 @@ export class CustomTraitsService
                         });
                         this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                         this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                        console.log("ColumnDefs after Delete:",screen_designer.newColumnDefs);
-                        screen_designer.newColumnOptions.forEach((element: { value: any; },index: any)=>
+                        console.log("ColumnDefs after Delete:",screen_designer.agGridObject.default_field);
+                        screen_designer.columnOptions.forEach((element: { value: any; },index: any)=>
                         {
                                 if(element.value===screen_designer.selectedColumnId)
                                 {
-                                    screen_designer.newColumnOptions.splice(index,1);
+                                    screen_designer.columnOptions.splice(index,1);
                                 }
                         });
-                        console.log("screen_designer.columnOptions:",screen_designer.newColumnOptions);
-                        screen_designer.agGridObject.default_field.pop();
+                        console.log("screen_designer.columnOptions:",screen_designer.columnOptions);
                         screen_designer.agGridObject.custom_field.pop();
                         screen_designer.saveRemoteStorage();
                         component.removeTrait('columns');
@@ -440,7 +439,7 @@ export class CustomTraitsService
                                 label: 'Columns',
                                 name: 'columns',
                                 changeProp: 1,
-                                options: screen_designer.newColumnOptions,
+                                options: screen_designer.columnOptions,
                         }, { at: 1 });    
                         screen_designer.selectedColumnId='';
                     }               

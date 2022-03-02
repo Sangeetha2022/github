@@ -732,6 +732,8 @@ export class TraitsService
     const defaultModel = defaultType.model;
     let selectedEntityName = '';
     let selectedEntity;
+    const columnOpts=screensVariable.columnOptions;
+    console.log("ColumnOpts:",columnOpts);
     const gridOptionsInString:any = JSON.stringify(screensVariable.agGridObject);
     console.log("GridOptions:",gridOptionsInString);
     comps.addType(buttonName, 

@@ -200,11 +200,6 @@ export class DesktopScreenComponent implements OnInit
     { value: 'col5_id', name: 'E' }
   ];
   public selectedColumnId = '';
-  public newColumnOptions=[{value:'col1_id',name:'A'},{value:'col2_id',name:'B'},{value:'col3_id',name:'C'},
-                           {value:'col4_id',name:'D'},{value:'col5_id',name:'E'}];
-  public newColumnDefs=[{headerName:'A',field:'a',colId:'col1_id'},{headerName:'B',field:'b',colId:'col2_id'},
-                        {headerName:'C',field:'c',colId:'col3_id'},{headerName:'D',field:'d',colId:'col4_id'},
-                        {headerName:'E',field:'e',colId:'col5_id'}];
   public routeDetails: any = 
   {
     screen: '',
@@ -1246,15 +1241,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                 console.log("AgGridObject:",this.agGridObject);
-                
-                console.log("Saved ColumnOptions:",this.columnOptions);
-                this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
-                this.screenFlows = this.existScreenDetail[0]['flows_info'];
-                this.routeFlows = this.existScreenDetail[0]['route_info'];
-                this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
-                this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
-                this.linkArray = this.existScreenDetail[0]['link_info'];
-                this.addGridBlocks();
                 //change colname array
                 if (this.agGridObject.custom_field.length > 0)
                 {
@@ -1269,6 +1255,15 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                   });
                   console.log(' gjs component------------ value -------', this.agGridObject);
                 }
+                console.log("Saved ColumnOptions:",this.columnOptions);
+                this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
+                this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                this.routeFlows = this.existScreenDetail[0]['route_info'];
+                this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
+                this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
+                this.linkArray = this.existScreenDetail[0]['link_info'];
+                this.addGridBlocks();
+                
                 this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                 this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
                 console.log('------get grapesjs css-------', this.editor.getStyle());
