@@ -753,7 +753,7 @@ export class TraitsService
             {
               let columnDefs:any = [];
               let rowData:any = [];
-              if (gridOptions.custom_field.length > 0) 
+              if (gridOptions || gridOptions.custom_field.length > 0) 
               {
                   columnDefs = gridOptions.default_field;
                   console.log("Default_field ColumnDefs:",columnDefs);

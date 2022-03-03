@@ -327,7 +327,7 @@ export class CustomTraitsService
                 button.onclick=()=>
                 {
                     const component = screen_designer.editor.getSelected();
-                    console.log("component",component);                    
+                    console.log("component",component);                                   
                     const agGridObject = 
                     {
                         columnid: '',
@@ -335,13 +335,15 @@ export class CustomTraitsService
                         entity: '',
                         entityfield: ''
                     };
-                    const count = screen_designer.agGridObject.default_field.length+1;
-                    console.log("count",count);
-                    const columnDefs = screen_designer.agGridObject.default_field;
-                    const columnOptions=screen_designer.columnOptions;
-                    console.log("columnDefs",columnDefs);
+                    let count = screen_designer.agGridObject.default_field.length+1;
+                    console.log("count",count);   
+                    const columnDefs = screen_designer.agGridObject.default_field;                 
+                    const columnOptions=screen_designer.columnOptions; 
+                    console.log("columnDefs",columnDefs);                   
                     agGridObject.columnid = `col${count}_id`;
                     agGridObject.columnname = `column_${count}`;
+                    console.log("ColumnName:",agGridObject.columnname);
+                    console.log("ColumnId:",agGridObject.columnid);
                     columnDefs.push
                     ({
                         headerName: agGridObject.columnname,
@@ -419,6 +421,16 @@ export class CustomTraitsService
                                 columnDefs.splice(index,1);
                             }
                         });
+                        if(screen_designer.custom_field)
+                        {
+                            screen_designer.custom_field.forEach((element: { colId: any; },index: any)=>
+                            {
+                              if(element.colId===screen_designer.selectedColumnId)
+                              {
+                                columnDefs.splice(index,1);
+                              }
+                            });
+                        }    
                         this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                         this.target.view.el.gridOptions.api.sizeColumnsToFit();
                         console.log("ColumnDefs after Delete:",screen_designer.agGridObject.default_field);
@@ -430,7 +442,7 @@ export class CustomTraitsService
                                 }
                         });
                         console.log("screen_designer.columnOptions:",screen_designer.columnOptions);
-                        screen_designer.agGridObject.custom_field.pop();
+                        
                         screen_designer.saveRemoteStorage();
                         component.removeTrait('columns');
                         component.addTrait

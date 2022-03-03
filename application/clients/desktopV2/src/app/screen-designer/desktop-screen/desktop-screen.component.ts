@@ -1242,7 +1242,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                 console.log("AgGridObject:",this.agGridObject);
                 //change colname array
-                if (this.agGridObject.custom_field.length > 0)
+                if (this.agGridObject.default_field)
                 {
                   this.columnOptions=[];
                   this.agGridObject.default_field.forEach((customField:any) => 
