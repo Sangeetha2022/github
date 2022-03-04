@@ -7,7 +7,8 @@ import { LoginService } from '../login/login.service';
 import { LoggingService } from '../config/logging.service';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
 import { SharedService } from 'src/shared/shared.service';
-
+import { AboutComponent } from '../about/about.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class HeaderComponent implements OnInit {
   public usrlang=navigator.languages;
   public BrowserLang:any;
   public Global_Languages:any;
+  project_id:string='';
   hideElement:boolean=false;
   backButtonElement:boolean=false;
   permission: boolean=false;
@@ -30,13 +32,16 @@ export class HeaderComponent implements OnInit {
   public user: any = {
     id: ''
   };
+   
   constructor(public translate:TranslateService,
     public router:Router,
     private configurationService: ConfigManagerService,
     private logoutservice: LoginService,
     private location: Location,
     public shared:SharedService,
-    private logger:LoggingService) { 
+    private logger:LoggingService,
+    private dialog: MatDialog) 
+    { 
     
       this.Global_Languages=global_lang_json;
     var arr = [];
@@ -119,28 +124,17 @@ export class HeaderComponent implements OnInit {
 
 //To open the About popup and get build and version details
 showAbout() {
- document.getElementById('model1')!.style.display = 'block';
- this.configurationService.getVersion('version', this.logId).subscribe(data => {
-  this.versionData = data.body;
-},
-  error => {
-    this.logger.log('error',error);
-  });
-this.configurationService.getBuildVersion('build_version', this.logId).subscribe(data => {
-  this.buildVersionData = data.body;
-},
-  error => {
-    this.logger.log('error',error);
-  });
+ this.openDialog();
+}
 
-this.configurationService.getBuildVersion('build_date', this.logId).subscribe(data => {
-  console.log("build_date",data);
-  
-  this.buildVersionDate = data.body;
-},
-  error => {
-    this.logger.log('error',error);
+openDialog()
+{
+  const dialogRef = this.dialog.open(AboutComponent,
+    {
+      height:'350px',
+      width:'500px',
   });
+    
 }
 
 //To Hide the About popup

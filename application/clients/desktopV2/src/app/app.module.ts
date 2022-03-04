@@ -40,6 +40,7 @@ import {MenuBuilderComponent} from './menu-builder/menu-builder.component';
 import {TreeDragComponent} from './menu-builder/tree-drag/tree-drag.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {TemplateManagerComponent} from './template-manager/template-manager.component';
+import { AboutModule } from './about/about.module';
 export class MyMissingTranslationHandler implements MissingTranslationHandler 
 {
   handle(params: MissingTranslationHandlerParams) 
@@ -72,6 +73,7 @@ export function httpLoaderfactory(http:HttpClient)
     ConnectorManagerModule,
     AgGridModule.withComponents([]),
     HeaderModule,
+    AboutModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

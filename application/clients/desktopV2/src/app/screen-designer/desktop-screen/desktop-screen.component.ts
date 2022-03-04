@@ -356,7 +356,7 @@ export class DesktopScreenComponent implements OnInit
         exportWrapper: 1,
         allowScripts: 1,
         plugins: plugins,
-        pluginsOpts: 
+        pluginsOpts:
         {
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},

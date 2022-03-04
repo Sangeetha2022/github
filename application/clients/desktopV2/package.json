@@ -56,6 +56,7 @@
         "rxjs": "~6.6.0",
         "rxjs-compat": "^6.6.7",
         "sass": "^1.39.0",
+        "styled-components": "^5.3.3",
         "toastr": "^2.1.4",
         "tslib": "^2.2.0",
         "zone.js": "~0.11.4"
@@ -66,7 +67,7 @@
         "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
         "@types/jasmine": "~3.8.0",
         "@types/nanoid-dictionary": "^4.2.0",
-        "@types/node": "^12.11.1",
+        "@types/node": "^12.20.46",
         "jasmine-core": "~3.8.0",
         "karma": "~6.3.0",
         "karma-chrome-launcher": "~3.1.0",

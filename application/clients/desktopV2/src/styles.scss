@@ -9,14 +9,50 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+// @import "assets/scss/_variables.scss";
+// @import "assets/scss/_mixins.scss";
+// @import "assets/scss/_geppetto.scss";
+
+// for toaster
+.toast-success {
+    background-color: #51a351!important
+  }
+  
+  .toast-error {
+    background-color: #bd362f
+  }
+  
+  .toast-info {
+    background-color: #2f96b4
+  }
+  
+  .toast-warning {
+    background-color: #f89406
+  }
+ //-- 
+
 .ag-cell-edit-input {
     width: 100%;
     height: 100% !important;
 }
 
+.ck-editor__editable {
+  min-height: 500px !important;
+}
+
 .ag-cell {
     overflow: visible !important;
 }
+
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    margin-bottom:0px;
+    overflow-x: hidden;
+    padding-bottom: auto;
+  }
 
 @media (min-width: 1350px) {
     html {
@@ -44,3 +80,8 @@
 }
 
 @media (max-width: 768px) {}
+.mat-dialog-container{
+  // border-radius: 34px !important;
+  text-align: center !important;
+}
+
