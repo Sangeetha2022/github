@@ -390,6 +390,7 @@ export class DesktopScreenComponent implements OnInit
         clearStyles: 1,
         exportWrapper: 1,
         allowScripts: 1,
+        dragMode: 'translate',
         plugins: plugins,
         pluginsOpts: 
         {
