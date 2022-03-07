@@ -570,6 +570,7 @@ export class DesktopScreenComponent implements OnInit
      this.commandService.updateComponentName(this);
      this.commandService.updateTraits(this);
      this.commandService.dragAndDrop(this);
+     //this.commandService.disableComponent(this);
   }
   onGridReady(params:any) 
   {
@@ -1179,6 +1180,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   closeWarn() 
   {
       const model = document.getElementById('warnModal');
+      model!.style.display = 'none';
+  }
+
+  closeGrid()
+  {
+      const model = document.getElementById('gridModal');
       model!.style.display = 'none';
   }
 
