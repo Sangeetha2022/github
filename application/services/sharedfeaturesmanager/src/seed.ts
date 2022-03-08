@@ -32,42 +32,5 @@ export class FeedSeedData {
                 );
             });
         });
-
-        // this.listFolder.forEach(data => {
-        //     let folder = path.resolve(__dirname, `${testFolder}/${data}/gepfeatureconfig.json`);
-        //     console.log('listdata', folder);
-        //     fs.readFile(folder, 'utf-8',(err, data) => { 
-        //         console.log("Read JSON file: " + data);
-        //         console.log(JSON.stringify(JSON.parse(data)));
-        //         let fun = JSON.parse(data);
-        //     });
-        // })
-
-        // featuresconfig.findOneAndUpdate({ feature_name: shoppingCart['feature_name'] },
-        //     shoppingCart, { new: true }, (err, data) => {
-        //         if(data === null){
-        //             let featuresSave = new featuresconfig(shoppingCart);
-        //             featuresSave.save();
-        //         }
-        //     }
-        // );
-
-        // featuresconfig.findOneAndUpdate({ feature_name: wcmx_wordpress['feature_name'] },
-        //     wcmx_wordpress, { new: true }, (err, data) => {
-        //         if(data === null){
-        //             let featuresSave = new featuresconfig(wcmx_wordpress);
-        //             featuresSave.save();
-        //         }
-        //     }
-        // );
-
-        // featuresconfig.findOneAndUpdate({ feature_name: wcmx_grapesjs['feature_name'] },
-        //     wcmx_grapesjs, { new: true }, (err, data) => {
-        //         if(data === null){
-        //             let featuresSave = new featuresconfig(wcmx_grapesjs);
-        //             featuresSave.save();
-        //         }
-        //     }
-        // );
     }
 }

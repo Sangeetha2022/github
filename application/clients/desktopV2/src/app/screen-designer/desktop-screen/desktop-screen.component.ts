@@ -386,6 +386,7 @@ export class DesktopScreenComponent implements OnInit
         },
         assetManager:
         {
+          // embedAsBase64: true,
           // assets: [ ],
           assets: [ this.images ],
           // uploadText: 'Drop files here or click to upload',

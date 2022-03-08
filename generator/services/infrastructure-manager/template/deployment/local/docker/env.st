@@ -1,6 +1,7 @@
 env(projectdetails,uuid) ::= <<
 CAMUNDAPOD_URL=http://camunda-$uuid$:8080
 SECURITYURL=http://securitymanager-$uuid$:8003
+SYSTEMCREDENTIALMANAGERURL=http://systemcredentialmanager-$uuid$:8005
 AUTHPROXYURL=http://authproxy-$uuid$:8001
 ADMINURL=http://adminmanager-$uuid$:8004
 CAMUNDAURL=http://camundasvc-$uuid$:8002

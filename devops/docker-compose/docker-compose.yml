@@ -113,6 +113,8 @@ services:
   #   build: ../../application/services/sharedfeaturesmanager
   #   image: sharedfeaturesmanager
   #   container_name: sharedfeaturesmanager
+  #   volumes:
+  #     - generated-code:/geppetto/
   #   ports:
   #     - "3017:3017"
   #   env_file: ../../.env
