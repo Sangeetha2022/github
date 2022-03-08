@@ -57,7 +57,7 @@
         "CANCEL_BTN": "Cancelar",
         "SELECT_SEC_LANG": "Seleccionar idioma secundario",
         "NO_PROJECTS": "No hay proyectos disponibles.",
-        "CONFIRM_DELETE": "Haga clic en confirmar para eliminar este proyecto?",
+        "CONFIRM_DELETE": "Haga clic en confirmar para eliminar este proyecto",
         "CONFIRM_BTN": "Confirmar",
         "NAME_ERROR": "Nombre requerido",
         "ALREADY_NAME_EXIST": "El nombre ya existe",

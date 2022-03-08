@@ -35,7 +35,7 @@
         "FNAME_ERROR": "Must be a valid FirstName",
         "LNAME_ERROR": "Must be a valid LasttName",
         "EMAIL_ERROR": "Must be a valid Email Id",
-        "PASSWORD_ERROR": "A Password must be 8 character and must have a Uppercase , Lowercase and a Special character"
+        "PASSWORD_ERROR": "A Password must be 8 characters and must have a Uppercase , Lowercase and a Special character"
     },
     "ABOUT": {
         "ABOUT": "About",
@@ -57,7 +57,7 @@
         "CANCEL_BTN": "Cancel",
         "SELECT_SEC_LANG": "Select Secondary Language",
         "NO_PROJECTS": "No Projects Available.",
-        "CONFIRM_DELETE": "Please click confirm to delete this project ?",
+        "CONFIRM_DELETE": "Please click confirm to delete this project",
         "CONFIRM_BTN": "Confirm",
         "NAME_ERROR": "Name required",
         "ALREADY_NAME_EXIST": "Name already exist",
