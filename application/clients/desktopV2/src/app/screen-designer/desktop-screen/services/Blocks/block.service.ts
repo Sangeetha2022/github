@@ -145,6 +145,7 @@ export class BlockService
       id: 'agGrid',
       label: 'AgGrid',
       category: 'Basic',
+      //disable:true,
       attributes: 
       {
         class: 'fa fa-table'

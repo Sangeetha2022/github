@@ -49,6 +49,25 @@
     </div>
 </div>
 
+<div class="modal" id="gridModal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:blue">Info</h5>
+                <button type="button" class="close" (click)="closeGrid()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Only one AgGrid per screen works at the moment!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="closeGrid()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="imageSizeModal" tabindex="-1" role="dialog" style="display: none">
     <div class="modal-dialog modal-md" role="dialog">
         <div class="modal-content">

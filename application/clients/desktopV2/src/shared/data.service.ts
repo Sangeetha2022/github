@@ -27,7 +27,6 @@ export class DataService
   {
       this.projectInfoSource.next(details);
   }
-
   // set all entity details
   setAllEntity(entities: IEntity[]) 
   {

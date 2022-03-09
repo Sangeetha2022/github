@@ -87,6 +87,8 @@ export class Constants
         public static get sharedApplication(): string { return this.DESKTOP_ROUTER + '/shared/getbyproject/'; }
         public static get sharedAppImport(): string { return  '/shared/upload'; }
 
+        //Upload application data into S3, ...etc
+        public static get uploadGrapesjsImageS3(): String { return '/uploads3' }
         // generation
         public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
         public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }

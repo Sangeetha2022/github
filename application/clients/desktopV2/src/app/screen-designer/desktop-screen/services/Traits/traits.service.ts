@@ -732,8 +732,10 @@ export class TraitsService
     const defaultModel = defaultType.model;
     let selectedEntityName = '';
     let selectedEntity;
+    const columnOpts=screensVariable.columnOptions;
+    console.log("ColumnOpts:",columnOpts);
     const gridOptionsInString:any = JSON.stringify(screensVariable.agGridObject);
-    const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
+    console.log("GridOptions:",gridOptionsInString);
     comps.addType(buttonName, 
     {
       model: defaultModel.extend
@@ -744,7 +746,6 @@ export class TraitsService
           droppable: false,
           'bootStrapTableCheckBox': true,
           gridOptions: gridOptionsInString,
-          secGrid: secGridString,
           script: function () 
           {
             const gridOptions = JSON.parse('{[ gridOptions ]}');
@@ -752,29 +753,11 @@ export class TraitsService
             {
               let columnDefs:any = [];
               let rowData:any = [];
-              if (gridOptions && gridOptions.custom_field && gridOptions.custom_field.length > 0) 
+              if (gridOptions || gridOptions.custom_field.length > 0) 
               {
-                  columnDefs = [];
-                  gridOptions.custom_field.forEach((element:any) => 
-                  {
-                    for (let i = 0; i < 10; i++) 
-                    {
-                      const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
-                      Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
-                      rowData.push(newObject);
-                    }
-                    const temp = 
-                    {
-                        headerName: '',
-                        field: '',
-                        sortable: true,
-                        colId: ''
-                    };
-                    temp.headerName = element.columnname;
-                    temp.field = element.columnname;
-                    temp.colId = element.columnid;
-                    columnDefs.push(temp);
-                  });
+                  columnDefs = gridOptions.default_field;
+                  console.log("Default_field ColumnDefs:",columnDefs);
+                  rowData=createRowData();
               } 
               else 
               {
@@ -816,7 +799,7 @@ export class TraitsService
               function createRowData() 
               {
                 const tempData = [];
-                for (let i = 0; i < 10; i++) 
+                for (let i = 0; i < 5; i++) 
                 {
                   // create sample row item
                   const rowItem = 
@@ -969,15 +952,15 @@ export class TraitsService
           console.log("Selected Column:",selectedColumns);
           selectedColumns.headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
-          screensVariable.newColumnDefs.forEach((columnEl:any)=>
+          screensVariable.agGridObject.default_field.forEach((columnEl:any)=>
                                  {
                                     if(columnEl.colId===screensVariable.selectedColumnId)
                                     {
                                        columnEl.headerName=enteredColName;
                                     }   
                                  });
-          console.log("ColumnDefs after:",screensVariable.newColumnDefs);                  
-          screensVariable.newColumnOptions.forEach((columnElement:any) =>
+          console.log("ColumnDefs after:",screensVariable.agGridObject.default_field);                  
+          screensVariable.columnOptions.forEach((columnElement:any) =>
                                            {
                                               if (columnElement.value === screensVariable.selectedColumnId)
                                               {
@@ -985,7 +968,7 @@ export class TraitsService
                                               }
                                            });
 
-          console.log("gjsthis.columnOptions:",screensVariable.newColumnOptions);
+          console.log("gjsthis.columnOptions:",screensVariable.columnOptions);
           const component = screensVariable.editor.getSelected();
           component.removeTrait('columns');
           component.addTrait
@@ -994,7 +977,7 @@ export class TraitsService
             label: 'columns',
             name: 'columns',
             changeProp: 1,
-            options: screensVariable.newColumnOptions,
+            options: screensVariable.columnOptions,
           }, { at: 1 });
           screensVariable.selectedColumnId='';
         },

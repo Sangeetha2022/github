@@ -11,7 +11,7 @@ export const english = {
     "login": "Login",
     "admin": "Admin",
     "logout": "Logout",
-    "sefscreen": "sefscreen",
+    "sefscreen": "Sefscreen",
     "authorization": "Authorization",
     "manageroles": "Manage roles",
     "manageusers": "Manage users",

@@ -6,6 +6,8 @@ const AWS = require('aws-sdk');
 var path = require('path');
 const fs = require('fs');
 import { uuid, fromString } from 'uuidv4';
+import { CredentialConfig } from '../config/CredentialsConfig';
+
 
 const attachmentModel = mongoose.model("Attachment", attachmentSchema);
 
@@ -97,5 +99,33 @@ export class AttachmentToS3Dao {
         callback();
     }
 
-
+    public grapejsUploadS3(data, fileKey, mimekey, encoding) {
+        return new Promise(async resolve => {
+            new CustomLogger().showLogger("info", "Enter into attachmentToS3Dao.ts: grapesjsAWSS3");
+            let gConfig = new CredentialConfig();
+            let GRAPESJS_BUCKET_NAME = 'grapesjs-images';
+            let s3bucket;
+            await gConfig.credentialsConfig(async(response) => {
+                s3bucket = await new AWS.S3({ 
+                    accessKeyId: response.AWS_ACCESS_KEY_ID,
+                    secretAccessKey: response.AWS_SECRET_ACCESS_KEY,
+                    Bucket: GRAPESJS_BUCKET_NAME,
+                    region: "us-east-1",
+                });
+                let params = {
+                    Bucket: GRAPESJS_BUCKET_NAME,
+                    Key: fileKey,
+                    Body: new Buffer(data),
+                    ContentType: mimekey,
+                    ContentEncoding: encoding,
+                    ACL: 'public-read'
+                };
+                await s3bucket.upload(params, (s3Err, data) => {
+                    if (s3Err) throw s3Err
+                    resolve({data: data.Location, status: 'success', msg: 'Image successfully uploaded.'});
+                });
+            });
+            
+        })
+    }
 }

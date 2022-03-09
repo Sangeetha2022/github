@@ -71,6 +71,18 @@ export class CommandService
     });
   }
 
+  disableComponent($this:any)
+  {
+    $this.editor.on('component:select:before component:hover:before', ((cmp: { attributes: { type: string; }; }, opts: any) =>
+    {
+      if(cmp.attributes.type==="grid-type")
+      {
+        opts.abort = true;
+      }
+
+    }));
+  }
+
   componentSelected($this:any) 
   {
     $this.editor.on('component:selected', function (component:any) 
@@ -108,11 +120,11 @@ export class CommandService
       {
         entityTrait.set('options', $this.dataBindingTypes);
         component.get('traits').add
-        (          {
+        ({
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field',
-          });
+        });
       }
       if (component.attributes.tagName === 'input') 
       {
@@ -612,6 +624,15 @@ export class CommandService
 
       if (wrapperType.length > 0) 
       {
+        const run=()=>
+        {
+           const eventPopupModel = document.getElementById('gridModal');
+           eventPopupModel!.style.display = 'block';
+        }
+        if($this.is_grid_present)
+        {
+          run();
+        }
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
         wrapperType.forEach((element:any) => 
