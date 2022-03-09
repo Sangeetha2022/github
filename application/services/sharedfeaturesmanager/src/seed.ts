@@ -14,7 +14,7 @@ export class FeedSeedData {
 
     public featuresDatas() {
         new CustomLogger().showLogger('info', 'Enter into gfcSeed.ts: data check in progress');
-        let testFolder = path.resolve(__dirname, '../../../../generator/services/seed/sharedfeatures/');
+        let testFolder = path.resolve(__dirname, '../../geppetto/template/seed/sharedfeatures/');
         fs.readdirSync(testFolder).forEach(file => {
             let folder = path.resolve(__dirname, `${testFolder}/${file}/gepfeatureconfig.json`);
             new CustomLogger().showLogger('info', `List of folder check ${file}`);
