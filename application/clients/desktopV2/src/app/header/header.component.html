@@ -14,9 +14,6 @@
                     <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4 py-2" id="lang_dropdown">
                         <option style="background-color:darkblue;"  *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
                       </select>
-                    <button type="button" class="btn btn-default" (click)="showAbout()"><a id="a_style"><span>{{'HOME.ABOUT' | translate}}</span></a></button>
-                    <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-default"><a id="a_style" routerLink="/login"><span>{{'HEADER.SIGNIN' | translate}}</span></a></button>
-                    <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-default"><a id="a_style" (click)="Logout()"><span>{{'HEADER.LOGOUT' | translate}}</span></a></button>
                 </div>
                 <button type="button" *ngIf="!hideElement" class="btn btn-default"><a routerLink="/project" id="a_style"><span>{{'HEADER.HOME' | translate}}</span></a></button>
                 <button type="button" *ngIf="!backButtonElement" class="btn btn-default" id="a_style" (click)="back()"><span>{{'HEADER.GOBACK' | translate}}</span></button>
