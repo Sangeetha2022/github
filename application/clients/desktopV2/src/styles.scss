@@ -80,8 +80,45 @@ html {
 }
 
 @media (max-width: 768px) {}
+
+// iPhone XS Max, XR
+@media (min-width: 375px) and (min-height: 667px) {
+  html {
+    position: absolute;
+    max-height: 150%;
+}
+body {
+    margin-bottom: 0px;
+    overflow-x: hidden;
+    // padding-bottom: 15%;
+}
+}
+// Samsung Galaxy s8+
+@media (min-width: 360px) and (min-height: 740px) {
+  html {
+    position: absolute;
+    max-height: 150%;
+}
+body {
+    margin-bottom: 0px;
+    overflow-x: hidden;
+    // padding-bottom: 15%;
+}
+}
+// Galaxy Fold, A51/71
+@media (min-width: 280px) and (min-height: 653px) {
+  html {
+    position: absolute;
+    max-height: 150%;
+}
+body {
+    margin-bottom: 0px;
+    overflow-x: hidden;
+    // padding-bottom: 15%;
+}
+}
+
 .mat-dialog-container{
   // border-radius: 34px !important;
   text-align: center !important;
 }
-
