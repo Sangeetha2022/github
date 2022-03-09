@@ -1,0 +1,16 @@
+[
+    {"name":"Express -", "link":"MIT"},
+    {"name":"Connect -", "link":"MIT"},
+    {"name":"jQuery -", "link":"MIT"},
+    {"name":"jQuery.payment -", "link":"MIT"},
+    {"name":"q -", "link":"MIT"},
+    {"name":"RequireJS -", "link":"MIT"},
+    {"name":"RequireJS r.js -", "link":"MIT"},
+    {"name":"Backbone -", "link":"MIT"},
+    {"name":"Underscore -", "link":"MIT"},
+    {"name":"Twitter Bootstrap -", "link":"MIT"},
+    {"name":"TTTAttributedLabels -", "link":"MIT"},
+    {"name":"Oauth_signpost -", "link":"Apache 2.0"},
+    {"name":"Normalise.css -", "link":"MIT"},
+    {"name":"Moment.js -", "link":"MIT"}
+]

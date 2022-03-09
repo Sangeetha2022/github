@@ -7,7 +7,8 @@ import { LoginService } from '../login/login.service';
 import { LoggingService } from '../config/logging.service';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
 import { SharedService } from 'src/shared/shared.service';
-
+import { AboutComponent } from '../about/about.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component
 ({
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit
   public usrlang=navigator.languages;
   public BrowserLang:any;
   public Global_Languages:any;
+  project_id:string='';
   hideElement:boolean=false;
   backButtonElement:boolean=false;
   permission: boolean=false;

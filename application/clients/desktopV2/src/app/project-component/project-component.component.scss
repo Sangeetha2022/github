@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+
 #ihclgr {
     white-space: nowrap;
     background-color: #5DB18C;
@@ -18,12 +19,24 @@
     font-weight: 500;
     font-size: 20px;
 }
-
+.m-4{
+    margin: 1.5rem!important;
+}
+.p-4 {
+    padding: 0.4rem !important;
+    
+  }
+//   .mx-5 {
+    // padding: 0 1.75em 0 0;
+    // margin-right: -36rem!important;
+    // padding: 1px 0.75em 0 0;
+// }
 #ih {
     white-space: nowrap;
     color: #5DB18C;
     border-color: #5DB18C;
     padding: 8px 20px 8px 20px;
+    margin: 0 0 0 40px;
     font-family: Montserrat, sans-serif;
     font-weight: 500;
     font-size: 20px;
@@ -32,6 +45,11 @@
 #po {
     cursor: pointer;
     border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+    padding: 1rem 1rem;
+    
 }
 
 #op {
@@ -117,7 +135,7 @@
     width: 100%;
     font-family: Montserrat, sans-serif;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 16px;
     color: #404040;
     padding: 0 0 0 10px;
     margin: 5px 0 0 0;
@@ -139,7 +157,8 @@
     width: 100%;
     font-family: Montserrat, sans-serif;
     color: #302C5E;
-    font-size: 27px;
+    font-size: 21px;
+    font-weight: bold;
     padding: 0 0 0 10px;
 }
 
@@ -162,3 +181,12 @@
 }
 
 @media (max-width: 768px) {}
+
+.card_align{
+    width: auto; height: 200px;
+}
+.col-sm-4{
+    flex: 0 0 auto;
+    width: 33.333333%;
+    height: 225px;
+}

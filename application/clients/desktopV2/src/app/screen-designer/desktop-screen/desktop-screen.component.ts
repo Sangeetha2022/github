@@ -392,7 +392,7 @@ export class DesktopScreenComponent implements OnInit
         allowScripts: 1,
         dragMode: 'translate',
         plugins: plugins,
-        pluginsOpts: 
+        pluginsOpts:
         {
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
