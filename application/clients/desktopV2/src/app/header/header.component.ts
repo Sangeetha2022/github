@@ -35,12 +35,19 @@ export class HeaderComponent implements OnInit
   {
     id: ''
   };
-  
-  constructor(public translate:TranslateService,public router:Router,private configurationService: ConfigManagerService,
-              private logoutservice: LoginService,private location: Location,public shared:SharedService,
-              private logger:LoggingService,private _location: Location) 
-  {   
-    this.Global_Languages=global_lang_json;
+   
+  constructor(public translate:TranslateService,
+    public router:Router,
+    private configurationService: ConfigManagerService,
+    private logoutservice: LoginService,
+    private location: Location,
+    public shared:SharedService,
+    private logger:LoggingService,
+    private dialog: MatDialog,
+    private _location: Location) 
+    { 
+    
+      this.Global_Languages=global_lang_json;
     var arr = [];
     for (var j in this.Global_Languages['default']) 
     {
@@ -142,38 +149,22 @@ export class HeaderComponent implements OnInit
       this.translate.use('en');
       return false;
     }
-  }
+}
 
-  //To open the About popup and get build and version details
-  showAbout() 
-  {
-     document.getElementById('model1')!.style.display = 'block';
-     this.configurationService.getVersion('version', this.logId).subscribe(data => 
-     {
-        this.versionData = data.body;
-     },
-     error => 
-     {
-        this.logger.log('error',error);
-     });
-     this.configurationService.getBuildVersion('build_version', this.logId).subscribe(data => 
-     {
-        this.buildVersionData = data.body;
-     },
-     error => 
-     {
-        this.logger.log('error',error);
-     });
-     this.configurationService.getBuildVersion('build_date', this.logId).subscribe(data => 
-     {
-          console.log("build_date",data);  
-          this.buildVersionDate = data.body;
-     },
-     error => 
-     {
-          this.logger.log('error',error);
-     });
-  }
+//To open the About popup and get build and version details
+showAbout() {
+ this.openDialog();
+}
+
+openDialog()
+{
+  const dialogRef = this.dialog.open(AboutComponent,
+    {
+      height:'350px',
+      width:'500px',
+  });
+    
+}
 
   //To Hide the About popup
   hideAbout() 
