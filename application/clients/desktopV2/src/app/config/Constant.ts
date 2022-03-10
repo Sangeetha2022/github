@@ -70,6 +70,16 @@ export class Constants
         public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
         public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
 
+        //Shared Feature
+        public static get deleteFeature(): string { return this.DESKTOP_ROUTER + '/gfc/:id'}
+        public static get getAllSharableFeatue(): string {return this.DESKTOP_ROUTER + '/gfc'}
+        public static get createSharableFeatue(): string { return this.DESKTOP_ROUTER + '/gfc'}
+        public static get updateSharableFeatue(): string { return this.DESKTOP_ROUTER + '/gfc'}
+        public static get searchByNameFeatue(): string { return this.DESKTOP_ROUTER + '/gfc/get/search'}
+        public static get searchByUpdateFeature(): string { return this.DESKTOP_ROUTER + '/gfc/get/update'}
+        public static get getGfcById(): string { return this.DESKTOP_ROUTER + '/gfc/get/:id'}
+        
+
         //get the feature entities 
         public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }
 

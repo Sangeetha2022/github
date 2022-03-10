@@ -101,9 +101,44 @@ export class ProjectComponentService
   {
     return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}` + `?log_id=${logId}`);
   }
+
+
+  //shareable feature
+  deleteSharebleFeature(projectId: any, logId:any): Observable<any>
+  {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFeature}/${projectId}` + `?log_id=${logId}`);
+  }
+  getAllSharableFeatue(projectId: any, logId:any): Observable<any>
+  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllSharableFeatue}` + `?log_id=${logId}`);
+  }
+  createSharableFeature(updateId: any, logId:any): Observable<any>
+  {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.createSharableFeatue}/${updateId}` + `?log_id=${logId}`);
+  }
+  updateSharableFeature(projectId: any, logId:any): Observable<any>
+  {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateSharableFeatue}/${projectId}` + `?log_id=${logId}`);
+  }
+  searchSharableFeatue(projectId: any, logId:any): Observable<any>
+  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.searchByNameFeatue}/${projectId}` + `?log_id=${logId}`);
+  }
+  searchByUpdateFeature(searchId: any, logId:any): Observable<any>
+  {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.searchByUpdateFeature}/${searchId}` + `?log_id=${logId}`);
+  }
+  getGfcByIdFeature(projectId: any, logId:any): Observable<any>
+  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getGfcById}/${projectId}` + `?log_id=${logId})`);
+  }
+
+
+  
   // codegenerate Api
   codeGenerate(projectId: any, logId:any): Observable<any> 
   {
       return this.api.get(`${this.restapi.Apigateway}${Constants.projectGeneration}/${projectId}${Constants.GET}` + `?log_id=${logId}`);
   }
+
 }

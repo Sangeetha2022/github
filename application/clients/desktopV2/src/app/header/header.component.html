@@ -10,20 +10,21 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <div id="i1t03" class="gdp-row gpd-grid">
-                <button type="button" *ngIf="!hideElement" routerLink="/homepage" class="btn btn-default"><a routerLink="/homepage" id="a_style"><span>{{'HEADER.HOME' | translate}}</span></a></button>
                 <div class="cell gpd-clm" id="imllt">
                     <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4 py-2" id="lang_dropdown">
                         <option style="background-color:darkblue;"  *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
                       </select>
-                    <button type="button" class="btn btn-default" (click)="showAbout()"><a id="a_style" (click)="showAbout()"><span>{{'HOME.ABOUT' | translate}}</span></a></button>
-                    <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-default"><a id="a_style" routerLink="/login"><span>{{'HEADER.SIGNIN' | translate}}</span></a></button>
-                    <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-default"><a id="a_style" (click)="Logout()"><span>{{'HEADER.LOGOUT' | translate}}</span></a></button>
                 </div>
+                <button type="button" *ngIf="!hideElement" class="btn btn-default"><a routerLink="/project" id="a_style"><span>{{'HEADER.HOME' | translate}}</span></a></button>
+                <button type="button" *ngIf="!backButtonElement" class="btn btn-default" id="a_style" (click)="back()"><span>{{'HEADER.GOBACK' | translate}}</span></button>
+                <button type="button" class="btn btn-default" (click)="showAbout()"><a id="a_style"><span>{{'HOME.ABOUT' | translate}}</span></a></button>
+                <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-default"><a id="a_style" routerLink="/login"><span>{{'HEADER.SIGNIN' | translate}}</span></a></button>
+                <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-default"><a id="a_style" (click)="Logout()"><span>{{'HEADER.LOGOUT' | translate}}</span></a></button>
             </div>
         </div>
     </div>
 </nav>
-<div class="modal" id="model1" tabindex="-1" role="dialog" [ngStyle]="{'top':
+<!-- <div class="modal" id="model1" tabindex="-1" role="dialog" [ngStyle]="{'top':
   '100px','display':'none'}">
     <section class="gpd-section" id="igsgh">
         <div class="gpd-container gpd-cnt">
@@ -74,4 +75,4 @@
             </div>
         </div>
     </section>
-</div>
+</div> -->

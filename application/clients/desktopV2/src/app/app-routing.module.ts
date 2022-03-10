@@ -4,7 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { EntityFieldComponent } from './project-component/entity-field/entity-field.component';
 import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
 import { EntityManagerComponent } from './project-component/project-component.component';
-
+import { AboutComponent } from './about/about.component';
 const routes: Routes = [
   
   {
@@ -37,6 +37,10 @@ const routes: Routes = [
   { path: 'entity-field', component: EntityFieldComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' },
+  { 
+    path: 'about', 
+    loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -148,7 +148,45 @@ export class DesktopScreenComponent implements OnInit
     componentId: '',
     entityId: '',
     custom_field: [],
-    default_field: [],
+    default_field:
+    [{
+      headerName: 'A',
+      field: 'a',
+      sortable: true,
+      colId: 'col1_id',
+    },
+    {
+      headerName: 'B',
+      field: 'b',
+      sortable: true,
+      colId: 'col2_id',
+    },
+    {
+      headerName: 'C',
+      field: 'c',
+      sortable: true,
+      colId: 'col3_id',
+    },
+    {
+      headerName: 'D',
+      field: 'd',
+      sortable: true,
+      colId: 'col4_id',
+    },
+    {
+      headerName: 'E',
+      field: 'e',
+      sortable: true,
+      colId: 'col5_id',
+    }],
+    rowData:
+    {      
+      a: 'aa' + Math.floor(Math.random() * 10000),
+      b: 'bb' + Math.floor(Math.random() * 10000),
+      c: 'cc' + Math.floor(Math.random() * 10000),
+      d: 'dd' + Math.floor(Math.random() * 10000),
+      e: 'ee' + Math.floor(Math.random() * 10000)
+    },
     event: ''
   };
   agGridArray: any[] = [];
@@ -162,11 +200,6 @@ export class DesktopScreenComponent implements OnInit
     { value: 'col5_id', name: 'E' }
   ];
   public selectedColumnId = '';
-  public newColumnOptions=[{value:'col1_id',name:'A'},{value:'col2_id',name:'B'},{value:'col3_id',name:'C'},
-                           {value:'col4_id',name:'D'},{value:'col5_id',name:'E'}];
-  public newColumnDefs=[{headerName:'A',field:'a',colId:'col1_id'},{headerName:'B',field:'b',colId:'col2_id'},
-                        {headerName:'C',field:'c',colId:'col3_id'},{headerName:'D',field:'d',colId:'col4_id'},
-                        {headerName:'E',field:'e',colId:'col5_id'}];
   public routeDetails: any = 
   {
     screen: '',
@@ -357,8 +390,9 @@ export class DesktopScreenComponent implements OnInit
         clearStyles: 1,
         exportWrapper: 1,
         allowScripts: 1,
+        dragMode: 'translate',
         plugins: plugins,
-        pluginsOpts: 
+        pluginsOpts:
         {
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
@@ -388,15 +422,14 @@ export class DesktopScreenComponent implements OnInit
         {
           // embedAsBase64: true,
           // assets: [ ],
-          assets: [ this.images ],
-          // uploadText: 'Drop files here or click to upload',
-          upload: '',
-          uploadFile: async(e:any) => {
-            var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+          assets: [ ],
+          uploadFile: async(e:any) => 
+          {
+              var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
               const formData: FormData = new FormData();
               formData.append('fileKey', files, files.name);
-
-              let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, {
+              let result = await fetch(`${this.sharedService.Gepfileupload}${Constants.uploadGrapesjsImageS3}`, 
+              {
                 method: 'POST',
                 headers: {...formData.get},
                 body: formData
@@ -456,7 +489,6 @@ export class DesktopScreenComponent implements OnInit
       {
         component.setId(component.getId());
       });
-
       this.getScreenById();
       this.getScreenByProjectId();
       this.getFeatureById();
@@ -539,6 +571,7 @@ export class DesktopScreenComponent implements OnInit
      this.commandService.updateComponentName(this);
      this.commandService.updateTraits(this);
      this.commandService.dragAndDrop(this);
+     //this.commandService.disableComponent(this);
   }
   onGridReady(params:any) 
   {
@@ -1132,7 +1165,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           is_grid_present: this.is_grid_present,
           is_bootStrapTable_present: this.is_bootStrapTable_present,
           screenOption: this.screenOption,
-          specific_attribute_Event: this.specific_attribute_Event
+          specific_attribute_Event: this.specific_attribute_Event,
+          columnOptions:this.columnOptions
         });
       }
   }
@@ -1147,6 +1181,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   closeWarn() 
   {
       const model = document.getElementById('warnModal');
+      model!.style.display = 'none';
+  }
+
+  closeGrid()
+  {
+      const model = document.getElementById('gridModal');
       model!.style.display = 'none';
   }
 
@@ -1209,6 +1249,22 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.screenName = this.existScreenDetail[0]['screenName'];
                 this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
+                console.log("AgGridObject:",this.agGridObject);
+                //change colname array
+                if (this.agGridObject.default_field)
+                {
+                  this.columnOptions=[];
+                  this.agGridObject.default_field.forEach((customField:any) => 
+                  {
+                    const temp = { value: '', name: '' };
+                    temp.value = customField.colId;
+                    temp.name = customField.headerName;
+                    this.columnOptions.push(temp);
+                    console.log("Custom ColumnOptions:",this.columnOptions);
+                  });
+                  console.log(' gjs component------------ value -------', this.agGridObject);
+                }
+                console.log("Saved ColumnOptions:",this.columnOptions);
                 this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                 this.screenFlows = this.existScreenDetail[0]['flows_info'];
                 this.routeFlows = this.existScreenDetail[0]['route_info'];
@@ -1216,19 +1272,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                 this.linkArray = this.existScreenDetail[0]['link_info'];
                 this.addGridBlocks();
-                // change colname array
-                if (this.agGridObject && this.agGridObject.custom_field.length > 0)
-                {
-                  this.columnOptions = [];
-                  this.agGridObject.custom_field.forEach((customField:any) => 
-                  {
-                    const temp = { value: '', name: '' };
-                    temp.value = customField.columnid;
-                    temp.name = customField.columnname;
-                    this.columnOptions.push(temp);
-                  });
-                  console.log(' gjs component------------ value -------', this.agGridObject);
-                }
+                
                 this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                 this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
                 console.log('------get grapesjs css-------', this.editor.getStyle());
@@ -1269,7 +1313,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.saveRemoteStorage();
         this.getScreenById();
         this.closeScreeName();
-        console.log("SHOW");
         this.spinner.show();
         this.editor.store((data:any) => 
         {
@@ -1277,7 +1320,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           this.screen_id = data.body._id;
           this.scr=data.body.screenName;
           console.log("ScreenName:",this.scr);
-          console.log("HIDE");
           this.spinner.hide();
           this.getScreenById();
         });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from 'src/shared/data.service';
@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 import { PEntity } from '../project-component/interface/Entity';
+import { pipe } from 'rxjs';
+import { filter } from 'rxjs-compat/operator/filter';
 
 
 @Component
@@ -24,9 +26,13 @@ import { PEntity } from '../project-component/interface/Entity';
   styleUrls: ['./project-component.component.scss']
 })
 
+
 export class EntityManagerComponent implements OnInit 
 {
-  result:string='';
+  result!:string;
+  search : String ="";
+  searchTerm: string = "";
+  term: string = "";
   isClick:boolean=false;
   menuFeatureName: any = [];
   menuBuilderDetails: any = [];
@@ -43,6 +49,7 @@ export class EntityManagerComponent implements OnInit
   projectName:string='';
   project_display_Name:string='';
   projectFeatureData: any = [];
+  getAllSharableFeatueData: any = [];
   selectedEntityId:string='';
   menuLanguages: any = [];
   selectedProject:any=[];
@@ -60,6 +67,7 @@ export class EntityManagerComponent implements OnInit
   invalidName: Boolean=false;
   public formData: FormData = new FormData();
   public menuBuilder: IMenu = 
+  
   {
     language: '',
     feature: [],
@@ -108,6 +116,8 @@ export class EntityManagerComponent implements OnInit
     this.getFeatureByProjectId();
     this.getAllEntityByProjectId();
     this.getMenuBuilderByProjectId();
+    this.getAllSharableFeatue();
+        
   }
 
   //To open the entity model dialog box
@@ -401,6 +411,22 @@ export class EntityManagerComponent implements OnInit
     });
   }
 
+  //Sharable Feature
+  getAllSharableFeatue()
+  {
+    this.spinner.show();
+    this.projectComponentService.getAllSharableFeatue(this.project_id,this.logId).subscribe(response =>
+      {
+        console.log(this.project_id, this.logId);
+        this.spinner.hide();
+        this.getAllSharableFeatueData = response.body;
+        console.log("All Sharable Feature",this.getAllSharableFeatueData);
+      },
+      error => { });
+      }
+      //Search Feature
+
+
   //To get the selected project
   getSelectedProject() 
   {
@@ -571,4 +597,5 @@ export class EntityManagerComponent implements OnInit
       }
     });
   }
+
 }
