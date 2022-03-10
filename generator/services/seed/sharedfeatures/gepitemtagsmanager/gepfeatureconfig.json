@@ -3,6 +3,7 @@
     "feature_name": "gepitemtagsmanager",
     "sharing_visibility_status": "admin",
     "type": "",
+    "feature_type": "external",
     "last_modified_date": "",
     "description": "To create a tags to view the list of field like year 2023, 2014 etc",
     "author_email": "gepinfo@gmail.com",
