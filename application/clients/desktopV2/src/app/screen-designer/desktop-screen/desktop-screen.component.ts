@@ -420,8 +420,9 @@ export class DesktopScreenComponent implements OnInit
         },
         assetManager:
         {
+          // embedAsBase64: true,
+          // assets: [ ],
           assets: [ ],
-          upload: '',
           uploadFile: async(e:any) => 
           {
               var files: File = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];

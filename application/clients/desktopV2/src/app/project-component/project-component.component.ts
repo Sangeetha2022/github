@@ -416,15 +416,15 @@ export class EntityManagerComponent implements OnInit
   {
     this.spinner.show();
     this.projectComponentService.getAllSharableFeatue(this.project_id,this.logId).subscribe(response =>
-      {
+    {
         console.log(this.project_id, this.logId);
         this.spinner.hide();
         this.getAllSharableFeatueData = response.body;
         console.log("All Sharable Feature",this.getAllSharableFeatueData);
-      },
-      error => { });
-      }
-      //Search Feature
+    },
+    error => { });
+  }
+  //Search Feature
 
 
   //To get the selected project
@@ -442,6 +442,11 @@ export class EntityManagerComponent implements OnInit
   closeFeatureCreateModel() 
   {
         this.displayFeatureModel = 'none';
+  }
+
+  addFeature(name:any,description:any)
+  {
+
   }
 
   //To create the new feature

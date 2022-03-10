@@ -19,42 +19,42 @@ export class AttachmentService {
         var s3URL;
         var fileName;
 
-        busboy.on('file', function (fieldname, file, filename) {
+        busboy.on('file', async(fieldname, file, filename) => {
             console.log('inside busboy file');
             let resource = `${process.env.DB_RESOURCE}`;
             resource = 'FS';
             fileName=id+"_"+filename;
-            file.on('data', async function (data) {
-                let originalFileData = JSON.parse(data.toString());
-                let dataObject = JSON.parse(data.toString());
-                dataObject.item.map((data, index) => {
-                    if(data.request.auth !== undefined && data.request.auth[data.request.auth.type] !== undefined) {
-                        data.request.auth[data.request.auth.type].map((data, index) => {
-                            data.value = "";
-                        })
-                    } else {
-                    }
-                })
+            // file.on('data', async function (data) {
+            //     let originalFileData = JSON.parse(data.toString());
+            //     let dataObject = JSON.parse(data.toString());
+            //     dataObject.item.map((data, index) => {
+            //         if(data.request.auth !== undefined && data.request.auth[data.request.auth.type] !== undefined) {
+            //             data.request.auth[data.request.auth.type].map((data, index) => {
+            //                 data.value = "";
+            //             })
+            //         } else {
+            //         }
+            //     })
                 if (resource === 'S3') {
                     console.log('inside busboy data');
                     fileKey = "task_attachments/" + fileName;
                     console.log("file key---", fileKey);
                     s3URL = "https://projectmonk.s3.amazonaws.com/" + fileKey;
-                    let temp = await attachmentToS3Dao.fileUploadToS3(data, fileKey);
+                    let temp = await attachmentToS3Dao.fileUploadToS3(file, fileKey);
                 }
-                // else if (resource === 'FS') {
-                //     attachmentToFileSystem.fileSaveToSystem(dataObject, fileName);
-                // }
+                else if (resource === 'FS') {
+                    attachmentToFileSystem.fileSaveToSystem(file, fileName);
+                }
 
-                attachmentToDBDao.addAttachment("", dataObject, fileName, async (response: any) => {
-                    let resObject = {
-                        resp: response,
-                        originalFileData: originalFileData
-                    }
-                    new CustomLogger().showLogger('info', 'Exit from attachmentService.ts: addAttachment');
-                    callback(resObject);
-                });
-            });
+                // attachmentToDBDao.addAttachment("", dataObject, fileName, async (response: any) => {
+                //     let resObject = {
+                //         resp: response,
+                //         originalFileData: originalFileData
+                //     }
+                //     new CustomLogger().showLogger('info', 'Exit from attachmentService.ts: addAttachment');
+                //     callback(resObject);
+                // });
+            // });
         });
         busboy.on('finish', function () {
             // attachmentToDBDao.addAttachment("", data, fileName, (response) => {

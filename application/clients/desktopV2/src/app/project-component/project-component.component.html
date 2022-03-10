@@ -51,7 +51,7 @@
                     </div>
                     <div class="row m-4 p-4">
                         <div class="col-sm-4" *ngFor="let shared of getAllSharableFeatueData ; let i= index">
-                            <div class="card p-2 card_align" id="po"  >
+                            <div class="card p-2 card_align" id="po" (click)="addFeature(shared.feature_name,shared.feature_description)">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-4">
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:autp; height:auto;">
+                            <div class="card p-2" id="po" style="width:auto; height:auto;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-4">
@@ -94,9 +94,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
-                     <div class="row m-4 p-4">
+                    <div class="row m-4 p-4">
                         <div class="col-sm-4">
                             <div class="card p-2" id="po" style="width:auto; height:auto;">
                                 <div class="card-body">

@@ -6,8 +6,8 @@ import * as path from 'path';
 import { CustomLogger } from '../config/Logger';
 
 // Connect to db
-// const mongoUrl: string = process.env.mongoUrl;
-const mongoUrl: string = 'mongodb://admin:password@127.0.0.1:27017/GeppettoStage?authSource=admin';
+const mongoUrl: string = process.env.mongoUrl;
+// const mongoUrl: string = 'mongodb://admin:password@127.0.0.1:27017/GeppettoStage?authSource=admin';
 const db = mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 .then(res => { console.log('mongodb connected') });
 const featuresconfig = mongoose.model('shareable_features', gfcSchema);
@@ -25,7 +25,7 @@ let gfc = gfcModel;
   // initialize all Shared_Feature
   export const initializeAllSharedFeature = async(sharedfeature, callback) => {
     if(sharedfeature === 'all'){
-      let appPath = path.resolve(__dirname, '../../../../../generator/services/seed/sharedfeatures/');
+      let appPath = path.resolve(__dirname, '../../../geppetto/template/seed/sharedfeatures/');
       let datas = await fs.readdirSync(appPath).forEach(async file => {
         let folder = path.resolve(__dirname, `${appPath}/${file}/gepfeatureconfig.json`);
         new CustomLogger().showLogger('info', `feature an adding into DB in ${file}`);
@@ -47,7 +47,7 @@ let gfc = gfcModel;
 
   // initialize Specific Shared_Feature
   export const initializeSharedFeature = (sharedfeature) => {
-    let appPath = path.resolve(__dirname, '../../../../../generator/services/seed/sharedfeatures/');
+    let appPath = path.resolve(__dirname, '../../../geppetto/template/seed/sharedfeatures/');
     let folder = path.resolve(__dirname, `${appPath}/${sharedfeature}/gepfeatureconfig.json`);
     new CustomLogger().showLogger('info', `feature an adding into DB in ${sharedfeature}`);
     fs.readFile(folder, 'utf-8',(err, data) => { 
