@@ -3,6 +3,7 @@ import * as asyncLoop from 'node-async-loop';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as path from 'path';
+import { externalFeature } from '../config/Constants'
 
 import {
   FeatureManagerService,
@@ -11,7 +12,8 @@ import {
   BackendGenManagerService,
   MicroFlowManagerService,
   AuthGenService,
-  FrontendGenManagerService
+  FrontendGenManagerService,
+  SharedFeatureGenManagerService
 } from '../apiservices/index';
 import { Common } from '../config/Common';
 export class CodeGenerationService {
@@ -22,6 +24,7 @@ export class CodeGenerationService {
   private flowService = new FlowManagerService();
   private authGenService = new AuthGenService();
   private frontendGenService = new FrontendGenManagerService();
+  private sharedfeatureGenServices = new SharedFeatureGenManagerService();
   private NODE_PORT_NUMBER = 8010;
   private APIGATEWAY_PORT_NUMBER = 8000;
   private LOCALHOST = 'localhost';
@@ -32,7 +35,7 @@ export class CodeGenerationService {
   private SERVICE_FOLDERNAME = 'services';
   private DEFAULT_SERVICE_FOLDERNAME = 'default_services';
   private CUSTOM_SERVICE_FOLDERNAME = 'custom_services';
-  // private DESKTOP_FOLDERNAME = 'web';
+  private WEB_FOLDERNAME = 'web';
   // private MOBILE_FOLDERNAME = 'mobile';
 
 
@@ -197,16 +200,51 @@ export class CodeGenerationService {
               } else {
                 try {
                   console.log('async loop complated -44--- ', feature);
-                  feature.applicationPort = this.NODE_PORT_NUMBER;
+
+                  // shared feature external so the application port change into the constants json adding the microservices app 
+                  if(featureElement.feature_type === 'external'){
+                    externalFeature.filter(sharedFeature => {
+                      if(sharedFeature.name === featureElement.name){
+                        feature.applicationPort = sharedFeature.port;
+                      }
+                    });
+                    console.log('feature shared', feature)
+                  } else {
+                    feature.applicationPort = this.NODE_PORT_NUMBER;
+                  }
+
                   const backendResponse = await this.backendGenProject(feature).catch(
                     err => {
                       console.log('cannot able to geneate the backend node services');
                     }
                   );
+
+                  const sharedfeaturejson = {
+                    feature: featureElement.name, // feature Name
+                    webframework: projectDetails.clientFramework.label, // like * Angular 13
+                    serverlanguage: projectDetails.serverLanguage.label, // like * NodeJS
+                    seedPath: projectDetails.templateLocation.adminManagerTemplatePath, // /geppetto/template/seed
+                    applicationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}/${this.WEB_FOLDERNAME}/${projectDetails.name}`, // /geppetto/generated-code/sharedfeature_8275/application/client/web/*featurename*
+                    servicesPath: `${applicationServicePath}/${this.CUSTOM_SERVICE_FOLDERNAME}` // /geppetto/generated-code/sharedfeature_8275/application/services/custom_services
+                  }
+                  console.log('shared feature data', sharedfeaturejson);
+                  if(featureElement.feature_type === 'external'){
+                    externalFeature.filter( async sharedfeatureservice => {
+                      if(sharedfeatureservice.name === featureElement.name){
+                        await this.sharedFeatureService(sharedfeaturejson).catch(
+                          err => {
+                            console.log('shared feature change the service');
+                          }
+                        );
+                      }
+                    });
+                  } else {
+                    next();
+                  }
+
                   const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
                     err => {
                       console.log('cannot able to geneate the Admin Manager services');
-
                     }
                   )
                   console.log('-------backend adminManager response----', backendAdminManagerResponse);
@@ -248,6 +286,18 @@ export class CodeGenerationService {
                   const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
                     console.log('cannot able to generate the frontend component for each screens');
                   });
+
+                  // console.log('shared feature data', sharedfeaturejson);
+                  // externalFeature.filter( async sharedfeatureservice => {
+                  //   if(sharedfeatureservice.name === featureElement.name){
+                  //     await this.sharedFeatureClient(sharedfeaturejson).catch(
+                  //       err => {
+                  //         console.log('shared feature change the service');
+                  //       }
+                  //     );
+                  //   }
+                  // });
+
                   console.log('get response from frontend feature screens with entities');
                   next();
                 } catch (err1) {
@@ -315,6 +365,22 @@ export class CodeGenerationService {
       console.log('error in code generation manager ---- ', err);
       callback('something went wrong in code generation manager', 400);
     }
+  }
+
+  sharedFeatureService(sharedfeatureservicejson) {
+    return new Promise(resolve => {
+      this.sharedfeatureGenServices.sharedFeatureGenService(sharedfeatureservicejson, (data) => {
+        resolve(data);
+      })
+    });
+  }
+
+  sharedFeatureClient(sharedfeatureclientjson) {
+    return new Promise(resolve => {
+      this.sharedfeatureGenServices.sharedFeatureGenClient(sharedfeatureclientjson, (data) => {
+        resolve(data);
+      })
+    });
   }
 
   getFeatures(projectId) {

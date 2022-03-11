@@ -306,6 +306,18 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
+
+  sharedfeaturesgenmanager:
+    build: ../../generator/services/sharedfeaturesgenmanager
+    image: sharedfeaturesgenmanager
+    container_name: sharedfeaturesgenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5025:5025"
+    env_file: ../../.env
+    depends_on:
+      - mongo
   
   sefnodegenmanager:
     build: ../../generator/services/sef-node-gen-manager
