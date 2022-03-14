@@ -5,6 +5,8 @@ import * as jwt from 'jsonwebtoken';
 import * as ncp from 'ncp';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as childProcess from 'child_process';
+import * as fsextra from 'fs-extra';
 // let gepfeatureconfig = new gfcDao();
 
 export class gfcService {
@@ -15,6 +17,7 @@ export class gfcService {
         featureServicePath: '',
         featureGenFolderPath: ''
     }
+    private exec = childProcess.exec;
 
     public async createGepFeaturesServices(req: Request, callback) {
         new CustomLogger().showLogger('info', 'Enter into gfcService.ts: gepfeatureconfig')
@@ -22,29 +25,33 @@ export class gfcService {
         
         if(gfcData.serverlanguage === 'NodeJS'){
             let serverlang = 'node';
-            this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `${gfcData.seedPath}/sharedfeatures/${gfcData.feature}/services/${serverlang}`+ '/');
-            this.gfcGenFiles.featureGenFolderPath = path.resolve(__dirname, `${gfcData.servicesPath}`+ '/');
+            this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `${gfcData.seedPath}/sharedfeatures/${gfcData.feature}/services/${serverlang}/`);
+            this.gfcGenFiles.featureGenFolderPath = path.resolve(__dirname, `${gfcData.servicesPath}/`);
         } else if(gfcData.serverlanguage === 'python'){
             let serverlang = 'python'
-            this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `${gfcData.seedPath}/sharedfeatures/${gfcData.feature}/services/${serverlang}`+ '/');
-            this.gfcGenFiles.featureGenFolderPath = path.resolve(__dirname, `${gfcData.servicesPath}`+ '/');
+            this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `${gfcData.seedPath}/sharedfeatures/${gfcData.feature}/services/${serverlang}/`);
+            this.gfcGenFiles.featureGenFolderPath = path.resolve(__dirname, `${gfcData.servicesPath}/`);
         }
         // this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `/geppetto/template/seed/sharedfeatures/${gfcData.feature}/services/node/`);
         // this.gfcGenFiles.featureFolderPath = path.resolve(__dirname, '../../testing/services/');
         
-        ncp.limit = 16;
+        // ncp.limit = 16;
         console.log("sharedFeatureService--->",this.gfcGenFiles.featureServicePath);
         console.log("sharedFeatureService--->",this.gfcGenFiles.featureGenFolderPath);
 
-        await ncp(this.gfcGenFiles.featureServicePath, this.gfcGenFiles.featureFolderPath, { clobber: false }, async (err) => {
-            console.log("sharedFeatureService-->",this.gfcGenFiles.featureServicePath);
-            console.log("sharedFeatureService-->",this.gfcGenFiles.featureGenFolderPath);
-            if (err) {
-                console.error('---error occured in the ncp of sharedFeatureService----', err);
-            }
-            console.log('shared feature service');
+        // await ncp(this.gfcGenFiles.featureServicePath, this.gfcGenFiles.featureFolderPath, { clobber: false }, async (err) => {
+        //     console.log("sharedFeatureService-->",this.gfcGenFiles.featureServicePath);
+        //     console.log("sharedFeatureService-->",this.gfcGenFiles.featureGenFolderPath);
+        //     if (err) {
+        //         console.error('---error occured in the ncp of sharedFeatureService----', err);
+        //     }
+        //     console.log('shared feature service');
             
-        });
+        // });
 
+        fsextra.copy(this.gfcGenFiles.featureServicePath, this.gfcGenFiles.featureGenFolderPath, { overwrite: true }).then((data) => {
+            new CustomLogger().showLogger('info', 'Create a generation file manager');
+            // replace the data into check the feature from shared folder to generated app
+        });
     }
 }

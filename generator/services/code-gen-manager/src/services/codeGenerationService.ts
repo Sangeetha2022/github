@@ -229,8 +229,10 @@ export class CodeGenerationService {
                   }
                   console.log('shared feature data', sharedfeaturejson);
                   if(featureElement.feature_type === 'external'){
+                    console.log('shared feature data', featureElement.name);
                     externalFeature.filter( async sharedfeatureservice => {
-                      if(sharedfeatureservice.name === featureElement.name){
+                      if(sharedfeatureservice.name === featureElement.name && featureElement.feature_type === 'external'){
+                        console.log('enter into the feature client', featureElement.name, sharedfeatureservice.name );
                         await this.sharedFeatureService(sharedfeaturejson).catch(
                           err => {
                             console.log('shared feature change the service');
@@ -287,16 +289,21 @@ export class CodeGenerationService {
                     console.log('cannot able to generate the frontend component for each screens');
                   });
 
-                  // console.log('shared feature data', sharedfeaturejson);
-                  // externalFeature.filter( async sharedfeatureservice => {
-                  //   if(sharedfeatureservice.name === featureElement.name){
-                  //     await this.sharedFeatureClient(sharedfeaturejson).catch(
-                  //       err => {
-                  //         console.log('shared feature change the service');
-                  //       }
-                  //     );
-                  //   }
-                  // });
+                  console.log('shared feature data', sharedfeaturejson);
+                  if(featureElement.feature_type === 'external'){
+                    externalFeature.filter( async sharedfeatureservice => {
+                      if(sharedfeatureservice.name === featureElement.name){
+                        console.log('enter into the feature client', featureElement.name, sharedfeatureservice.name );
+                        await this.sharedFeatureClient(sharedfeaturejson).catch(
+                          err => {
+                            console.log('shared feature change the service');
+                          }
+                        );
+                      }
+                    });
+                  } else {
+                    next();
+                  }
 
                   console.log('get response from frontend feature screens with entities');
                   next();
