@@ -553,7 +553,20 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
    this.blockservice.addDynamicDropdown(this.editor);
-   this.blockservice.addTagManager(this.editor);
+   this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
+   {
+      console.log("projFeature:",projFeature);
+      if (projFeature.body.length > 0) 
+      {
+        projFeature.body.forEach((feature: { name: any; }) => 
+        {
+            if (feature.name === "gepitemtagsmanager") 
+            {
+              this.blockservice.addTagManager(this.editor);
+            }
+        });
+      }
+   });
    this.blockservice.addMultiSelectDropdown(this.editor);
    this.addGridBlocks();
   }
