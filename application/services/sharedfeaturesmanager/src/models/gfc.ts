@@ -62,6 +62,7 @@ export const gfcSchema = new Schema({
    }],
    configuration: { 
       admin_ui_entry_point: {   type: String, default: null },
+      admin_ui_feature_component: {   type: String, default: null },
       admin_backend_services: [
          {
             service_name: { type: String, default: null },

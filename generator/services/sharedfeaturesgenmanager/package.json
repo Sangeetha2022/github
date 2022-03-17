@@ -6,7 +6,7 @@
     "scripts": {
         "test": "ng test",
         "build": "tsc",
-        "dev": "ts-node ./src/server.ts",
+        "dev": "name=development ts-node ./src/server.ts",
         "start": "nodemon ./dist/server.js",
         "prod": "npm run build && npm run start"
     },
@@ -18,9 +18,11 @@
         "btoa": "^1.2.1",
         "btoa-atob": "^0.1.2",
         "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
         "express": "^4.16.4",
         "express-winston": "^3.0.1",
         "fs-extra": "^10.0.1",
+        "handlebars": "^4.7.6",
         "jsonwebtoken": "8.5.1",
         "mongoose": "^5.4.9",
         "ncp": "^2.0.0",

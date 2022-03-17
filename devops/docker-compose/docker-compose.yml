@@ -318,6 +318,7 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
+      - apigateway
   
   sefnodegenmanager:
     build: ../../generator/services/sef-node-gen-manager

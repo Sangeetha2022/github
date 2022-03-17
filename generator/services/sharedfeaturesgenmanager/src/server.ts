@@ -1,9 +1,12 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { Routes } from './routes/Routes';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
+import { SharedService } from './config/SharedService';
 
 const PORT = 5025;
 
@@ -13,6 +16,7 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     public mongoUrl: string = process.env.mongoUrl;
+    public apiUrl : SharedService = new SharedService();
 
     constructor() { 
         this.logger.setupLogger();

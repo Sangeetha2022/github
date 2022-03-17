@@ -50,7 +50,8 @@
 
     }],
     "configuration": {
-        "admin_ui_entry_point": "",
+        "admin_ui_feature_component": "GepItemTags",
+        "admin_ui_entry_point": "/createtags",
         "admin_backend_services": [{
             "service_name": "",
             "apis": [{

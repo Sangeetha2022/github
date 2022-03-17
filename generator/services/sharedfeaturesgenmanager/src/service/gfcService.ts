@@ -2,10 +2,8 @@ import { Request, Response } from 'express';
 // import { gfcDao } from '../dao/gfcDao';
 import { CustomLogger } from '../config/Logger';
 import * as jwt from 'jsonwebtoken';
-import * as ncp from 'ncp';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as childProcess from 'child_process';
 import * as fsextra from 'fs-extra';
 // let gepfeatureconfig = new gfcDao();
 
@@ -17,7 +15,6 @@ export class gfcService {
         featureServicePath: '',
         featureGenFolderPath: ''
     }
-    private exec = childProcess.exec;
 
     public async createGepFeaturesServices(req: Request, callback) {
         new CustomLogger().showLogger('info', 'Enter into gfcService.ts: gepfeatureconfig')
@@ -32,8 +29,6 @@ export class gfcService {
             this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `${gfcData.seedPath}/sharedfeatures/${gfcData.feature}/services/${serverlang}/`);
             this.gfcGenFiles.featureGenFolderPath = path.resolve(__dirname, `${gfcData.servicesPath}/`);
         }
-        // this.gfcGenFiles.featureServicePath = path.resolve(__dirname, `/geppetto/template/seed/sharedfeatures/${gfcData.feature}/services/node/`);
-        // this.gfcGenFiles.featureFolderPath = path.resolve(__dirname, '../../testing/services/');
         
         // ncp.limit = 16;
         console.log("sharedFeatureService--->",this.gfcGenFiles.featureServicePath);

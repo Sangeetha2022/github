@@ -1,0 +1,11 @@
+export const sharedfeatureclient = [
+    {{#if arrayData}}
+        {{#each arrayData}}
+            {
+            "name": "{{name}}",
+            "component_name": "{{component_name}}",
+            "routes": "{{routes}}"
+            },
+        {{/each}}
+    {{/if}}
+]
