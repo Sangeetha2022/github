@@ -32,13 +32,13 @@ export class TemplateSideNav {
                                                         </div>
                                                     </div>
                                                     <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                        <div id="icrvgp" class="cell gpd-clm">
-                                                            <div id="i6vd27" class="gdp-row gpd-grid">
-                                                                <div id="iytw4t" class="cell gpd-clm">`);
+                                                        <div id="icrvgp" class="cell gpd-clm">`);
                                     }
-                                    mainNav.push(`<a id="i9imej" class="gpd-text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                        </div>
-                                    </div>`);
+                                    mainNav.push(`<div id="i6vd27" class="gdp-row gpd-grid">
+                                                    <div id="iytw4t" class="cell gpd-clm">
+                                                        <a id="i9imej" class="gpd-text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                                    </div>
+                                                </div>`);
                                 });
                             }
                             mainNav.push(`</div>`);

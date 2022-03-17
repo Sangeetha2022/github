@@ -218,7 +218,8 @@ export class CodeGenerationService {
                       console.log('cannot able to geneate the backend node services');
                     }
                   );
-
+                  
+                  //shared feature backend generate the file into the services feature
                   const sharedfeaturejson = {
                     feature: featureElement.name, // feature Name
                     webframework: projectDetails.clientFramework.label, // like * Angular 13
@@ -240,8 +241,6 @@ export class CodeGenerationService {
                         );
                       }
                     });
-                  } else {
-                    next();
                   }
 
                   const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
@@ -289,7 +288,8 @@ export class CodeGenerationService {
                     console.log('cannot able to generate the frontend component for each screens');
                   });
 
-                  console.log('shared feature data', sharedfeaturejson);
+
+                  //shared feature backend generate the file into the client feature webframework
                   if(featureElement.feature_type === 'external'){
                     externalFeature.filter( async sharedfeatureservice => {
                       if(sharedfeatureservice.name === featureElement.name){
@@ -301,9 +301,7 @@ export class CodeGenerationService {
                         );
                       }
                     });
-                  } else {
-                    next();
-                  }
+                  } 
 
                   console.log('get response from frontend feature screens with entities');
                   next();

@@ -86,7 +86,7 @@ export class UpdatetagsComponent implements OnInit {
         this.ItemTags.created_by = sessionStorage.getItem('email');
         // this.GpGetAllValues();
         this.activatedRoute.queryParams.subscribe(params => { 
-            this.queryId = params.id;
+            this.queryId = params['id'];
             this.GpGetNounById();
         });
     }
