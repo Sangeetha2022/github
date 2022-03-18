@@ -3,8 +3,10 @@ import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
-export const ScreenSchema = new Schema({
-    _id: {
+export const ScreenSchema = new Schema
+({
+    _id: 
+    {
         type: String,
         default: uuid.v1
     },
@@ -18,19 +20,23 @@ export const ScreenSchema = new Schema({
     'component-lifecycle': [],
     'special-events': [],
     screenName: String,
-    is_grid_present: {
+    is_grid_present: 
+    {
         type: Boolean,
         default: false
     },
-    is_bootStrapTable_present: {
+    is_bootStrapTable_present: 
+    {
         type: Boolean,
         default: false
     },
-    grid_fields: {
+    grid_fields: 
+    {
         htmlId: String,
         componentId: String,
         entityId: { type: String, default: null },
-        custom_field: [{
+        custom_field: 
+        [{
             columnid: String,
             columnname: String,
             entity: String,
@@ -39,18 +45,21 @@ export const ScreenSchema = new Schema({
         default_field: [],
         event: String
     },
-    specific_attribute_Event:[{
+    specific_attribute_Event:
+    [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
         selected_event: { type: String, default: null }
     }],
-    entity_info: [{
+    entity_info: 
+    [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
         entityId: { type: String, default: null },
-        fields: {
+        fields: 
+        {
             fieldId: { type: String, default: null },
             name: { type: String, default: null },
             description: { type: String, default: null },
@@ -58,7 +67,8 @@ export const ScreenSchema = new Schema({
             dataType: { type: String, default: null }
         }
     }],
-    flows_info: [{
+    flows_info: 
+    [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
@@ -67,7 +77,8 @@ export const ScreenSchema = new Schema({
         flow: { type: String, ref: 'flows' },
         flowName: { type: String, default: null }
     }],
-    route_info: [{
+    route_info: 
+    [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
@@ -79,17 +90,20 @@ export const ScreenSchema = new Schema({
         screenFlow: { type: String, default: null },
         screenFlowName: { type: String, default: null }
     }],
-    link_info: [{
+    link_info: 
+    [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
         linkType: { type: String, default: null },
         externalURL: { type: String, default: null },
-        internalURL: {
+        internalURL: 
+        {
             screenId: { type: String, default: null },
             screenName: { type: String, default: null }
         },
-        entity: {
+        entity: 
+        {
             id: { type: String, default: null },
             name: { type: String, default: null },
             fieldId: { type: String, default: null },
@@ -97,7 +111,8 @@ export const ScreenSchema = new Schema({
         },
         isDynamic: { type: Boolean, default: false },
         paramType: { type: String, default: null },
-        paramArray: [{
+        paramArray: 
+        [{
             name: { type: String, default: null },
             fieldName: { type: String, default: null }
         }]
@@ -110,8 +125,15 @@ export const ScreenSchema = new Schema({
     stylesheets: [],
     scripts: [],
     'css-guidelines': [],
-    created_at: {
+    created_at: 
+    {
         type: Date,
         default: Date.now
-    }
+    },
+    is_tagBlock_present:{type:Boolean,default:false},
+    tagValues:
+    [{
+        name:{type:String,default:''},
+        tagName:{type:String,default:''}
+    }]
 })

@@ -90,7 +90,7 @@ export class BlockService
               <div class="gjs-block-label"> Tag Manager </div>`,
       category: 'Special',
       content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-                  <select data-gjs-type="tagmanager">
+                  <select data-gjs-type="tagmanager-type">
                     <option value="1">Option 1</option>
                     <option value="2">Option 2</option>
                     <option value="3">Option 3</option>
@@ -101,6 +101,7 @@ export class BlockService
       draggable: true,
       removable: true
     });
+    this.traitService.tagManagerTraits(editor, 'tagmanager-type');
   }
 
   addMultiSelectDropdown(editor:any) 

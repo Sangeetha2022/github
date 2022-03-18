@@ -1,3 +1,11 @@
+// // @ts-ignore
+// import iconD from 'node_modules/tui-image-editor/dist/svg/icon-d.svg';
+// // @ts-ignore
+// import iconB from 'node_modules/tui-image-editor/dist/svg/icon-b.svg';
+// // @ts-ignore
+// import iconA from 'node_modules/tui-image-editor/dist/svg/icon-a.svg';
+// // @ts-ignore
+// import iconC from 'node_modules/tui-image-editor/dist/svg/icon-c.svg';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { customAlphabet } from 'nanoid'
@@ -139,6 +147,7 @@ export class DesktopScreenComponent implements OnInit
   modifierUsageObject: any;
   modifiersDetails: any = [];
   is_grid_present: Boolean=false;
+  is_tagBlock_present:Boolean=false;
   is_bootStrapTable_present: Boolean=false;
   isGridPopup:boolean=false;
   agGridFields!: FormGroup;
@@ -188,6 +197,12 @@ export class DesktopScreenComponent implements OnInit
       e: 'ee' + Math.floor(Math.random() * 10000)
     },
     event: ''
+  };
+  tagValues:any[]=[];
+  public tagNames=
+  {
+    name:'',
+    tagName:''
   };
   agGridArray: any[] = [];
   allEntityField:any[]=[];
@@ -416,12 +431,30 @@ export class DesktopScreenComponent implements OnInit
                 initMenu: 'filter',
               },
             },
+            // icons: 
+            // {
+            //   'menu.normalIcon.path': iconD,
+            //   'menu.activeIcon.path': iconB,
+            //   'menu.disabledIcon.path': iconA,
+            //   'menu.hoverIcon.path': iconC,
+            //   'submenu.normalIcon.path': iconD,
+            //   'submenu.activeIcon.path': iconC,
+            // },
+            // script: 
+            // [
+            //   'https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js',
+            //   'https://uicdn.toast.com/tui-color-picker/v2.2.7/tui-color-picker.min.js',
+            //   'https://uicdn.toast.com/tui-image-editor/v3.15.2/tui-image-editor.min.js'
+            // ],
+            // style: 
+            // [
+            //   'https://uicdn.toast.com/tui-color-picker/v2.2.7/tui-color-picker.min.css',
+            //   'https://uicdn.toast.com/tui-image-editor/v3.15.2/tui-image-editor.min.css',
+            // ],
            }
         },
         assetManager:
         {
-          // embedAsBase64: true,
-          // assets: [ ],
           assets: [ ],
           uploadFile: async(e:any) => 
           {
@@ -1179,7 +1212,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           is_bootStrapTable_present: this.is_bootStrapTable_present,
           screenOption: this.screenOption,
           specific_attribute_Event: this.specific_attribute_Event,
-          columnOptions:this.columnOptions
+          is_tagBlock_present:this.is_tagBlock_present,
+          tagValues:this.tagValues
         });
       }
   }
@@ -1261,6 +1295,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.project_id = this.existScreenDetail[0]['project'];
                 this.screenName = this.existScreenDetail[0]['screenName'];
                 this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
+                this.is_tagBlock_present=this.existScreenDetail[0]['is_tagBlock_present'];
+                this.tagValues=this.existScreenDetail[0]['tagValues'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                 console.log("AgGridObject:",this.agGridObject);
                 //change colname array
@@ -1284,8 +1320,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                 this.linkArray = this.existScreenDetail[0]['link_info'];
-                this.addGridBlocks();
-                
+                this.addGridBlocks();                
                 this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                 this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
                 console.log('------get grapesjs css-------', this.editor.getStyle());
