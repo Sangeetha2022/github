@@ -58,14 +58,22 @@
 
 #ent1 {
     color: blue;
-    font-size: 25px;
+    font-size: 20px;
+    margin: 0 0 0 10px;
+    padding: 0 0 0 5px;
 }
 
 #ent2 {
     color: red;
-    font-size: 25px;
+    font-size: 20px;
+    margin: 0 0 0 10px;
+    padding: 0 0 0 5px;
 }
 
+.col-3 {
+    flex: 0 0 auto;
+    width: 28%;
+}
 #po:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -137,7 +145,7 @@
     font-weight: 500;
     font-size: 16px;
     color: #404040;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 15px;
     margin: 5px 0 0 0;
 }
 
@@ -158,7 +166,7 @@
     font-family: Montserrat, sans-serif;
     color: #302C5E;
     font-size: 25px;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 15px;
 }
 
 #create_btn {
@@ -181,9 +189,8 @@
 
 @media (max-width: 768px) {}
 
-.card_align {
-    width: auto;
-    height: 200px;
+.card_align{
+    width: auto; height: auto;
 }
 
 .col-sm-4 {
