@@ -154,7 +154,8 @@ export class TraitsService
       view: defaultType.view
     });
   }
-   // button traits
+
+  // button traits
   initializeButtonMethod(screenGlobalVariable:any) 
   {
       const comps = screenGlobalVariable.editor.DomComponents;
@@ -393,6 +394,37 @@ export class TraitsService
             droppable: false,
             traits:
             []
+          })
+        },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        })
+    });
+  }
+  tagManagerTraits(editor:any, buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend(
+      {
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            [
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'tagname', label: 'TagName' },
+            ]
           })
         },
         {

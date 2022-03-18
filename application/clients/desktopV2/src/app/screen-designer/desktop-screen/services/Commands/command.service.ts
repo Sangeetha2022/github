@@ -320,7 +320,7 @@ export class CommandService
     });    
   }
   toggle($this:any)
-   {
+  {
     // it worked well if we inject the buttons close to the input fields
     $this.editor.on('component:toggled', (model: any) => { });
   }
@@ -609,7 +609,7 @@ export class CommandService
       const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
       const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
-      const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager"]');
+      const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager-type"]');
       const multiSelectDropdown=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="multiselect-type"]');
       const highChart=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="highcharts-type"]');
       const image=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="image"]');
@@ -653,13 +653,25 @@ export class CommandService
           dynamicdropdownType.forEach((element:any) => 
           {
              element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);
+             const name=`dynamicdropdown_${element.ccid}`;
+             console.log("DynamicDropdown name:",name);
           });
+          
       }
       if (tagManager.length > 0) 
       {
+        $this.is_tagBlock_present=true;
         tagManager.forEach((element:any) => 
         {
-          element.attributes.traits.target.set('name', `tagmanager_${element.ccid}`);
+          element.attributes.traits.target.set('name', `${element.attributes.type}`);
+          const name=`${element.attributes.type}`;
+          console.log("TagManager name:",name);
+          const tagName='Option1';
+          $this.tagNames.name=name;
+          $this.tagNames.tagName=tagName;
+          console.log("TagNames:",$this.tagNames);
+          $this.tagValues.push($this.tagNames);
+          console.log("TagValues:",$this.tagValues);
         });
       }
       if (multiSelectDropdown.length > 0) 

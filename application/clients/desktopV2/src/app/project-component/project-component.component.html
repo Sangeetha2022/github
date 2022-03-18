@@ -20,7 +20,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <img src="./assets/images/shareable_features/feature icon.png" alt="">
+                                    <img src="./assets/images/shareable_features/{{feature.name}}.png" onerror="this.onerror=null;this.src='./assets/images/shareable_features/feature icon.png';" />
                                 </div>
                                 <div class="col-lg-8 p-4">
                                     <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
@@ -43,147 +43,25 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-8 p-4">
-                            <p id="Entry_text_heading">Feature Library</p>
+                            <div id="Entry_text_heading">
+                                <h3>Feature Library</h3>
+                            </div>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control" name="result" id="ser" placeholder="Search..." [(ngModel)]="result" />
                         </div>
                     </div>
                     <div class="row m-4 p-4">
-                        <div class="col-sm-4" *ngFor="let shared of getAllSharableFeatueData ; let i= index">
-                            <div class="card p-2 card_align" id="po"  >
+                        <div class="col-sm-4" *ngFor="let shared of getAllSharableFeatueData; let i= index">
+                            <div class="card p-2" id="po" (click)="addFeature(shared.feature_name,shared.description)">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-4">
-                                            <img src="../../assets/images/shareable_features/{{shared.feature_name}}.png" alt="">
+                                            <img src="../../assets/images/shareable_features/{{shared.feature_name}}.png" alt=" ">
                                         </div>
                                         <div class="col-lg-8 p-4">
                                             <p id="Entry_text_heading" class="card-title">{{shared.feature_name}}</p>
-                                            <p id="Entry_text_description" class="card-text">Management</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/vault.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Vault</p>
-                                            <p id="Entry_text_description" class="card-text">Administration</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:autp; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/security.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Security</p>
-                                            <p id="Entry_text_description" class="card-text">Manager</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>
-                     <div class="row m-4 p-4">
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/notifications.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Notifications</p>
-                                            <p id="Entry_text_description" class="card-text">Gep</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/file manager.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">File Manager</p>
-                                            <p id="Entry_text_description" class="card-text">Gep</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/wordpress.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Wordpress</p>
-                                            <p id="Entry_text_description" class="card-text">Administration</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row m-4 p-4">
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/grapesjs.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">GrapesJs</p>
-                                            <p id="Entry_text_description" class="card-text">Administration</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/grid.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Grid</p>
-                                            <p id="Entry_text_description" class="card-text">Connector</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="card p-2" id="po" style="width:auto; height:auto;">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="./assets/images/shareable_features/connector.png" alt="">
-                                        </div>
-                                        <div class="col-lg-8 p-4">
-                                            <p id="Entry_text_heading" class="card-title">Default Icon</p>
-                                            <p id="Entry_text_description" class="card-text">Connector</p>
+                                            <p id="Entry_text_description" class="card-text">{{shared.description}}</p>
                                         </div>
                                     </div>
                                 </div>
