@@ -15,8 +15,6 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 import { PEntity } from '../project-component/interface/Entity';
-import { pipe } from 'rxjs';
-import { filter } from 'rxjs-compat/operator/filter';
 
 
 @Component
@@ -416,15 +414,15 @@ export class EntityManagerComponent implements OnInit
   {
     this.spinner.show();
     this.projectComponentService.getAllSharableFeatue(this.project_id,this.logId).subscribe(response =>
-      {
+    {
         console.log(this.project_id, this.logId);
         this.spinner.hide();
         this.getAllSharableFeatueData = response.body;
         console.log("All Sharable Feature",this.getAllSharableFeatueData);
-      },
-      error => { });
-      }
-      //Search Feature
+    },
+    error => { });
+  }
+  //Search Feature
 
 
   //To get the selected project
@@ -444,11 +442,78 @@ export class EntityManagerComponent implements OnInit
         this.displayFeatureModel = 'none';
   }
 
+  addFeature(name:any,description:any)
+  {
+    this.featureInfo.name = name.toLowerCase();
+    console.log("FeatureInfo.name:",this.featureInfo.name);
+    this.featureInfo.description=description;
+    console.log("FeatureInfo.description:",this.featureInfo.description);
+    this.featureInfo.project = this.project_id;
+    this.featureInfo.type='external';
+    console.log("FeatureInfo.project:",this.featureInfo.project);
+    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
+    {
+      console.log("projFeature:",projFeature);
+      if (projFeature.body.length > 0) 
+      {
+        projFeature.body.forEach((feature: { name: any; }) => 
+        {
+            if (feature.name === this.featureInfo.name) 
+            {
+                this.isFeatureExist = true;
+            }
+        });
+      }
+      if (!this.isFeatureExist) 
+      {
+        this.spinner.show();
+        this.featureInfo.description = description;
+        this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
+        {
+          console.log("featureData:",featureData);
+          this.featureInfo = { name: '', description: '', project: '', type: '' };
+          this.displayFeatureModel = 'none';
+          this.menuBuilder = 
+          {
+            feature: [], project: '', language: '',
+            menuDetails: [], project_languages: this.menuLanguages, menu_option: true
+          };
+          this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+          {
+            if (menuBuilderData.body && menuBuilderData.body.length !== 0) 
+            {
+                menuBuilderData.body.forEach((menuData:any) => 
+                {
+                    if (menuData.menu_option === true) 
+                    {
+                        this.menuBuilder.feature = menuData.feature;
+                        this.menuBuilder.project = this.project_id;
+                        this.menuBuilder.language = menuData.language;
+                        this.menuBuilder.feature.push(featureData.body._id);
+                        this.menuBuilder.menuDetails = menuData.menuDetails;
+                        this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder, this.logId).subscribe(fMenu => 
+                        { }, error => console.log('cannot able to update the menu details'));
+                    }
+                });
+            }
+          });
+          this.getFeatureByProjectId();
+          this.spinner.hide();
+        },
+        (error) => 
+        {
+          this.logger.log('error',error);
+        })
+      }
+    });
+  }
+
   //To create the new feature
   createFeature() 
   {
     this.featureInfo.name = this.featureInfo.name.toLowerCase();
     this.featureInfo.project = this.project_id;
+    this.featureInfo.type='internal';
     this.validatorService.checkNamingConvention(this.featureInfo.name);
     this.validatorService.checkReserveWords(this.featureInfo.name);
     this.validatorService.currentProjectInfo.subscribe(data => 
@@ -468,6 +533,7 @@ export class EntityManagerComponent implements OnInit
     });
     this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
     {
+      console.log("projFeature:",projFeature);
       if (projFeature.body.length > 0) 
       {
         projFeature.body.forEach((feature: { name: any; }) => 
@@ -485,6 +551,7 @@ export class EntityManagerComponent implements OnInit
         this.featureInfo.description.trim();
         this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
         {
+          console.log("featureData:",featureData);
           this.featureInfo = { name: '', description: '', project: '', type: '' };
           this.displayFeatureModel = 'none';
           this.menuBuilder = 
