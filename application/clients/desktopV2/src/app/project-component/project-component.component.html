@@ -53,7 +53,7 @@
                     </div>
                     <div class="row m-4 p-4">
                         <div class="col-sm-4" *ngFor="let shared of getAllSharableFeatueData; let i= index">
-                            <div class="card p-2" id="po" (click)="addFeature(shared.feature_name,shared.description)">
+                            <div class="card p-2" id="po" (click)="addFeature(shared.feature_name, shared.description, shared)">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-4">

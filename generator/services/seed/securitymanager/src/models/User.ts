@@ -14,7 +14,7 @@ export const Userschema = new Schema ({
     lastname: String,
     email: String,
     password: String,
-    avatar: String,
+    avatar: { type:String, default: null },
     role: { type: mongoose.Schema.Types.String, ref: 'roles' },
     signintype: String,
     Idtoken: String,

@@ -442,15 +442,17 @@ export class EntityManagerComponent implements OnInit
         this.displayFeatureModel = 'none';
   }
 
-  addFeature(name:any,description:any)
+  //To create a external shared feature
+  addFeature(name:any,description:any, values:any)
   {
     this.featureInfo.name = name.toLowerCase();
-    console.log("FeatureInfo.name:",this.featureInfo.name);
     this.featureInfo.description=description;
-    console.log("FeatureInfo.description:",this.featureInfo.description);
     this.featureInfo.project = this.project_id;
-    this.featureInfo.type='external';
-    console.log("FeatureInfo.project:",this.featureInfo.project);
+    this.featureInfo.type='';
+    console.log(values);
+    this.featureInfo.feature_type = values.feature_type;
+    this.featureInfo.flow = values.web_client_properties.flows;
+    console.log('values', this.featureInfo)
     this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
     {
       console.log("projFeature:",projFeature);
@@ -497,6 +499,7 @@ export class EntityManagerComponent implements OnInit
                 });
             }
           });
+          this.projectComponentService.createEntity
           this.getFeatureByProjectId();
           this.spinner.hide();
         },
