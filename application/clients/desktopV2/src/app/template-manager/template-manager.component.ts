@@ -14,12 +14,14 @@ import { TemplateScreenService } from '../template-screen/template-screen.servic
 
 export class TemplateManagerComponent implements OnInit 
 {
-  @Input() projectId: string='';
-  logId = sessionStorage.getItem('LogId');
-  displayTemplateModel:String='none';
-  gepTemplates: any = [];
-  gepTempImages:any=[];
-  templateObj= 
+  @Input() projectId: string = '';
+  public logId:any = sessionStorage.getItem('LogId');
+  public UserId:any=  sessionStorage.getItem('Id');
+  public displayTemplateModel:String = 'none';
+  public gepTemplates: any = [];
+  public gepTempImages:any = [];
+  public projectTemplateId:any;
+  templateObj = 
   {
     app_ui_template: '',
     app_ui_template_id: '',
@@ -95,7 +97,7 @@ export class TemplateManagerComponent implements OnInit
   }
 
   //Get the Selected Template and Storing to Template details to Template Object
-  onTemplateSelect(template:any) 
+  public async onTemplateSelect(template:any) 
   {
     this.templateObj = 
     {
@@ -103,10 +105,38 @@ export class TemplateManagerComponent implements OnInit
       app_ui_template_id: template._id,
       app_ui_template_name: template.template_name
     };
-    console.log("templateObj:",this.templateObj);
+
+    await this.templateManagerService.getProjectTemplate(this.projectId, this.logId).subscribe(response => {
+      this.projectTemplateId = response.body[0]._id;
+      this.Updatetemplatemanager();
+    });
     this.closeTemplateModal();
   }
 
+  // update the template to own uses
+  public Updatetemplatemanager() {
+    this.templateManagerService.getGepTemplate(this.templateObj.app_ui_template, this.logId).subscribe(data => {
+
+        data.body.project_id = this.projectId;
+
+        if (data && data.body)
+        {
+          this.templateManagerService.updateProjectTemplate(data.body, this.projectTemplateId, this.logId).subscribe(postRes => { 
+            this.templateManagerService.updateProjectById(this.projectId, this.templateObj, this.logId).subscribe( res => {
+              this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
+                
+              });
+            });
+          });
+        }
+    });
+  }
+
+  // create new template with project_template customize data
+  public createCustomTemplate() {
+
+  }
+  
   closeTemplateModal() 
   {
     this.displayTemplateModel = 'none';
