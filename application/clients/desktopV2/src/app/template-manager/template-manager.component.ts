@@ -57,7 +57,17 @@ export class TemplateManagerComponent implements OnInit
 
   createTemplate()
   {
-    this.router.navigate(['/desktopscreen']);
+    this.templateManagerService.getProjectTemplate(this.projectId, this.logId).subscribe(response => 
+    {
+      this.router.navigate(['/desktopscreen'],
+      {
+        queryParams: 
+        {
+          'template-project-id': response.body[0]._id,
+          'projectId': this.projectId
+        }
+      });
+    });
   }
 
   changeTemplate()
@@ -118,7 +128,7 @@ export class TemplateManagerComponent implements OnInit
     this.templateManagerService.getGepTemplate(this.templateObj.app_ui_template, this.logId).subscribe(data => {
 
         data.body.project_id = this.projectId;
-
+        console.log(data.body, this.projectTemplateId);
         if (data && data.body)
         {
           this.templateManagerService.updateProjectTemplate(data.body, this.projectTemplateId, this.logId).subscribe(postRes => { 
@@ -130,11 +140,6 @@ export class TemplateManagerComponent implements OnInit
           });
         }
     });
-  }
-
-  // create new template with project_template customize data
-  public createCustomTemplate() {
-
   }
   
   closeTemplateModal() 
