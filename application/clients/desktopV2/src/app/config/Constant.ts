@@ -103,6 +103,8 @@ export class Constants
         public static get getProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template';}
         public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
         public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
+        public static get addNewTemplate(): string {return this.DESKTOP_ROUTER + '/template/save';}
+        public static get updateNewTemplate(): string { return this.DESKTOP_ROUTER + '/template/update'}
         public static get updateProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/update';}
 
         //Flow api's

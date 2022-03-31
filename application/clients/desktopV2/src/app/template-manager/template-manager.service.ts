@@ -32,4 +32,8 @@ export class TemplateManagerService
   getProjectByUserId(UserId:string, logId:string): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}?log_id=${logId}`);
   }
+  
+  updateCustomNewTemplate(templateData:any, logId:string){
+    return this.api.get(`${this.restapi.Apigateway}${Constants.updateNewTemplate}?log_id=${logId}`);
+  }
 }

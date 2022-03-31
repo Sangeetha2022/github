@@ -256,6 +256,7 @@ export class DesktopScreenComponent implements OnInit
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
+  addTemplateUrl:any;
   public pageLinkObj:any = 
   {
     linkType: '',
@@ -580,6 +581,7 @@ export class DesktopScreenComponent implements OnInit
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
+      this.addTemplateUrl = `${this.sharedService.Apigateway}${Constants.addNewTemplate}`;
       this.agGridFields = this.formBuilder.group
       ({
         selectColumn: ['', Validators.required],
@@ -1379,7 +1381,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         {
             console.log('screenId error are ---- ', error);
         });
-      } 
+      } else if(this.currentProjectId) {
+        this.editor.StorageManager.get('remote').set
+        ({
+          urlStore: this.addTemplateUrl,
+        });
+      }
       else 
       {
         this.editor.StorageManager.get('remote').set
@@ -1434,7 +1441,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         else 
         {
           console.log('else edit template')
-          // this.saveRemoteStorage();
+          this.saveRemoteStorage();
           this.getScreenById();
           this.closeScreeName();
           this.spinner.show();
@@ -1443,18 +1450,20 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
             console.log("tempalte Data:",data);
             if (data && data.body)
             {
-              console.log(data.body);
+              console.log(data.body, this.screenName);
               let project_template_data = data.body;
+              let screen_name = this.screenName;
 
               //current updateProjectById object data 
               let project_template_Obj = 
               {
-                app_ui_template: project_template_data.screenName.toUpperCase(),
-                app_ui_template_name: `gep_${project_template_data.screenName.toUpperCase()}`
+                app_ui_template: screen_name.toUpperCase(),
+                app_ui_template_name: `gep_${screen_name.toUpperCase()}`
               };
 
               //current updateProjectTemplate object data
               let project_template_object = {
+                  flag: 'inactive',
                   project_id: this.currentProjectId,
                   'navigation-type': this.template_navigation_type,
                   'gjs-assets': project_template_data['gjs-assets'],
@@ -1466,20 +1475,23 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                   'scripts': project_template_styles.scripts,
                   'template_image': project_template_styles.template_image,
                   'css-guidelines': project_template_styles['css-guidelines'],
-                  'template_name': project_template_data.screenName.toUpperCase(),
+                  'name': screen_name.toUpperCase(),
+                  'template_name': `gep_${screen_name.toUpperCase()}`,
                   date: {
                       type: Date,
                       default: Date.now
                   }
               }
               console.log('project_template_data', project_template_object);
-                this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
-                  this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
-                    this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
+              // this.templateManagerService.updateCustomNewTemplate(project_template_object, this.logId).subscribe(res => {
+              //   this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
+              //     this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
+              //       // this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
                       
-                    });
-                  });
-                });
+              //       // });
+              //     });
+              //   });
+              // });
             }
             // this.screen_id = data.body._id;
             // this.scr=data.body.screenName;
@@ -1489,6 +1501,9 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           });
         }
     }
+  }
+  screen_name(screen_name: any) {
+    throw new Error('Method not implemented.');
   }
 
   onCloseModel() 

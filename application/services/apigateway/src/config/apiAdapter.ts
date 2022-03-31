@@ -6,8 +6,6 @@ export class ApiAdapter {
         console.log('post url ', url);
         return new Promise((resolve, reject) => {
             request.post({ url: url, json: body }, (error, response, body) => {
-                console.log("url---------->", url);
-                console.log("body--------->", body);
                 if (body !== undefined) {
                     this.sendResponse(resolve, reject, error, response, body);
                 } else if (body === undefined) {
@@ -61,8 +59,6 @@ export class ApiAdapter {
         console.log('post url ', url);
         return new Promise((resolve, reject) => {
             request.post({ url: url, formData: formdata }, (error, response, body) => {
-                console.log("url---------->", url);
-                console.log("body--------->", body);
                 if (body !== undefined) {
                     this.sendResponse(resolve, reject, error, response, body);
                 } else if (body === undefined) {
