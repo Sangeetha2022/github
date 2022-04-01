@@ -1314,7 +1314,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   getScreenById() 
   {
-      console.log("Screen_id:",this.screen_id);
       if (this.screen_id) 
       {
         this.spinner.show();
@@ -1425,10 +1424,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           });
         }
     } else if(this.feature_id === '' || null){
-      console.log('template main file update');
       if (this.isTemplateEdit) 
         {
-          console.log('edit template');
           this.saveRemoteStorage(this.templateObj);
           this.closeScreeName();
           this.spinner.show();
@@ -1440,19 +1437,19 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         } 
         else 
         {
-          console.log('else edit template')
           this.saveRemoteStorage();
           this.getScreenById();
           this.closeScreeName();
           this.spinner.show();
           this.editor.store( async(data:any) => 
           {
-            console.log("tempalte Data:",data);
+
             if (data && data.body)
             {
               console.log(data.body, this.screenName);
               let project_template_data = data.body;
               let screen_name = this.screenName;
+              let newTemplateId = data.body._id;
 
               //current updateProjectById object data 
               let project_template_Obj = 
@@ -1476,28 +1473,19 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                   'template_image': project_template_styles.template_image,
                   'css-guidelines': project_template_styles['css-guidelines'],
                   'name': screen_name.toUpperCase(),
-                  'template_name': `gep_${screen_name.toUpperCase()}`,
-                  date: {
-                      type: Date,
-                      default: Date.now
-                  }
+                  'template_name': `gep_${screen_name.toUpperCase()}`
               }
-              console.log('project_template_data', project_template_object);
-              // this.templateManagerService.updateCustomNewTemplate(project_template_object, this.logId).subscribe(res => {
-              //   this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
-              //     this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
-              //       // this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
+
+              this.templateManagerService.updateCustomNewTemplate(project_template_object, newTemplateId, this.logId).subscribe(res => {
+                this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
+                  this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
+                    this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
                       
-              //       // });
-              //     });
-              //   });
-              // });
+                    });
+                  });
+                });
+              });
             }
-            // this.screen_id = data.body._id;
-            // this.scr=data.body.screenName;
-            // console.log("ScreenName:",this.scr);
-            // this.spinner.hide();
-            // this.getScreenById();
           });
         }
     }

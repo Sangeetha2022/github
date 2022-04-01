@@ -33,7 +33,7 @@ export class TemplateManagerService
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}?log_id=${logId}`);
   }
   
-  updateCustomNewTemplate(templateData:any, logId:string){
-    return this.api.get(`${this.restapi.Apigateway}${Constants.updateNewTemplate}?log_id=${logId}`);
+  updateCustomNewTemplate(templateData:any, id:any, logId:string){
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateNewTemplate}/${id}?log_id=${logId}`, templateData);
   }
 }

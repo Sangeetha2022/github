@@ -115,7 +115,6 @@ export class ProjectComponent implements OnInit
       {
         this.spinner.hide();
         this.myAllProjects = data.body;
-        console.log(this.myAllProjects);
       }
     }, 
     error => 
