@@ -169,7 +169,7 @@ export class TraitsService
             {
               draggable: '*',
               droppable: false,
-              traits: 
+              traits:     
               [
                 {
                   label: 'Name',
@@ -410,23 +410,49 @@ export class TraitsService
   tagManagerTraits(editor:any, buttonName:any)
   {
     const comps = editor.DomComponents;
+    const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     comps.addType(buttonName,
     {
-      model: defaultModel.extend(
-      {
+      model: defaultModel.extend
+      ({
           defaults: Object.assign({}, defaultModel.prototype.defaults,
           {
             draggable: '*',
             droppable: false,
             traits:
             [
-              { name: 'name', label: 'Name', changeProp: 1 },
-              { name: 'tagname', label: 'TagName' },
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                label: 'TagName',
+                name: 'tagname',
+                type: 'text',
+                changeProp: 1
+              },
             ]
-          })
-        },
+          }),
+          init()
+          {
+            this.listenTo(this,'change:name',this.nameChange);
+            this.listenTo(this,'change:tagname',this.tagNameChange);
+          },
+          nameChange()
+          {
+            const enteredName=this.changed['name'];
+            console.log("Name:",enteredName);
+          },
+          tagNameChange()
+          {
+            const enteredTagName=this.changed['tagname'];
+            console.log("TagName:",enteredTagName);
+          }
+      },
         {
           isComponent: function (el:any)
           {
@@ -435,7 +461,9 @@ export class TraitsService
               return {type: buttonName};
             }
           }
-        })
+        }),
+        // Define the View
+        view: defaultType.view,
     });
   }
 
@@ -963,7 +991,11 @@ export class TraitsService
             screensVariable.modifierUsageObject.modify_target_type = 'flow';
           }
         },
-        ElementName() { },
+        ElementName() 
+        {
+           const gridName=this.changed['name'];
+           console.log("GridName:",gridName);
+        },
         checkbox() 
         {
           screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;

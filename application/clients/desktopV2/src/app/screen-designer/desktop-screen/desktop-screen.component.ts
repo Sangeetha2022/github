@@ -63,6 +63,7 @@ export class DesktopScreenComponent implements OnInit
   screen_id: String='';
   traitsName: String='';
   isTemplateEdit:boolean=false;
+  isNewTemplate:boolean=false;
   isFieldPopupModal:boolean=false;
   isLifeCycleRow: boolean=false;
   isCustomPopup:boolean = false;
@@ -353,6 +354,11 @@ export class DesktopScreenComponent implements OnInit
         this.isTemplateEdit = true;
         this.projectTemplateId = params['project-template-id'];
         this.getProjectTemplate(this.projectTemplateId);
+      }
+      if(params['new-template=true'])
+      {
+        this.isNewTemplate=true;
+        this.project_id=params.projectId;
       }
     });
     this.stylesheets = JSON.parse(localStorage.getItem('stylesheets')|| '{}');
@@ -748,6 +754,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       }
     }
   }
+
   //To get Project Template this function called when modify template clicked
   getProjectTemplate(id:any) 
   {
@@ -1356,6 +1363,10 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           this.getProjectTemplate(this.projectTemplateId);
         });
       } 
+      else if(this.isNewTemplate)
+      {
+        
+      }
       else 
       {
         this.saveRemoteStorage();

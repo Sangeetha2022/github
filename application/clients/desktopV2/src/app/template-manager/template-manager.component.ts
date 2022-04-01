@@ -55,7 +55,14 @@ export class TemplateManagerComponent implements OnInit
 
   createTemplate()
   {
-    this.router.navigate(['/desktopscreen']);
+    this.router.navigate(['/desktopscreen'],
+    {
+      queryParams:
+      {
+        'new-template':true,
+        'project_id':this.projectId
+      }  
+    });
   }
 
   changeTemplate()
