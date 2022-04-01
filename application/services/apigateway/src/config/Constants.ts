@@ -49,6 +49,7 @@ export class Constants {
     public static swaggerGenUrl: String;
     public static reactgenUrl: String;
     public static reactTemplateGenUrl: String;
+    public static sharedFeaturesGenUrl: String;
     // public static apiGatewayURL: String;
 
     constructor() {
@@ -106,6 +107,7 @@ export class Constants {
                 Constants.swaggerGenUrl = process.env.swaggergenmanager + ":5020";
                 Constants.reactgenUrl = process.env.reactgenmanager + ":5045";
                 Constants.reactTemplateGenUrl = process.env.reacttemplatemanager + ":5046";
+                Constants.sharedFeaturesGenUrl = process.env.sharedfeaturesgenmanager + ":5025";
 
                 break;
 

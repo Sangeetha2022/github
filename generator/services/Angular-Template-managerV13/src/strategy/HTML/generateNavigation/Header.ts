@@ -77,7 +77,7 @@ export class TemplateHeader {
         // --------------------------------------------------------------------
         #icrvgp {
             padding: 5px 0 5px 10px;
-            height: 50px;
+            /* height: 50px; */
             flex: 1 1 100%;
         }
         

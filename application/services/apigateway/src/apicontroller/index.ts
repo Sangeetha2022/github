@@ -45,3 +45,4 @@ export * from './generator/react.controller';
 export * from './generator/defaultServices.controller';
 export * from './generator/sefnode.controller';
 export * from './generator/reactTemplate.controller';
+export * from './generator/sharedfeaturesgen.controller';

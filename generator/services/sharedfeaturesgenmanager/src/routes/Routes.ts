@@ -11,7 +11,8 @@ export class Routes {
                 status: 'up'
             })
         })
-        app.route('/gepfeatureconfig').post(this.gepfeatureconfig.createGepFeatures);
+        app.route('/gfcservice').post(this.gepfeatureconfig.createGepFeaturesServices);
+        app.route('/gfcclient').post(this.gepfeatureconfig.createGepFeaturesClient);
      }
 
 }

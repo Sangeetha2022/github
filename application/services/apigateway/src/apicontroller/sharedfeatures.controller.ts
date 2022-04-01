@@ -68,7 +68,7 @@ export class SharedFeaturesController implements Controller {
 
     public async searchByName(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.SharedFeaturesUrl}/gfc/get/search` + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.SharedFeaturesUrl}/gfc/get/search?feature_name=${req.query.feature_name}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

@@ -6,6 +6,7 @@ import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 import * as generate from 'nanoid/generate';
 import * as dictionary from 'nanoid-dictionary';
+import { custom_template } from '../config/assets';
 
 const Project = mongoose.model('Projects', ProjectSchema);
 const configModel = mongoose.model('gp_config', gpConfigSchema);
@@ -114,16 +115,24 @@ export class ProjectDao {
                         new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
                             .then(
                                 (data: any) => {
-                                    let result = JSON.parse(data)
-                                    let templateImage;
-                                    let templateName;
-                                    result.body.forEach(template => {
-                                        templateImage = template.template_image[0].image,
-                                            templateName = template.template_name
-                                    })
-                                    if (details.app_ui_template_name == templateName) {
+                                    if(data){
+                                        let result = JSON.parse(data)
+                                        let templateImage;
+                                        let templateName;
+                                        result.body.forEach(template => {
+                                            templateImage = template.template_image[0].image,
+                                                templateName = template.template_name
+                                        })
+                                        if (details.app_ui_template_name == templateName) {
+                                            details.app_ui_template_img = templateImage;
+                                            resolve(details)
+                                        }
+                                    } else {
+                                        let templateImage;
+                                        templateImage = custom_template.template_image[0].image;
                                         details.app_ui_template_img = templateImage;
                                         resolve(details)
+                                        console.log(data);
                                     }
                                 });
                     }

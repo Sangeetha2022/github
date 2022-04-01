@@ -2,10 +2,10 @@ name: aws_ec2_deployments_for_{{project_name}}
 on:
   push:
     branches: 
-      - master
+      - main
   pull_request:
     branches: 
-      - master
+      - main
 env:
   AWS_ACCOUNT_ID: ${{#surroundWithCurlyBraces 'secrets.AWS_ACCOUNT_ID' }}{{/surroundWithCurlyBraces}}
   AWS_ROLE_FOR_FARGATE: ${{#surroundWithCurlyBraces ' secrets.AWS_ROLE_FOR_FARGATE '}}{{/surroundWithCurlyBraces}}
@@ -122,7 +122,7 @@ jobs:
         run: echo "::set-output name=FILESYSTEM_ID::$(aws efs create-file-system --performance-mode generalPurpose --throughput-mode bursting --encrypted --tags Key=Name,Value={{s3_bucket_name}} | jq '.FileSystemId')"
       - name: EFS SecurityGroups Added
         run: |
-          sleep 10s
+          sleep 40s
           aws efs create-mount-target --file-system-id ${{#surroundWithCurlyBraces 'steps.EfsID.outputs.FILESYSTEM_ID'}}{{/surroundWithCurlyBraces}} --subnet-id ${{#surroundWithCurlyBraces 'env.AWS_VPC_SUBNET'}}{{/surroundWithCurlyBraces}} --security-group ${{#surroundWithCurlyBraces 'env.AWS_VPC_SECURITY_GROUP'}}{{/surroundWithCurlyBraces}}
       - name: Convert the task_defination.ts to json
         working-directory: .github/workflows
@@ -191,8 +191,8 @@ jobs:
       - name: Link the backend apigateway
         working-directory: ./application/client/web/{{project_name}}/src/environments
         run: |
-          rm -rf environment.ts
-          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, UPLOAD_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:3015`, production: false };' >> environment.ts
+          rm -rf environment.prod.ts
+          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, UPLOAD_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:3015`, production: false };' >> environment.prod.ts
       - name: Production build
         working-directory: ./application/client/web/{{project_name}}
         run: ng build
@@ -207,7 +207,7 @@ jobs:
           SOURCE_DIR: "application/client/web/{{project_name}}/dist/{{project_name}}"
       - name: Enable the static webhosting
         run: |
-          aws s3 website s3://${{#surroundWithCurlyBraces  'env.AWS_S3_BUCKET_NAME' }}{{/surroundWithCurlyBraces}}/ --index-document index.html --error-document error.html
+          aws s3 website s3://${{#surroundWithCurlyBraces  'env.AWS_S3_BUCKET_NAME' }}{{/surroundWithCurlyBraces}}/ --index-document index.html --error-document index.html
           aws s3api put-bucket-policy --bucket ${{#surroundWithCurlyBraces  'env.AWS_S3_BUCKET_NAME' }}{{/surroundWithCurlyBraces}} --policy '{ "Version": "2012-10-17","Statement": [{ "Sid": "PublicReadGetObject", "Effect": "Allow", "Principal": "*", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::${{#surroundWithCurlyBraces  'env.AWS_S3_BUCKET_NAME' }}{{/surroundWithCurlyBraces}}/*"}]}'
   Route53_geppetto_link:
     needs: Upload_S3_Bucket

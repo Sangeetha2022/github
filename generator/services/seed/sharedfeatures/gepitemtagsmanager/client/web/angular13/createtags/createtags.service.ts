@@ -16,14 +16,14 @@ export class CreatetagsService {
     GpCreate(ItemTags:any): Observable<any> {
         let jwt_token = sessionStorage.getItem('JwtToken');
         console.log('rowdata from data', ItemTags);
-        return this.http.post(this.sharedService.DESKTOP_API + '/ItemTags' + `?jwt_token=${jwt_token}`, ItemTags);
+        return this.http.post(this.sharedService.WEB_API + '/ItemTags' + `?jwt_token=${jwt_token}`, ItemTags);
     }
 
     GpGetAllValues(): Observable<any> {
-        return this.http.get(this.sharedService.DESKTOP_API + '/ItemTags');
+        return this.http.get(this.sharedService.WEB_API + '/ItemTags');
     }
 
     GpGetNounById(tagsId:any): Observable<any> {
-        return this.http.get(this.sharedService.DESKTOP_API + '/ItemTags/' + tagsId);
+        return this.http.get(this.sharedService.WEB_API + '/ItemTags/' + tagsId);
     }
 }
