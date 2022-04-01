@@ -35,7 +35,7 @@
         "term": "",
         "comments": "best effort support"
     },
-    "primary_entity": "wcmx_wordpress",
+    "primary_entity": { "entity": "wcmx_wordpress" },
     "secondary_entities": [
         "wcmx_wordpress"
     ],

@@ -46,7 +46,7 @@ export const gfcSchema = new Schema({
       term: { type: String, default: null },
       comments: { type: String, default: null }
    },
-   primary_entity: { type: String, default: null },
+   primary_entity: { type: Object, default: null },
    secondary_entities: { 
       type: [ String ],
       default: null

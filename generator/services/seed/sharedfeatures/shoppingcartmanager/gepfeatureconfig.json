@@ -35,7 +35,7 @@
         "term": "",
         "comments": "best effort support"
     },
-    "primary_entity": "cartshop",
+    "primary_entity": { "entity": "cartshop" },
     "secondary_entities": [
         "carts"
     ],
