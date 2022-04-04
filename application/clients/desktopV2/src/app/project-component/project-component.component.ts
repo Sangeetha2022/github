@@ -449,13 +449,9 @@ export class EntityManagerComponent implements OnInit
     this.featureInfo.description=description;
     this.featureInfo.project = this.project_id;
     this.featureInfo.type='';
-    console.log(values);
     this.featureInfo.feature_type = values.feature_type;
-    // this.featureInfo.flows = values.web_client_properties.flows;
-    console.log('values', this.featureInfo)
     this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
     {
-      console.log("projFeature:",projFeature);
       if (projFeature.body.length > 0) 
       {
         projFeature.body.forEach((feature: { name: any; }) => 
@@ -472,9 +468,7 @@ export class EntityManagerComponent implements OnInit
         this.featureInfo.description = description;
         this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
         {
-          console.log("featureData:",featureData, featureData._id);
           values.web_client_properties.screens.forEach((screen:any) => {
-            console.log('list of screen',screen.screenName);
             delete screen.project;
             delete screen.feature;
             screen.project = this.project_id;
@@ -491,7 +485,6 @@ export class EntityManagerComponent implements OnInit
 
           shared_entity.project_id = this.project_id;
           shared_entity.feature_id = featureData.body._id;
-          console.log('entity data', shared_entity);
 
           //create a entity into get a gfc json from data update the project 
           this.projectComponentService.createEntity(shared_entity, this.logId).subscribe(data => {
@@ -501,16 +494,15 @@ export class EntityManagerComponent implements OnInit
             }
             let add_entity:any[] = [];
             let project_updateData = {
+              _id: featureData.body._id,
               flows: [],
               entities: add_entity,
             }
             add_entity.push(feature_entity);
-            console.log('entity entities', project_updateData);
 
             //create a list flows get and save project flows to save list of ID
             let listOfFlows:any[] = [];
             this.projectComponentService.getAllFlows(this.logId).subscribe( async response => {
-              console.log('data into file', response.body);
               let flowsArray = response.body;
               await flowsArray.forEach((flowsMap:any) => {
                 if(flowsMap.name !== 'GpSEF'){
@@ -519,21 +511,21 @@ export class EntityManagerComponent implements OnInit
                     listOfFlows.push(flowsMap);
                 }
               });
-              console.log(listOfFlows);
-              await this.projectComponentService.saveManyProjectFlow(listOfFlows, this.logId).subscribe(response => {
+
+              // update the list of flows data same time adding
+              await this.projectComponentService.saveManyProjectFlow(listOfFlows, this.logId).subscribe( async response => {
                 if (response.body) 
                 {
                     let projectFlowsId:any = response.body.map(({_id}: any) => _id);
-                    console.log('project_flows_id', projectFlowsId);
                     project_updateData['flows'] = projectFlowsId;
-                    console.log('update the data project', project_updateData);
-                    this.projectComponentService.updatesharedFeature(project_updateData, featureData.body._id, this.logId).subscribe( update_data => {
+                    await this.projectComponentService.updateFeature(project_updateData, this.logId).subscribe( update_data => {
                       console.log('complete the data', update_data);
                     })
                 }
               });
             });
           })
+          this.getFeatureByProjectId();
           this.spinner.hide();
         },
         (error) => 

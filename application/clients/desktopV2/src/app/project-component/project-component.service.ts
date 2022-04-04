@@ -25,10 +25,6 @@ export class ProjectComponentService
   {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}?log_id=${logId}`, feature);
   }
-  updatesharedFeature(feature:any, id:any, logId:any): Observable<any> 
-  {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}/${id}?log_id=${logId}`, feature);
-  }
   getAllEntityByFeatureId(featureId:any, logId:any): Observable<any> 
   {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityByFeatureId}/${featureId}/entity?log_id=${logId}`);
