@@ -449,13 +449,9 @@ export class EntityManagerComponent implements OnInit
     this.featureInfo.description=description;
     this.featureInfo.project = this.project_id;
     this.featureInfo.type='';
-    console.log(values);
     this.featureInfo.feature_type = values.feature_type;
-    this.featureInfo.flow = values.web_client_properties.flows;
-    console.log('values', this.featureInfo)
     this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
     {
-      console.log("projFeature:",projFeature);
       if (projFeature.body.length > 0) 
       {
         projFeature.body.forEach((feature: { name: any; }) => 
@@ -472,34 +468,63 @@ export class EntityManagerComponent implements OnInit
         this.featureInfo.description = description;
         this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
         {
-          console.log("featureData:",featureData);
-          this.featureInfo = { name: '', description: '', project: '', type: '' };
-          this.displayFeatureModel = 'none';
-          this.menuBuilder = 
-          {
-            feature: [], project: '', language: '',
-            menuDetails: [], project_languages: this.menuLanguages, menu_option: true
-          };
-          this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
-          {
-            if (menuBuilderData.body && menuBuilderData.body.length !== 0) 
-            {
-                menuBuilderData.body.forEach((menuData:any) => 
-                {
-                    if (menuData.menu_option === true) 
-                    {
-                        this.menuBuilder.feature = menuData.feature;
-                        this.menuBuilder.project = this.project_id;
-                        this.menuBuilder.language = menuData.language;
-                        this.menuBuilder.feature.push(featureData.body._id);
-                        this.menuBuilder.menuDetails = menuData.menuDetails;
-                        this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder, this.logId).subscribe(fMenu => 
-                        { }, error => console.log('cannot able to update the menu details'));
-                    }
-                });
-            }
+          values.web_client_properties.screens.forEach((screen:any) => {
+            delete screen.project;
+            delete screen.feature;
+            screen.project = this.project_id;
+            screen.feature = featureData.body._id;
+            this.projectComponentService.saveScreenSharedLibrary(screen, this.logId).subscribe(data => {
+
+            });
           });
-          this.projectComponentService.createEntity
+
+          //create a entity for a sharedfeature library
+          let shared_entity = values.primary_entity;
+          delete shared_entity.project_id;
+          delete shared_entity.feature_id;
+
+          shared_entity.project_id = this.project_id;
+          shared_entity.feature_id = featureData.body._id;
+
+          //create a entity into get a gfc json from data update the project 
+          this.projectComponentService.createEntity(shared_entity, this.logId).subscribe(data => {
+            let feature_entity = {
+              entityType : data.body.entity_type,
+			        entityId : data.body._id
+            }
+            let add_entity:any[] = [];
+            let project_updateData = {
+              _id: featureData.body._id,
+              flows: [],
+              entities: add_entity,
+            }
+            add_entity.push(feature_entity);
+
+            //create a list flows get and save project flows to save list of ID
+            let listOfFlows:any[] = [];
+            this.projectComponentService.getAllFlows(this.logId).subscribe( async response => {
+              let flowsArray = response.body;
+              await flowsArray.forEach((flowsMap:any) => {
+                if(flowsMap.name !== 'GpSEF'){
+                    delete flowsMap._id;
+                    delete flowsMap._v;
+                    listOfFlows.push(flowsMap);
+                }
+              });
+
+              // update the list of flows data same time adding
+              await this.projectComponentService.saveManyProjectFlow(listOfFlows, this.logId).subscribe( async response => {
+                if (response.body) 
+                {
+                    let projectFlowsId:any = response.body.map(({_id}: any) => _id);
+                    project_updateData['flows'] = projectFlowsId;
+                    await this.projectComponentService.updateFeature(project_updateData, this.logId).subscribe( update_data => {
+                      console.log('complete the data', update_data);
+                    })
+                }
+              });
+            });
+          })
           this.getFeatureByProjectId();
           this.spinner.hide();
         },

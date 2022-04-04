@@ -36,7 +36,30 @@
         "term": "",
         "comments": "best effort support"
     },
-    "primary_entity": "itemTags",
+    "primary_entity": {
+        "is_default": false,
+        "name": "ItemTags",
+        "description": "",
+        "entity_type": "primary",
+        "project_id": "cae921b0-a040-11ec-a512-31c921b1d0f0",
+        "feature_id": "f6ade540-a042-11ec-982d-8b909d17f051",
+        "created_by": "",
+        "last_modified_by": "",
+        "field": [{
+            "name": "itemtagslist",
+            "type_name": "Text",
+            "data_type": "String",
+            "description": "Description",
+            "is_default": false,
+            "is_entity_type": false,
+            "is_list_type": false,
+            "list_type": null,
+            "list_value": null,
+            "entity_field": null,
+            "updated_at": null,
+            "entity_id": null
+        }]
+    },
     "secondary_entities": [
         "tags"
     ],

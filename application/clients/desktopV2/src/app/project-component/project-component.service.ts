@@ -101,6 +101,10 @@ export class ProjectComponentService
   {
     return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}` + `?log_id=${logId}`);
   }
+  saveScreenSharedLibrary(screenData:any, logId:any): Observable<any> {
+
+    return this.api.post(`${this.restapi.Apigateway}${Constants.addScreen}`+ `?log_id=${logId}`, screenData);
+  }
 
 
   //shareable feature
