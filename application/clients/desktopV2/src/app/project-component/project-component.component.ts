@@ -462,12 +462,40 @@ export class EntityManagerComponent implements OnInit
             }
         });
       }
-      if (!this.isFeatureExist) 
+      if (!this.isFeatureExist  && !this.invalidName && !this.isReserveWord) 
       {
         this.spinner.show();
-        this.featureInfo.description = description;
+        this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
+        this.featureInfo.description.trim();
         this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
         {
+          console.log("featureData:",featureData);
+          this.featureInfo = { name: '', description: '', project: '', type: '' };
+          this.displayFeatureModel = 'none';
+          this.menuBuilder = 
+          {
+            feature: [], project: '', language: '',
+            menuDetails: [], project_languages: this.menuLanguages, menu_option: true
+          };
+          this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => 
+          {
+            if (menuBuilderData.body && menuBuilderData.body.length !== 0) 
+            {
+                menuBuilderData.body.forEach((menuData:any) => 
+                {
+                    if (menuData.menu_option === true) 
+                    {
+                        this.menuBuilder.feature = menuData.feature;
+                        this.menuBuilder.project = this.project_id;
+                        this.menuBuilder.language = menuData.language;
+                        this.menuBuilder.feature.push(featureData.body._id);
+                        this.menuBuilder.menuDetails = menuData.menuDetails;
+                        this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder, this.logId).subscribe(fMenu => 
+                        { }, error => console.log('cannot able to update the menu details'));
+                    }
+                });
+            }
+          });
           values.web_client_properties.screens.forEach((screen:any) => {
             delete screen.project;
             delete screen.feature;
