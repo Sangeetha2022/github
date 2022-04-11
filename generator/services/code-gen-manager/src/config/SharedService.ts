@@ -24,7 +24,6 @@ export class SharedService {
 
 
     public getURL() {
-
         switch (process.env.localname) {
 
             case process.env.name: SharedService.systementryBaseUrl = process.env.localsystementryBaseUrl;

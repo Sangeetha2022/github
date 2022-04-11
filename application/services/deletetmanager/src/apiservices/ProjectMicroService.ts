@@ -1,15 +1,18 @@
 import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
-export class ProjectManagerService {
-
-    public deleteProjectById(req, projectid, callback) {
+export class ProjectManagerService 
+{
+    public deleteProjectById(req, projectid, callback) 
+    {
         const projectId = projectid;
         new ApiAdapter().delete(`${SharedService.apiGatewayURL}/desktop/projects/delete/${projectId}?log_id=${req.query.log_id}`).then
-            (data => {
+            (data => 
+            {
                 callback(data);
-            }).catch(error => {
+            }).catch(error => 
+               {
                 callback(error);
-            })
+               })
     }
 }

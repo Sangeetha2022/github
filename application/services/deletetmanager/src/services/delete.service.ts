@@ -1,19 +1,10 @@
 import { Request } from 'express';
-import {
-    FeatureManagerService,
-    MenuBuilderManagerService,
-    EntityManagerService,
-    ScreenManagerService,
-    ProjectManagerService,
-    FlowManagerService,
-    MicroFlowManagerService
-
-} from '../apiservices/index';
+import { FeatureManagerService,MenuBuilderManagerService,EntityManagerService,ScreenManagerService,
+         ProjectManagerService,FlowManagerService,MicroFlowManagerService } from '../apiservices/index';
 import { TemplateMicroService } from '../apiservices/TemplateMicroService';
 
-
-export class DeleteService {
-
+export class DeleteService 
+{
     private featureManagerService = new FeatureManagerService();
     private menuBuilderManagerService = new MenuBuilderManagerService();
     private entityManagerService = new EntityManagerService();
@@ -24,7 +15,8 @@ export class DeleteService {
     private microFlowManagerService = new MicroFlowManagerService();
 
 
-    public async deleteProjectById(req: Request, callback) {
+    public async deleteProjectById(req: Request, callback) 
+    {
         const projectId = req.params.id;
         await this.deleteProject(req, projectId);
         await this.getFeatureByProjectId(req, projectId);
@@ -37,15 +29,19 @@ export class DeleteService {
         callback({ message: 'Successfully deleted records connected with project!' })
     }
 
-    public async deletePojectTemplate(req, projectId) {
-        return new Promise(resolve => {
-            this.templateMicroService.deleteProjectTemplate(req, projectId, (data) => {
+    public async deletePojectTemplate(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.templateMicroService.deleteProjectTemplate(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    public async deleteEntity(req: Request, callback) {
+    public async deleteEntity(req: Request, callback) 
+    {
         const entityId = req.params.id;
         await this.deleteConnectorByEntityId(req, entityId)
         let entityResponse: any = await this.getByEntityId(req, entityId);
@@ -55,24 +51,31 @@ export class DeleteService {
         callback({ message: 'Successfully deleted records connected with Entity!' });
     }
 
-    getByEntityId(req, entityId) {
-        return new Promise(resolve => {
-            this.entityManagerService.getByEntityId(req, entityId, (data) => {
+    getByEntityId(req, entityId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.entityManagerService.getByEntityId(req, entityId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteFeatureEntity(req, featureId, entityId) {
-        return new Promise(resolve => {
-            this.featureManagerService.deleteFeatureEntity(req, featureId, entityId, (data) => {
+    deleteFeatureEntity(req, featureId, entityId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.featureManagerService.deleteFeatureEntity(req, featureId, entityId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
 
-    public async deleteFeature(req: Request, callback) {
+    public async deleteFeature(req: Request, callback) 
+    {
         const featureId = req.params.id;
         await this.getFeatureById(req, featureId);
         await this.getScreenByFeatureId(req, featureId);
@@ -80,13 +83,15 @@ export class DeleteService {
         callback({ message: 'Successfully deleted records connected with Feature!' });
     }
 
-    public async deleteMenu(req: Request, callback) {
+    public async deleteMenu(req: Request, callback) 
+    {
         const menuId = req.params.id;
         this.deletetMenuById(req, menuId)
         callback({ message: 'Successfully deleted records connected with Menu!' });
     }
 
-    public async deleteScreen(req: Request, callback) {
+    public async deleteScreen(req: Request, callback) 
+    {
         const screenId = req.params.id;
         await this.getScreenById(req, screenId);
         await this.deleteScreenById(req, screenId);
@@ -94,68 +99,93 @@ export class DeleteService {
     }
 
 
-    public async deleteFlow(req: Request, callback) {
+    public async deleteFlow(req: Request, callback) 
+    {
         const flowId = req.params.id;
         await this.getProjectFlowById(req, flowId)
         await this.deleteProjectFlowById(req, flowId);
         callback({ message: 'Successfully deleted records connected with Screen!' });
     }
 
-    deleteProjectFeature(req, projectId) {
-        return new Promise(resolve => {
-            this.featureManagerService.deleteProjectFeature(req, projectId, (data) => {
+    deleteProjectFeature(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.featureManagerService.deleteProjectFeature(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProjectMenu(req, projectId) {
-        return new Promise(resolve => {
-            this.menuBuilderManagerService.deleteProjectMenu(req, projectId, (data) => {
+    deleteProjectMenu(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.menuBuilderManagerService.deleteProjectMenu(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProjectScreen(req, projectId) {
-        return new Promise(resolve => {
-            this.screenManagerService.deleteProjectScreen(req, projectId, (data) => {
+    deleteProjectScreen(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.screenManagerService.deleteProjectScreen(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProjectEntity(req, projectId) {
-        return new Promise(resolve => {
-            this.entityManagerService.deleteProjectEntity(req, projectId, (data) => {
+    deleteProjectEntity(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.entityManagerService.deleteProjectEntity(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteEntityById(req, projectId) {
-        return new Promise(resolve => {
-            this.entityManagerService.deleteEntityById(req, projectId, (data) => {
+    deleteEntityById(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.entityManagerService.deleteEntityById(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProject(req, projectId) {
-        return new Promise(resolve => {
-            this.projectManagerService.deleteProjectById(req, projectId, (data) => {
+    deleteProject(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.projectManagerService.deleteProjectById(req, projectId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
 
-    getFeatureByProjectId(req, projectId) {
-        return new Promise(resolve => {
-            this.featureManagerService.getFeatureByProjectId(req, projectId, (data) => {
-                data.body.body.map(({ flows }) => {
-                    if (flows.length > 0) {
-                        flows.map(async flowId => {
+    getFeatureByProjectId(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.featureManagerService.getFeatureByProjectId(req, projectId, (data) => 
+            {
+                data.body.body.map(({ flows }) => 
+                {
+                    if (flows.length > 0) 
+                    {
+                        flows.map(async flowId => 
+                        {
                             await this.getProjectFlowById(req, flowId);
                             await this.deleteProjectFlowById(req, flowId);
                         })
@@ -166,17 +196,24 @@ export class DeleteService {
         });
     }
 
-    getFeatureById(req, featureId) {
-        return new Promise(resolve => {
-            this.featureManagerService.getFeatureById(req, featureId, (data) => {
-                if (data.body.body.flows.length > 0) {
-                    data.body.body.flows.map(async flowId => {
+    getFeatureById(req, featureId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.featureManagerService.getFeatureById(req, featureId, (data) => 
+            {
+                if (data.body.body.flows.length > 0) 
+                {
+                    data.body.body.flows.map(async flowId => 
+                    {
                         await this.getProjectFlowById(req, flowId);
                         await this.deleteProjectFlowById(req, flowId);
                     })
                 }
-                if (data.body.body.entities.length > 0) {
-                    data.body.body.entities.map(async ({ entityId }) => {
+                if (data.body.body.entities.length > 0) 
+                {
+                    data.body.body.entities.map(async ({ entityId }) => 
+                    {
                         await this.deleteEntityById(req, entityId)
                     })
                 }
@@ -185,10 +222,14 @@ export class DeleteService {
         });
     }
 
-    getScreenByFeatureId(req, featureId) {
-        return new Promise(resolve => {
-            this.screenManagerService.getScreenByFeatureId(req, featureId, (data) => {
-                data.body.body.map(async ({ _id }) => {
+    getScreenByFeatureId(req, featureId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.screenManagerService.getScreenByFeatureId(req, featureId, (data) => 
+            {
+                data.body.body.map(async ({ _id }) => 
+                {
                     await this.deleteScreenById(req, _id);
                 })
                 resolve(data);
@@ -196,19 +237,27 @@ export class DeleteService {
         });
     }
 
-    deleteFeatureById(req, featureId) {
-        return new Promise(resolve => {
-            this.featureManagerService.deleteFeatureById(req, featureId, (data) => {
+    deleteFeatureById(req, featureId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.featureManagerService.deleteFeatureById(req, featureId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    getProjectEntity(req, projectId) {
-        return new Promise(resolve => {
-            this.entityManagerService.getProjectEntity(req, projectId, (data) => {
-                data.body.body.map(async ({ _id, is_default }) => {
-                    if (!is_default) {
+    getProjectEntity(req, projectId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.entityManagerService.getProjectEntity(req, projectId, (data) => 
+            {
+                data.body.body.map(async ({ _id, is_default }) => 
+                {
+                    if (!is_default) 
+                    {
                         await this.deleteConnectorByEntityId(req, _id);
                     }
                 })
@@ -217,11 +266,16 @@ export class DeleteService {
         });
     }
 
-    getProjectFlowById(req, flowId) {
-        return new Promise(resolve => {
-            this.flowManagerService.getProjectFlowById(req, flowId, (data) => {
-                data.body.body.map(({ components }) => {
-                    components.map(async component => {
+    getProjectFlowById(req, flowId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.getProjectFlowById(req, flowId, (data) => 
+            {
+                data.body.body.map(({ components }) => 
+                {
+                    components.map(async component => 
+                    {
                         let componentsObject:any = await this.getProjectFlowCompById(req, component);
                         await this.deleteProjectFlowCompMicroFlowsByIds(req, componentsObject.body.body[0].microFlows);
                         await this.deleteProjectFlowCompById(req, component)
@@ -233,69 +287,95 @@ export class DeleteService {
     }
 
 
-    deleteProjectFlowById(req, flowId) {
-        return new Promise(resolve => {
-            this.flowManagerService.deleteProjectFlow(req, flowId, (data) => {
+    deleteProjectFlowById(req, flowId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.deleteProjectFlow(req, flowId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteConnectorById(req, id) {
-        return new Promise(resolve => {
-            this.flowManagerService.deleteConnectorById(req, id, (data) => {
+    deleteConnectorById(req, id) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.deleteConnectorById(req, id, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteConnectorByEntityId(req, entityId) {
-        return new Promise(resolve => {
-            this.flowManagerService.deleteConnectorByEntityId(req, entityId, (data) => {
+    deleteConnectorByEntityId(req, entityId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.deleteConnectorByEntityId(req, entityId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProjectFlowCompById(req, flowCompId) {
-        return new Promise(resolve => {
-            this.flowManagerService.deleteProjectFlowComponent(req, flowCompId, (data) => {
+    deleteProjectFlowCompById(req, flowCompId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.deleteProjectFlowComponent(req, flowCompId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds) {
-        return new Promise(resolve => {
-            this.microFlowManagerService.deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds, (data) => {
+    deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds) 
+    {
+        return new Promise(resolve => 
+        {
+            this.microFlowManagerService.deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
 
-    deleteScreenById(req, screenId) {
-        return new Promise(resolve => {
-            this.screenManagerService.deletetScreenById(req, screenId, (data) => {
+    deleteScreenById(req, screenId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.screenManagerService.deletetScreenById(req, screenId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    deletetMenuById(req, menuId) {
-        return new Promise(resolve => {
-            this.menuBuilderManagerService.deleteMenuById(req, menuId, (data) => {
+    deletetMenuById(req, menuId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.menuBuilderManagerService.deleteMenuById(req, menuId, (data) => 
+            {
                 resolve(data);
             })
         });
     }
 
-    getProjectFlowCompById(req, flowCompId) {
-        return new Promise(resolve => {
-            this.flowManagerService.getProjectFlowCompById(req, flowCompId, (data) => {
-                data.body.body.map(({ name, connector }) => {
+    getProjectFlowCompById(req, flowCompId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.getProjectFlowCompById(req, flowCompId, (data) => 
+            {
+                data.body.body.map(({ name, connector }) => 
+                {
                     if (name === 'GpExpressDao' || name === 'GpAngularService' || name === 'GpIonicAngularService') {
-                        connector.map(id => {
+                        connector.map(id => 
+                        {
                             this.getConnectorById(req, id)
                             this.deleteConnectorById(req, id)
                         })
@@ -307,24 +387,30 @@ export class DeleteService {
     }
 
 
-    getConnectorById(req, connectorId) {
-        return new Promise(resolve => {
-            this.flowManagerService.getConnectorById(req, connectorId, (data) => {
+    getConnectorById(req, connectorId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.flowManagerService.getConnectorById(req, connectorId, (data) => 
+            {
                 this.deleteEntityById(req, data.body.body.entity_id)
                 resolve(data);
             })
         });
     }
 
-    getScreenById(req, screenId) {
-        return new Promise(resolve => {
-            this.screenManagerService.getScreenById(req, screenId, (data) => {
-                // data.body.body.map(({ feature }) => {
-                //     this.deleteFeatureById(req, feature)
+    getScreenById(req, screenId) 
+    {
+        return new Promise(resolve => 
+        {
+            this.screenManagerService.getScreenById(req, screenId, (data) => 
+            {
+                // data.body.body.map(({ feature }) => 
+                // {
+                //    this.deleteFeatureById(req, feature)
                 // })
                 resolve(data);
             })
         });
     }
-
 }

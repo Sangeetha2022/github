@@ -156,4 +156,15 @@ export class Constant {
     { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' },
     { importData: "import { SharedService } from '../shared/shared.service';", className: '', provider: 'SharedService' }
   ];
+
+  public static externalFeature = [
+    {
+        "name": "gepitemtagsmanager",
+        "type": false
+    },
+    {
+        "name": "wcmx-grapesjs",
+        "type": false
+    }
+  ]
 }

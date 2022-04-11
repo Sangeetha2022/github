@@ -1,3 +1,5 @@
+import { Constant } from '../../../config/Constant';
+
 export class TemplateSideNav {
     /**
      * 
@@ -9,40 +11,49 @@ export class TemplateSideNav {
         let mainNav = [];
         let bottomNav = [];
         let sideNav: string = '';
+        let screen_default;
+        
+        let externalFeature = Constant.externalFeature;
         if (humanLanguageMenus && humanLanguageMenus.length > 0) {
             humanLanguageMenus.forEach((element: any) => {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
-                        if (menuElement.featuremenu[0].name.feature !== 'default') {
-                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-                                // mainNav.push(`<div class="list-group panel" *ngIf='userId'>
-                                // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-                                // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    console.log('custom screen ----------------------', screenElement, '--------', screenIndex)
-                                    if (screenIndex === 0) {
-                                        mainNav.push(`<div id="icrvgp" class="cell gpd-clm"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                        <div id="i6vd27" class="gdp-row gpd-grid"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                            <div id="inlo1l" class="cell gpd-clm"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                                <i id="iyxitk" class="fa fa-folder-open" aria-hidden="true"></i>
+                        if (menuElement.featuremenu[0].name.feature !== 'default' || 
+                            menuElement.featuremenu[0].name.feature !== 'gepitemtagsmanager') {
+                            // externalFeature.filter( async sharedfeatureservice => {
+                            //     (sharedfeatureservice.name !== menuElement.featuremenu[0].name.feature && sharedfeatureservice.type !== false) ? screen_default = true : screen_default = false;
+                            //     if(screen_default){
+                                    if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                                        // mainNav.push(`<div class="list-group panel" *ngIf='userId'>
+                                        // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                                        // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
+                                        menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                            console.log('custom screen ----------------------', screenElement, '--------', screenIndex)
+                                            if (screenIndex === 0) {
+                                                mainNav.push(`<div id="icrvgp" class="cell gpd-clm"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                                                <div id="i6vd27" class="gdp-row gpd-grid"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                                                    <div id="inlo1l" class="cell gpd-clm"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                                                        <i id="iyxitk" class="fa fa-folder-open" aria-hidden="true"></i>
+                                                                    </div>
+                                                                    <div id="iytw4t" class="cell gpd-clm" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                                                        <a id="i9imej" class="gpd-text" href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div id="iytw4t" class="cell gpd-clm" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                                <a id="i9imej" class="gpd-text" href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                                                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                                                <div id="icrvgp" class="cell gpd-clm">`);
+                                            }
+                                            mainNav.push(`<div id="i6vd27" class="gdp-row gpd-grid">
+                                                            <div id="iytw4t" class="cell gpd-clm">
+                                                                <a id="i9imej" class="gpd-text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                        <div id="icrvgp" class="cell gpd-clm">
-                                                            <div id="i6vd27" class="gdp-row gpd-grid">
-                                                                <div id="iytw4t" class="cell gpd-clm">`);
+                                                        </div>`);
+                                        });
                                     }
-                                    mainNav.push(`<a id="i9imej" class="gpd-text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                        </div>
-                                    </div>`);
-                                });
-                            }
-                            mainNav.push(`</div>`);
-                            mainNav.push(`</div>`);
+                                    mainNav.push(`</div>`);
+                                    mainNav.push(`</div>`);
+                            //     }
+                            // });
                         } else {
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {

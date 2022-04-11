@@ -36,21 +36,45 @@
         "term": "",
         "comments": "best effort support"
     },
-    "primary_entity": "itemTags",
+    "primary_entity": {
+        "is_default": false,
+        "name": "ItemTags",
+        "description": "",
+        "entity_type": "primary",
+        "project_id": "cae921b0-a040-11ec-a512-31c921b1d0f0",
+        "feature_id": "f6ade540-a042-11ec-982d-8b909d17f051",
+        "created_by": "",
+        "last_modified_by": "",
+        "field": [{
+            "name": "itemtagslist",
+            "type_name": "Text",
+            "data_type": "String",
+            "description": "Description",
+            "is_default": false,
+            "is_entity_type": false,
+            "is_list_type": false,
+            "list_type": null,
+            "list_value": null,
+            "entity_field": null,
+            "updated_at": null,
+            "entity_id": null
+        }]
+    },
     "secondary_entities": [
         "tags"
     ],
     "entities": [{
-        "name": "tags",
+        "name": "ItemTags",
+        "description": "list of year",
         "fields": [{
             "name": "year",
-            "description": "list of year",
-            "type": "text"
+            "description": "list of year"
         }]
 
     }],
     "configuration": {
-        "admin_ui_entry_point": "",
+        "admin_ui_feature_component": "GepItemTags",
+        "admin_ui_entry_point": "/createtags",
         "admin_backend_services": [{
             "service_name": "",
             "apis": [{
@@ -88,21 +112,65 @@
         "framework": "angular",
         "framework_version": "13.0.3",
         "screens": [{
-            "name": "update_tags",
-            "route": "",
-            "component_name": "itemtags",
-            "meta_data": {
-                "type": "GJS",
-                "location": ""
-
+                "gjs-assets": ["[]"],
+                "gjs-styles": ["[]"],
+                "gjs-components": ["[]"],
+                "component-lifecycle": [],
+                "special-events": [],
+                "is_grid_present": false,
+                "is_bootStrapTable_present": false,
+                "project": "cae921b0-a040-11ec-a512-31c921b1d0f0",
+                "feature": "f6ade540-a042-11ec-982d-8b909d17f051",
+                "screenType": "web",
+                "screenOption": "normal",
+                "isTemplate": false,
+                "stylesheets": [],
+                "scripts": [],
+                "css-guidelines": [],
+                "gjs-html": "<body></body>",
+                "gjs-css": "* { box-sizing: border-box; } body {margin: 0;}",
+                "screenName": "createtags",
+                "flows_info": [],
+                "route_info": [],
+                "link_info": [],
+                "entity_info": [],
+                "specific_attribute_Event": []
+            },
+            {
+                "gjs-assets": ["[]"],
+                "gjs-styles": ["[]"],
+                "gjs-components": ["[]"],
+                "component-lifecycle": [],
+                "special-events": [],
+                "is_grid_present": false,
+                "is_bootStrapTable_present": false,
+                "project": "cae921b0-a040-11ec-a512-31c921b1d0f0",
+                "feature": "f6ade540-a042-11ec-982d-8b909d17f051",
+                "screenType": "web",
+                "screenOption": "normal",
+                "isTemplate": false,
+                "stylesheets": [],
+                "scripts": [],
+                "css-guidelines": [],
+                "gjs-html": "<body></body>",
+                "gjs-css": "* { box-sizing: border-box; } body {margin: 0;}",
+                "screenName": "updatetags",
+                "flows_info": [],
+                "route_info": [],
+                "link_info": [],
+                "entity_info": [],
+                "specific_attribute_Event": []
             }
-        }],
-        "flows": [{
-            "name": "gpcreate",
-            "route": "",
-            "component_name": "itemtags"
-
-        }]
+        ],
+        "flows": [
+            "31de54b0-a043-11ec-804b-9989cc1dac89",
+            "f924cc50-a07c-11ec-9e37-b19b95c53ce3",
+            "f924f360-a07c-11ec-9e37-b19b95c53ce3",
+            "f9251a70-a07c-11ec-9e37-b19b95c53ce3",
+            "f9254180-a07c-11ec-9e37-b19b95c53ce3",
+            "f9254181-a07c-11ec-9e37-b19b95c53ce3",
+            "12609b40-a07d-11ec-9e37-b19b95c53ce3"
+        ]
     }
 
 }

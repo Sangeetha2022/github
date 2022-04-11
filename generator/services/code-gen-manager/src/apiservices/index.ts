@@ -5,3 +5,4 @@ export * from './BackendGenManagerService';
 export * from './FrontendGenManagerService';
 export * from './MicroFlowManagerService';
 export * from './AuthGenManagerService';
+export * from './SharedFeatureGenManagerService';

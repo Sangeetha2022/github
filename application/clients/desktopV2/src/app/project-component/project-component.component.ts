@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 import { PEntity } from '../project-component/interface/Entity';
+import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.component';
 
 
 @Component
@@ -47,8 +48,10 @@ export class EntityManagerComponent implements OnInit
   projectName:string='';
   project_display_Name:string='';
   projectFeatureData: any = [];
+  isDefaultFeature:boolean=false;
   getAllSharableFeatueData: any = [];
   selectedEntityId:string='';
+  selectedFeatureId:string='';
   menuLanguages: any = [];
   selectedProject:any=[];
   projectEntity:any;
@@ -116,6 +119,37 @@ export class EntityManagerComponent implements OnInit
     this.getMenuBuilderByProjectId();
     this.getAllSharableFeatue();
         
+  }
+
+  deleteFeature(feature:any) 
+  {
+        this.selectedFeatureId = feature._id;
+        console.log("SelectedFeatureId:",this.selectedFeatureId);
+        this.deleteDialog();
+  }
+
+  deleteDialog() 
+  {
+        const dialogRef = this.dialog.open(DeletefeatpopupComponent, 
+        {
+            width: '350px',
+        });
+        dialogRef.afterClosed().subscribe((data)=>
+        {
+          console.log(data);
+          if(data==true)
+          {
+            console.log('feature id', this.selectedFeatureId);
+            this.projectComponentService.deleteFeatureFlowById(this.selectedFeatureId,this.logId).subscribe((data)=>
+            {
+             console.log("Data after Delete:",data);
+             if(data)
+             {
+               this.getFeatureByProjectId();
+             }
+            })
+          }
+        })
   }
 
   //To open the entity model dialog box
@@ -258,9 +292,13 @@ export class EntityManagerComponent implements OnInit
         console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
+        if(this.projectFeatureData[0].name=="systementry")
+        {
+          this.isDefaultFeature=true;
+        }
         console.log("project feature data",this.projectFeatureData);
     },
-    error => { });
+    (error) => { });
   }
   //To get the All entity by project id
   getAllEntityByProjectId() 
@@ -442,18 +480,16 @@ export class EntityManagerComponent implements OnInit
         this.displayFeatureModel = 'none';
   }
 
-  addFeature(name:any,description:any)
+  //To create a external shared feature
+  addFeature(name:any,description:any, values:any)
   {
     this.featureInfo.name = name.toLowerCase();
-    console.log("FeatureInfo.name:",this.featureInfo.name);
     this.featureInfo.description=description;
-    console.log("FeatureInfo.description:",this.featureInfo.description);
     this.featureInfo.project = this.project_id;
-    this.featureInfo.type='external';
-    console.log("FeatureInfo.project:",this.featureInfo.project);
+    this.featureInfo.type='';
+    this.featureInfo.feature_type = values.feature_type;
     this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
     {
-      console.log("projFeature:",projFeature);
       if (projFeature.body.length > 0) 
       {
         projFeature.body.forEach((feature: { name: any; }) => 
@@ -464,10 +500,11 @@ export class EntityManagerComponent implements OnInit
             }
         });
       }
-      if (!this.isFeatureExist) 
+      if (!this.isFeatureExist  && !this.invalidName && !this.isReserveWord) 
       {
         this.spinner.show();
-        this.featureInfo.description = description;
+        this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
+        this.featureInfo.description.trim();
         this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe((featureData) => 
         {
           console.log("featureData:",featureData);
@@ -497,6 +534,63 @@ export class EntityManagerComponent implements OnInit
                 });
             }
           });
+          values.web_client_properties.screens.forEach((screen:any) => {
+            delete screen.project;
+            delete screen.feature;
+            screen.project = this.project_id;
+            screen.feature = featureData.body._id;
+            this.projectComponentService.saveScreenSharedLibrary(screen, this.logId).subscribe(data => {
+
+            });
+          });
+
+          //create a entity for a sharedfeature library
+          let shared_entity = values.primary_entity;
+          delete shared_entity.project_id;
+          delete shared_entity.feature_id;
+
+          shared_entity.project_id = this.project_id;
+          shared_entity.feature_id = featureData.body._id;
+
+          //create a entity into get a gfc json from data update the project 
+          this.projectComponentService.createEntity(shared_entity, this.logId).subscribe(data => {
+            let feature_entity = {
+              entityType : data.body.entity_type,
+			        entityId : data.body._id
+            }
+            let add_entity:any[] = [];
+            let project_updateData = {
+              _id: featureData.body._id,
+              flows: [],
+              entities: add_entity,
+            }
+            add_entity.push(feature_entity);
+
+            //create a list flows get and save project flows to save list of ID
+            let listOfFlows:any[] = [];
+            this.projectComponentService.getAllFlows(this.logId).subscribe( async response => {
+              let flowsArray = response.body;
+              await flowsArray.forEach((flowsMap:any) => {
+                if(flowsMap.name !== 'GpSEF'){
+                    delete flowsMap._id;
+                    delete flowsMap._v;
+                    listOfFlows.push(flowsMap);
+                }
+              });
+
+              // update the list of flows data same time adding
+              await this.projectComponentService.saveManyProjectFlow(listOfFlows, this.logId).subscribe( async response => {
+                if (response.body) 
+                {
+                    let projectFlowsId:any = response.body.map(({_id}: any) => _id);
+                    project_updateData['flows'] = projectFlowsId;
+                    await this.projectComponentService.updateFeature(project_updateData, this.logId).subscribe( update_data => {
+                      console.log('complete the data', update_data);
+                    })
+                }
+              });
+            });
+          })
           this.getFeatureByProjectId();
           this.spinner.hide();
         },
@@ -612,12 +706,13 @@ export class EntityManagerComponent implements OnInit
   {
     this.deletePopup = 'none';
   }
-  //To delete the particular wntity
+  //To delete the particular entity
   deleteEntityById() 
   {
     this.deletePopup = 'none';
     this.projectComponentService.deleteEntityById(this.selectedEntityId, this.logId).subscribe((data) => 
     {
+            console.log("Data after Entity Delete:",data);
             if (data) 
             {
                 this.getAllEntityByProjectId();

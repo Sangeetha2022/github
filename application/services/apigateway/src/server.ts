@@ -50,6 +50,7 @@ import {
     AngularControllerV13,
     AngularTemplateControllerV13,
     SharedFeaturesController,
+    SharedFeaturesGenController
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
@@ -100,6 +101,7 @@ let apisController = [
     new DefaultServicesController(),
     new GepFileManagerController(),
     new SharedFeaturesController(),
+    new SharedFeaturesGenController()
 ]
 
 class App {

@@ -15,21 +15,21 @@ export class UpdatetagsService {
 
   GpGetAllValues(): Observable<any> {
     console.log();
-    return this.http.get(this.sharedService.DESKTOP_API + '/ItemTags');
+    return this.http.get(this.sharedService.WEB_API + '/ItemTags');
   }
 
   GpGetNounById(tagsId: any): Observable<any> {
     console.log('id', tagsId);
-    return this.http.get(this.sharedService.DESKTOP_API + '/ItemTags/' + tagsId);
+    return this.http.get(this.sharedService.WEB_API + '/ItemTags/' + tagsId);
   }
 
   GpUpdate(ItemTags: any): Observable<any> {
     console.log('id update', ItemTags);
-    return this.http.put(this.sharedService.DESKTOP_API + '/ItemTags', ItemTags);
+    return this.http.put(this.sharedService.WEB_API + '/ItemTags', ItemTags);
   }
 
   GpDelete(tagsId: any): Observable<any> {
     console.log('delete a item', tagsId);
-    return this.http.delete(this.sharedService.DESKTOP_API + '/ItemTags/' + tagsId);
+    return this.http.delete(this.sharedService.WEB_API + '/ItemTags/' + tagsId);
   }
 }

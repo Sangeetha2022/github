@@ -15,6 +15,7 @@ export const gfcSchema = new Schema({
    feature_name: {  type: String, default: null  },
    sharing_visibility_status: {  type: String, default: null  },
    type: { type: String, default: null },
+   feature_type: { type: String, default: null },
    description: { type: String, default: null },
    author_email: { type: String, default: null },
    author_name: { type: String, default: null },
@@ -45,7 +46,7 @@ export const gfcSchema = new Schema({
       term: { type: String, default: null },
       comments: { type: String, default: null }
    },
-   primary_entity: { type: String, default: null },
+   primary_entity: { type: Object, default: null },
    secondary_entities: { 
       type: [ String ],
       default: null
@@ -62,6 +63,7 @@ export const gfcSchema = new Schema({
    }],
    configuration: { 
       admin_ui_entry_point: {   type: String, default: null },
+      admin_ui_feature_component: {   type: String, default: null },
       admin_backend_services: [
          {
             service_name: { type: String, default: null },
@@ -101,25 +103,8 @@ export const gfcSchema = new Schema({
    web_client_properties: { 
       framework: {   type: String, default: null },
       framework_version: {   type: String, default: null },
-      screens: [
-         {
-            name: { type: String, default: null },
-            route: { type: String, default: null },
-            component_name: { type: String, default: null },
-            meta_data: {
-                  type: { type: String, default: null },
-                  location: { type: String, default: null }
-
-            }
-         }
-      ],
-      flows: [
-         {
-            name: { type: String, default: null },
-            route: { type: String, default: null },
-            component_name: { type: String, default: null }
-         },
-      ]
+      screens: [],
+      flows: []
    }
 })
 

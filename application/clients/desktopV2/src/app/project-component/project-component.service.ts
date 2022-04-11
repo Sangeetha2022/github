@@ -25,6 +25,14 @@ export class ProjectComponentService
   {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}?log_id=${logId}`, feature);
   }
+  deleteFeatureFlowById(featureId:any,logId:any):Observable<any>
+  {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFeatureFlowById}/${featureId}?log_id=${logId}`);
+  }
+  deleteFeature(featureId:string, logId:string): Observable<any> 
+  {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFeatur}/${featureId}?log_id=${logId}`);
+  }
   getAllEntityByFeatureId(featureId:any, logId:any): Observable<any> 
   {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityByFeatureId}/${featureId}/entity?log_id=${logId}`);
@@ -100,6 +108,10 @@ export class ProjectComponentService
   exportSharedServiceYaml(projectId:any, logId:any): Observable<any> 
   {
     return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}` + `?log_id=${logId}`);
+  }
+  saveScreenSharedLibrary(screenData:any, logId:any): Observable<any> {
+
+    return this.api.post(`${this.restapi.Apigateway}${Constants.addScreen}`+ `?log_id=${logId}`, screenData);
   }
 
 

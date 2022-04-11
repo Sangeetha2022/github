@@ -9,42 +9,40 @@
     "author-name": "Kishan Ravindra",
     "organization": "com.geppettosoftware.0001",
     "icon-location": "/xx/ff/ggg/file-manager.png",
-    "repo":{
+    "repo": {
         "type": "github",
         "location": "https://github.com/dan-castillo/gepFileManager.git",
-        "branch" : "main",
+        "branch": "main",
         "release-version-tag": "xx.xx.xx"
     },
-    "security":{
+    "security": {
         "verification-status": "not verified",
         "verification-id": ""
     },
-    "quality":{
+    "quality": {
         "quality-status": "not reviewed",
         "quality-id": ""
 
     },
-    "geppetto-framework":{
+    "geppetto-framework": {
         "generator-version": "",
         "generator-build-id": ""
     },
-    "license":{
-        "type": "OSS", 
+    "license": {
+        "type": "OSS",
         "name": "Apache 2",
         "price": "0",
         "term": "",
         "comments": "best effort support"
     },
     "primary-entity": "attachment",
-    "secondary-entities":[
+    "secondary-entities": [
         "entity-two",
         "entity-three"
     ],
-    "entities":[
-        {
+    "entities": [{
             "name": "attachment",
-            "fields":[
-                {
+            "fields": [{
                     "name": "fileUrl",
                     "description": "xxxx description one",
                     "type": "text"
@@ -80,8 +78,7 @@
         },
         {
             "name": "entity-two",
-            "fields":[
-                {
+            "fields": [{
                     "name": "field-one",
                     "description": "description one",
                     "type": "text"
@@ -97,8 +94,7 @@
         },
         {
             "name": "entity-three",
-            "fields":[
-                {
+            "fields": [{
                     "name": "field-one",
                     "description": "description one",
                     "type": "text"
@@ -113,17 +109,16 @@
 
         }
 
-        
+
 
     ],
 
     "configuration": {
+        "admin_ui_feature_component": "admin screen UI NAME",
         "admin-ui-entry-point": "/xxx/yyy/zzz",
-        "admin-backend-services": [
-            {
+        "admin-backend-services": [{
                 "service-name": "xxxxx",
-                "apis":[
-                    {
+                "apis": [{
                         "name": "api one",
                         "route": "/hdhd/rrr/fff",
                         "api-method": "get",
@@ -153,8 +148,7 @@
             },
             {
                 "service-name": "yyyyy",
-                "apis":[
-                    {
+                "apis": [{
                         "name": "api one",
                         "route": "/hdhd/rrr/fff",
                         "api-method": "get",
@@ -183,8 +177,7 @@
             },
             {
                 "service-name": "zzzz",
-                "apis":[
-                    {
+                "apis": [{
                         "name": "api one",
                         "route": "/hdhd/rrr/fff",
                         "api-method": "get",
@@ -226,15 +219,14 @@
         "alternate-entry-point-access": "/ddd/fff/www"
     },
 
-    "server-properties":{
+    "server-properties": {
         "runtime": "nodejs",
         "runtime-version": "16.0.0",
         "dev-framework": "express",
         "dev-framework-version": "4.7.1",
         "datastore": "mongo",
         "datastore-version": "5.0",
-        "flows":[
-            {
+        "flows": [{
                 "name": "gepFileUpload",
                 "api": "/eeee/xxxx/",
                 "api-method": "post",
@@ -250,9 +242,9 @@
 
             },
             {
-                "name":"gepFileGetAvailable",
-                "api":"/eeee/xxxx/",
-                "api-method":"get",
+                "name": "gepFileGetAvailable",
+                "api": "/eeee/xxxx/",
+                "api-method": "get",
                 "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
                 "output": "see question on input"
 
@@ -260,54 +252,49 @@
 
         ]
     },
-    "web-client-properties":{
-      "framework": "angular",
-      "framework-version": "12.0.0",
-      "screens":[
-        {
-            "name": "upload-screen",
-            "route": "/hkkjhk/hkhkk",
-            "component-name": "upload-screen",
-            "meta-data": 
+    "web-client-properties": {
+        "framework": "angular",
+        "framework-version": "12.0.0",
+        "screens": [{
+                "name": "upload-screen",
+                "route": "/hkkjhk/hkhkk",
+                "component-name": "upload-screen",
+                "meta-data": {
+                    "type": "GJS",
+                    "location": "/dhdhd/hdhdh.xxx"
+
+                }
+
+
+            },
             {
-                "type": "GJS",
-                "location": "/dhdhd/hdhdh.xxx"
+                "name": "down-screen",
+                "route": "/hkkjhk/hkhkk",
+                "component-name": "download-screen",
+                "meta-data": {
+                    "type": "GJS",
+                    "location": "/dhdhd/hdhdh.xxx"
+
+                }
+
+
+            }
+        ],
+        "flows": [{
+                "name": "gepFileUpload",
+                "route": "/hkkjhk/hkhkk",
+                "component-name": "upload-screen"
+
+            },
+            {
+                "name": "gepFileDownload",
+                "route": "/hkkjhk/hkhkk",
+                "component-name": "download-screen"
+
 
             }
 
-
-        },
-        {
-            "name": "down-screen",
-            "route": "/hkkjhk/hkhkk",
-            "component-name": "download-screen",
-            "meta-data": 
-            {
-                "type": "GJS",
-                "location": "/dhdhd/hdhdh.xxx"
-
-            }
-
-
-        }
-      ],
-      "flows":[
-        {
-            "name": "gepFileUpload",
-            "route": "/hkkjhk/hkhkk",
-            "component-name": "upload-screen"
-
-        },
-        {
-            "name": "gepFileDownload",
-            "route": "/hkkjhk/hkhkk",
-            "component-name": "download-screen"
-
-
-        }
-
-    ]
+        ]
 
     }
-  }
-  
+}

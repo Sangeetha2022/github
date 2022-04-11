@@ -23,10 +23,12 @@ import { Constants } from 'src/app/config/Constant';
 import { CustomTraitsService } from './services/Traits/custom-traits.service';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { Dataservice } from 'src/app/broadcast.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
 import { trigger,state,style,transition,animate } from '@angular/animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { TemplateManagerService } from 'src/app/template-manager/template-manager.service';
+import { project_template_styles } from 'src/app/config/assets';
   
 @Component
 ({
@@ -56,6 +58,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 export class DesktopScreenComponent implements OnInit
 {
+  public UserId:any=  sessionStorage.getItem('Id');
   editor: any;
   screenType: String='';
   feature_id: String='';
@@ -254,6 +257,7 @@ export class DesktopScreenComponent implements OnInit
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
+  addTemplateUrl:any;
   public pageLinkObj:any = 
   {
     linkType: '',
@@ -277,6 +281,40 @@ export class DesktopScreenComponent implements OnInit
   selectedItems: { item_id: number; item_text: string; }[] = [];
   dropdownSettings:IDropdownSettings= {};  
   public scr:string=''; 
+
+  //create a project template object and value and ID
+  public templateProjectId:any;
+  public currentProjectId: any;
+
+  // public templateData: any;
+  public template_navigation_type: any;
+  public form = new FormGroup({
+    maintemplate: new FormControl('', Validators.required),
+    navigationtype: new FormControl('', Validators.required)
+  });
+   
+  // get f(){
+  //   return this.form.controls;
+  // }
+
+  get nav(){
+    return this.form.controls;
+  }
+   
+  // // submit(){
+  // //   console.log(this.form.value);
+  // // }
+ 
+  // changeTemplate(e:any) {
+  //   console.log(e.target.value);
+  //   this.templateData = e.target.value;
+  // }
+
+  chooseNavType(e:any) {
+    console.log(e.target.value);
+    this.template_navigation_type = e.target.value;
+  }
+
   
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,
               private panelService:PanelService,private projectComponentService:ProjectComponentService,
@@ -284,7 +322,8 @@ export class DesktopScreenComponent implements OnInit
               private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,
               private sharedService:SharedService,private customTraitService:CustomTraitsService, 
               private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
-              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService) 
+              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,
+              public templateManagerService: TemplateManagerService) 
   {
       this.columnDefs= 
       [
@@ -355,10 +394,9 @@ export class DesktopScreenComponent implements OnInit
         this.projectTemplateId = params['project-template-id'];
         this.getProjectTemplate(this.projectTemplateId);
       }
-      if(params['new-template=true'])
-      {
-        this.isNewTemplate=true;
-        this.project_id=params.projectId;
+      if(params['template-project-id']){
+        this.templateProjectId = params['template-project-id'];
+        this.currentProjectId = params['projectId'];
       }
     });
     this.stylesheets = JSON.parse(localStorage.getItem('stylesheets')|| '{}');
@@ -544,6 +582,7 @@ export class DesktopScreenComponent implements OnInit
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
+      this.addTemplateUrl = `${this.sharedService.Apigateway}${Constants.addNewTemplate}`;
       this.agGridFields = this.formBuilder.group
       ({
         selectColumn: ['', Validators.required],
@@ -1195,6 +1234,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   {
       if (Object.keys(params).length > 0) 
       {
+        console.log('enter 1');
         this.RemoteStorage.set('params', params);
         this.editor.StorageManager.get('remote').set
         ({
@@ -1203,6 +1243,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       } 
       else 
       {
+        console.log('enter 2');
         this.RemoteStorage.set('params', 
         {
           'component-lifecycle': this.componentLifeCycle,
@@ -1275,7 +1316,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   getScreenById() 
   {
-      console.log("Screen_id:",this.screen_id);
       if (this.screen_id) 
       {
         this.spinner.show();
@@ -1342,7 +1382,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         {
             console.log('screenId error are ---- ', error);
         });
-      } 
+      } else if(this.currentProjectId) {
+        this.editor.StorageManager.get('remote').set
+        ({
+          urlStore: this.addTemplateUrl,
+        });
+      }
       else 
       {
         this.editor.StorageManager.get('remote').set
@@ -1353,36 +1398,102 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   updateScreeName() 
   {
-      if (this.isTemplateEdit) 
-      {
-        this.saveRemoteStorage(this.templateObj);
-        this.closeScreeName();
-        this.spinner.show();
-        this.editor.store((data:any) => 
+    if(this.feature_id){
+        if (this.isTemplateEdit) 
         {
-          this.getProjectTemplate(this.projectTemplateId);
-        });
-      } 
-      else if(this.isNewTemplate)
-      {
-        
-      }
-      else 
-      {
-        this.saveRemoteStorage();
-        this.getScreenById();
-        this.closeScreeName();
-        this.spinner.show();
-        this.editor.store((data:any) => 
+          this.saveRemoteStorage(this.templateObj);
+          this.closeScreeName();
+          this.spinner.show();
+          this.editor.store((data:any) => 
+          {
+            this.getProjectTemplate(this.projectTemplateId);
+          });
+        } 
+        else 
         {
-          console.log("Data:",data);
-          this.screen_id = data.body._id;
-          this.scr=data.body.screenName;
-          console.log("ScreenName:",this.scr);
-          this.spinner.hide();
+          this.saveRemoteStorage();
           this.getScreenById();
-        });
-      }
+          this.closeScreeName();
+          this.spinner.show();
+          this.editor.store((data:any) => 
+          {
+            console.log("Data:",data);
+            this.screen_id = data.body._id;
+            this.scr=data.body.screenName;
+            console.log("ScreenName:",this.scr);
+            this.spinner.hide();
+            this.getScreenById();
+          });
+        }
+    } else if(this.feature_id === '' || null){
+      if (this.isTemplateEdit) 
+        {
+          this.saveRemoteStorage(this.templateObj);
+          this.closeScreeName();
+          this.spinner.show();
+          this.editor.store((data:any) => 
+          { 
+            console.log(data);
+            //this.getProjectTemplate(this.projectTemplateId);
+          });
+        } 
+        else 
+        {
+          this.saveRemoteStorage();
+          this.getScreenById();
+          this.closeScreeName();
+          this.spinner.show();
+          this.editor.store( async(data:any) => 
+          {
+
+            if (data && data.body)
+            {
+              console.log(data.body, this.screenName);
+              let project_template_data = data.body;
+              let screen_name = this.screenName;
+              let newTemplateId = data.body._id;
+
+              //current updateProjectById object data 
+              let project_template_Obj = 
+              {
+                app_ui_template: screen_name.toUpperCase(),
+                app_ui_template_name: `gep_${screen_name.toUpperCase()}`
+              };
+
+              //current updateProjectTemplate object data
+              let project_template_object = {
+                  flag: 'inactive',
+                  project_id: this.currentProjectId,
+                  'navigation-type': this.template_navigation_type,
+                  'gjs-assets': project_template_data['gjs-assets'],
+                  'gjs-css': project_template_data['gjs-css'],
+                  'gjs-styles': project_template_data['gjs-styles'],
+                  'gjs-html': project_template_data['gjs-html'],
+                  'gjs-components': project_template_data['gjs-components'],
+                  'stylesheets': project_template_styles.stylesheets,
+                  'scripts': project_template_styles.scripts,
+                  'template_image': project_template_styles.template_image,
+                  'css-guidelines': project_template_styles['css-guidelines'],
+                  'name': screen_name.toUpperCase(),
+                  'template_name': `gep_${screen_name.toUpperCase()}`
+              }
+
+              this.templateManagerService.updateCustomNewTemplate(project_template_object, newTemplateId, this.logId).subscribe(res => {
+                this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
+                  this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
+                    this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
+                      
+                    });
+                  });
+                });
+              });
+            }
+          });
+        }
+    }
+  }
+  screen_name(screen_name: any) {
+    throw new Error('Method not implemented.');
   }
 
   onCloseModel() 
