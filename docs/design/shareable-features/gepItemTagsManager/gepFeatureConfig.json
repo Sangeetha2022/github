@@ -117,7 +117,10 @@
 
     ],
 
-    "configuration": {
+    "runtime-configuration":{
+
+    },
+    "admin-runtime-configuration": {
         "admin-ui-entry-point": "/xxx/yyy/zzz",
         "admin-backend-services": [
             {
