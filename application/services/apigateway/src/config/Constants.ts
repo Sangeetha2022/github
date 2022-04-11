@@ -43,6 +43,7 @@ export class Constants {
     public static angularTemplateGenUrl: String;
     public static angularTemplateGenUrlV12: String;
     public static angularTemplateGenUrlV13: String;
+    public static customTemplateGenUrl: String;
     public static githubUrl: String;
     public static privateGithubUrl: String;
     public static authgenUrl: String;
@@ -101,6 +102,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
                 Constants.angularTemplateGenUrlV12 = process.env.angtemplatemanagerV12 + ":5029";
                 Constants.angularTemplateGenUrlV13 = process.env.angtemplatemanagerV13 + ":5031";
+                Constants.customTemplateGenUrl = process.env.customtemplatemanager + ":5032";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
                 Constants.privateGithubUrl = process.env.privategithubmanager + ":5022";
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
@@ -151,6 +153,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.angularTemplateGenUrlV12 = Constants.generationUrl + ":5029";
                 Constants.angularTemplateGenUrlV13 = Constants.generationUrl + ":5031";
+                Constants.customTemplateGenUrl = Constants.generationUrl + ":5032";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.privateGithubUrl = Constants.generationUrl + ":5022";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";

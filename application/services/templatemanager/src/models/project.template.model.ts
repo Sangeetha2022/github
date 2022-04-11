@@ -10,6 +10,7 @@ export const ProjectTemplateSchema = new Schema({
     },
     flag: String,
     project_id: String,
+    'template-type': { type: String, default: null},
     'navigation-type': String,
     'gjs-assets': [],
     'gjs-css': String,

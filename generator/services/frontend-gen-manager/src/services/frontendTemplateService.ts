@@ -234,11 +234,19 @@ export class FrontendTemplateService {
     }
 
     generateAngularTemplateV13(details) {
-        return new Promise(resolve => {
-            this.angularTemplateManagerService.generateAngularTemplateV13(details, (data) => {
-                resolve(data);
-            });
-        })
+        if(details.template['template-type'] === 'CUSTOMTEMPLATE'){
+            return new Promise(resolve => {
+                this.angularTemplateManagerService.generateCustomTemplate(details, (data) => {
+                    resolve(data);
+                });
+            })
+        } else {
+            return new Promise(resolve => {
+                this.angularTemplateManagerService.generateAngularTemplateV13(details, (data) => {
+                    resolve(data);
+                });
+            })
+        }
     }
 
     generateAngularTemplateV12(details) {

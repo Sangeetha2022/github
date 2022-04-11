@@ -1,0 +1,56 @@
+import { Component, OnInit, Inject } from '@angular/core';
+{{#if GpHeaders}}
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+{{#each GpHeadersStarAs}}
+import * as {{importName}} from '{{ importPath }}';
+{{/each}}
+{{/if}}
+
+@Component({
+  selector: 'app-{{ GpOptions.screenName }}',
+  templateUrl: './{{ GpOptions.screenName }}.component.html',
+  styleUrls: ['./{{ GpOptions.screenName }}.component.scss'],
+})
+
+export class {{ GpOptions.className }} implements OnInit {
+    private jwtToken: String | null | undefined = '';
+{{#if GpOptions.variables}}
+{{#each GpOptions.variables}}
+    {{name}}: {{dataType}}{{#ifCond value '!=' null}} = {{ value }}{{/ifCond}};
+{{/each}}
+{{/if}}
+{{#if GpOptions.arrayVariables}}
+{{#each GpOptions.arrayVariables}}
+    {{name}}: {{dataType}} = [{{#each value}}{ {{key1}}: '{{value1}}', {{key2}}: '{{value2}}'  },{{/each}}];
+{{/each}}
+{{/if}}
+{{#if GpOptions.entities}}
+{{#each GpOptions.entities}}
+    public {{ name }} = {
+    {{#each field}}
+        {{ name }}: '',
+    {{/each}}
+    }
+{{/each}}
+{{/if}}
+{{#if GpOptions.is_grid_present}}
+    {{{ GpOptions.grid_components }}}
+{{/if}}
+    constructor (
+        {{#if GpOptions.constructor}}
+        {{#each GpOptions.constructor}}
+        private {{ objectName }}: {{ className }},
+        {{/each}}
+        {{/if}}
+    ) { }
+
+    ngOnInit() {
+    {{#if GpCodeToAdd.lifecycle_info}}
+    {{#each GpCodeToAdd.lifecycle_info }}
+        {{{data}}}
+    {{/each}}
+    {{/if}}
+    }
+}

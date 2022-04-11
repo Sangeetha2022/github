@@ -1,0 +1,54 @@
+{{!-- nav tag --}}
+{{#ifCond tagName '==' 'nav'}}
+<nav class="{{ classNames }}" id="{{ attributes.id }}">
+    {{#each components}}
+    {{!-- div --}}
+    {{#ifCond tagName '==' 'div'}}
+    <div class="{{ classNames }}" id="{{ attributes.id }}">
+        {{#each components}}
+        {{!-- span tag --}}
+        {{#ifCond tagName '==' 'span'}}
+        <span onclick="{{{ attributes.onclick }}}" id="{{ attributes.id }}">{{{ content }}}</span>
+        {{/ifCond}}
+        {{!-- button tag --}}
+        {{#ifCond tagName '==' 'button'}}
+        <button class="{{ classNames }}" type="button" data-toggle="{{ attributes.data-toggle }}" data-target="{{ attributes.data-target }}" id="{{ attributes.id }}">
+            {{#each components}}
+            {{!-- span --}}
+            {{#ifCond tagName '==' 'span'}}
+            <span class="{{ classNames }}" id="{{ attributes.id }}"></span>
+            {{/ifCond}}
+            {{/each}}
+        </button>
+        {{/ifCond}}
+        {{!-- a tag --}}
+        {{#ifCond tagName '==' 'a'}}
+        <a class="{{ classNames }}" href="{{ attributes.href }}" id="{{ attributes.id }}" onclick="{{{ attributes.onclick }}}">{{ content }}</a>
+        {{/ifCond}}
+        {{!-- div tag --}}
+        {{#ifCond tagName '==' 'div'}}
+        <div id="{{attributes.id}}">
+        </div>
+        {{/ifCond}}
+        {{!-- ul tag --}}
+        {{#ifCond tagName '==' 'ul'}}
+        <ul class="{{ classNames }}" id="{{ attributes.id }}">
+            {{#each components}}
+            {{!-- li tag --}}
+            <li class="{{ classNames }}" id="{{ attributes.id }}">
+                {{#each components}}
+                {{!-- a tag --}}
+                {{#ifCond tagName '==' 'a'}}
+                <a [routerLink]="['{{{attributes.href}}}']" id="{{ attributes.id }}">{{ content }}</a>
+                {{/ifCond}}
+                {{/each}}
+            </li>
+            {{/each}}
+        </ul>
+        {{/ifCond}}
+        {{/each}}
+    </div>
+    {{/ifCond}}
+    {{/each}}
+</nav>
+{{/ifCond}}

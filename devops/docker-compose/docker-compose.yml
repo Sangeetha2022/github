@@ -515,6 +515,19 @@ services:
     depends_on:
       - mongo
       - apigateway 
+  
+  customtemplatemanager:
+    build: ../../generator/services/Custom-Template-manager
+    image: customtemplatemanager
+    container_name: customtemplatemanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5032:5032"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway 
 
   reactgenmanager:
     build: ../../generator/services/react-gen-managerV1702

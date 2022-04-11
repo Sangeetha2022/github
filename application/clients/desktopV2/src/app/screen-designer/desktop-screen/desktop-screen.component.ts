@@ -629,6 +629,9 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
+   this.blockservice.addSectionTag(this.editor);
+   this.blockservice.addFooterTag(this.editor);
+   this.blockservice.addNavTag(this.editor);
    this.blockservice.addDynamicDropdown(this.editor);
    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
    {
@@ -1462,6 +1465,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
               let project_template_object = {
                   flag: 'inactive',
                   project_id: this.currentProjectId,
+                  'template-type': 'CUSTOMTEMPLATE',
                   'navigation-type': this.template_navigation_type,
                   'gjs-assets': project_template_data['gjs-assets'],
                   'gjs-css': project_template_data['gjs-css'],
