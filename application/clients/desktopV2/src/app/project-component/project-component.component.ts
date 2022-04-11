@@ -292,10 +292,6 @@ export class EntityManagerComponent implements OnInit
         console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
-        if(this.projectFeatureData[0].name=="systementry")
-        {
-          this.isDefaultFeature=true;
-        }
         console.log("project feature data",this.projectFeatureData);
     },
     (error) => { });
