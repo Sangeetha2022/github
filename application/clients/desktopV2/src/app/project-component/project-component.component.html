@@ -16,8 +16,9 @@
             </mat-expansion-panel-header>
             <div class="row mx-4 pl-5">
                 <div class="col-4" *ngFor="let feature of projectFeatureData; let i= index">
-                    <div class="card mt-3 p-2" id="po" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,projectId: project_id}" style="width:auto; height:auto;">
-                        <div class="card-body">
+                    <div class="card mt-3 p-2" id="po" style="width:auto; height:auto;">
+                        <button class="boxclose" id="boxclose" (click)="deleteFeature(feature)" [disabled]="isDefaultFeature"></button>
+                        <div class="card-body" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,projectId: project_id}">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <img src="./assets/images/shareable_features/{{feature.name}}.png" onerror="this.onerror=null;this.src='./assets/images/shareable_features/feature icon.png';" />

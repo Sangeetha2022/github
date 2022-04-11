@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 import { PEntity } from '../project-component/interface/Entity';
+import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.component';
 
 
 @Component
@@ -47,8 +48,10 @@ export class EntityManagerComponent implements OnInit
   projectName:string='';
   project_display_Name:string='';
   projectFeatureData: any = [];
+  isDefaultFeature:boolean=false;
   getAllSharableFeatueData: any = [];
   selectedEntityId:string='';
+  selectedFeatureId:string='';
   menuLanguages: any = [];
   selectedProject:any=[];
   projectEntity:any;
@@ -116,6 +119,37 @@ export class EntityManagerComponent implements OnInit
     this.getMenuBuilderByProjectId();
     this.getAllSharableFeatue();
         
+  }
+
+  deleteFeature(feature:any) 
+  {
+        this.selectedFeatureId = feature._id;
+        console.log("SelectedFeatureId:",this.selectedFeatureId);
+        this.deleteDialog();
+  }
+
+  deleteDialog() 
+  {
+        const dialogRef = this.dialog.open(DeletefeatpopupComponent, 
+        {
+            width: '350px',
+        });
+        dialogRef.afterClosed().subscribe((data)=>
+        {
+          console.log(data);
+          if(data==true)
+          {
+            console.log('feature id', this.selectedFeatureId);
+            this.projectComponentService.deleteFeatureFlowById(this.selectedFeatureId,this.logId).subscribe((data)=>
+            {
+             console.log("Data after Delete:",data);
+             if(data)
+             {
+               this.getFeatureByProjectId();
+             }
+            })
+          }
+        })
   }
 
   //To open the entity model dialog box
@@ -258,9 +292,13 @@ export class EntityManagerComponent implements OnInit
         console.log(this.project_id,this.logId);       
         this.spinner.hide();
         this.projectFeatureData = response.body;
+        if(this.projectFeatureData[0].name=="systementry")
+        {
+          this.isDefaultFeature=true;
+        }
         console.log("project feature data",this.projectFeatureData);
     },
-    error => { });
+    (error) => { });
   }
   //To get the All entity by project id
   getAllEntityByProjectId() 
@@ -668,12 +706,13 @@ export class EntityManagerComponent implements OnInit
   {
     this.deletePopup = 'none';
   }
-  //To delete the particular wntity
+  //To delete the particular entity
   deleteEntityById() 
   {
     this.deletePopup = 'none';
     this.projectComponentService.deleteEntityById(this.selectedEntityId, this.logId).subscribe((data) => 
     {
+            console.log("Data after Entity Delete:",data);
             if (data) 
             {
                 this.getAllEntityByProjectId();

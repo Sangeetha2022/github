@@ -66,6 +66,7 @@ export class DesktopScreenComponent implements OnInit
   screen_id: String='';
   traitsName: String='';
   isTemplateEdit:boolean=false;
+  isNewTemplate:boolean=false;
   isFieldPopupModal:boolean=false;
   isLifeCycleRow: boolean=false;
   isCustomPopup:boolean = false;
@@ -795,6 +796,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       }
     }
   }
+
   //To get Project Template this function called when modify template clicked
   getProjectTemplate(id:any) 
   {

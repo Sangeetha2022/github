@@ -47,6 +47,9 @@ export class Constants
         public static get updateFeature(): String { return this.DESKTOP_ROUTER + '/feature/update'; }
         public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
         public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
+        public static get deleteFeatur(): String{ return this.DESKTOP_ROUTER + '/feature/delete';}
+        public static get deleteFeatureFlowById(): String{ return this.DESKTOP_ROUTER + '/delete/feature';}
+        
 
         // Feature Screen
         public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }

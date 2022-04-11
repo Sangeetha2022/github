@@ -494,8 +494,7 @@ export class ProjectComponent implements OnInit
               });
               
               // create default menus
-              this.projectsService.createDefaultMenu(projectDetail._id,dataToSave.default_human_language,
-                                                     dataToSave.other_human_languages,this.logId).subscribe((defaultMenuResponse) => { }, 
+              this.projectsService.createDefaultMenu(projectDetail._id,dataToSave.default_human_language,dataToSave.other_human_languages,this.logId).subscribe((defaultMenuResponse) => { }, 
                                                      (error) => 
                                                      {
                                                         console.error('cannot able to create the default menu for this project ', error);
