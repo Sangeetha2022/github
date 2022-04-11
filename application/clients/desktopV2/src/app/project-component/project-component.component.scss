@@ -1,4 +1,29 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+.boxclose {
+    margin-top: -30px;
+    margin-right: auto;
+    margin-left: 475px;
+    color: black;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #f16e5c;
+    font-size: 31px;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 3px;
+}
+
+.boxclose:before {
+    content: "×";
+}
+
+.boxclose:hover {
+    box-shadow: 0 4px 8px 0 rgba(153, 14, 14, 0.2), 0 6px 20px 0 rgba(173, 17, 17, 0.19);
+    font-size: 50px;
+    border-radius: 50%;
+    line-height: 10px;
+}
+
 #ihclgr {
     white-space: nowrap;
     background-color: #5DB18C;
@@ -74,6 +99,7 @@
     flex: 0 0 auto;
     width: 28%;
 }
+
 #po:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -189,8 +215,9 @@
 
 @media (max-width: 768px) {}
 
-.card_align{
-    width: auto; height: auto;
+.card_align {
+    width: auto;
+    height: auto;
 }
 
 .col-sm-4 {

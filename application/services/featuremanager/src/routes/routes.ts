@@ -2,17 +2,21 @@ import { FeatureController } from "../controllers/FeatureController";
 import { Request, Response } from "express";
 import { DefaultFeatureController } from '../controllers/DefaultFeatureController'
 
-export class Routes {
-
+export class Routes 
+{
     public featureController: FeatureController = new FeatureController()
     public defaultFeatureController: DefaultFeatureController = new DefaultFeatureController();
 
-    public routes(app): void {
-        app.route('/health/micro-service').get((req: Request, res: Response) => {
-            res.status(200).send({
+    public routes(app): void 
+    {
+        app.route('/health/micro-service').get((req: Request, res: Response) => 
+        {
+            res.status(200).send
+            ({
                 status: 'up'
             })
         })
+
         // Feature
         app.route('/feature/save').post(this.featureController.saveFeature);
         app.route('/feature/update').put(this.featureController.updateFeature);
@@ -25,7 +29,6 @@ export class Routes {
 
         //get FeatureEntity
         app.route('/feature/:id/entity').get(this.featureController.getFeatureIDByEntity);
-
         app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)
         app.route('/feature/deleteentity/:featureId/:entityid').delete(this.featureController.featuredeleteEntity);
 

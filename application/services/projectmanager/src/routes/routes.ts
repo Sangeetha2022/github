@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { ProjectController } from "../controllers/project.controller";
 
-export class Routes {
-
+export class Routes 
+{
     public projectController: ProjectController = new ProjectController()
-
-    public routes(app): void {
-
-        app.route('/health/project-service').get((req: Request, res: Response) => {
-            res.status(200).send({
+    public routes(app): void 
+    {
+        app.route('/health/project-service').get((req: Request, res: Response) => 
+        {
+            res.status(200).send
+            ({
                 status: 'up'
             })
         })

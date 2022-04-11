@@ -653,8 +653,6 @@ export class CommandService
           dynamicdropdownType.forEach((element:any) => 
           {
              element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);
-             const name=`dynamicdropdown_${element.ccid}`;
-             console.log("DynamicDropdown name:",name);
           });
           
       }
@@ -663,15 +661,7 @@ export class CommandService
         $this.is_tagBlock_present=true;
         tagManager.forEach((element:any) => 
         {
-          element.attributes.traits.target.set('name', `${element.attributes.type}`);
-          const name=`${element.attributes.type}`;
-          console.log("TagManager name:",name);
-          const tagName='Option1';
-          $this.tagNames.name=name;
-          $this.tagNames.tagName=tagName;
-          console.log("TagNames:",$this.tagNames);
-          $this.tagValues.push($this.tagNames);
-          console.log("TagValues:",$this.tagValues);
+          element.attributes.traits.target.set('name', `tagmanager_${element.ccid}`);
         });
       }
       if (multiSelectDropdown.length > 0) 

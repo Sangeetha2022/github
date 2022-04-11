@@ -14,6 +14,7 @@ import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field
 import { MatSelectModule } from '@angular/material/select';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
+import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.component';
 
 @NgModule
 ({
@@ -24,6 +25,7 @@ import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.co
     EntityFieldComponent,
     FieldPopupModalComponent,
     ProjentitypopUpComponent,
+    DeletefeatpopupComponent,
   ],
   imports: 
   [
