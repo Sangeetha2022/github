@@ -1079,6 +1079,60 @@ export class TraitsService
     });
   }
 
+  addNavigationblock(screenGlobalVariable:any, buttonName:any)
+  {
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const $this = this;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    this.customTraitService.popupRouteButton(screenGlobalVariable);
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend
+      ({
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            [
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'screenButton',
+                label: 'Link',
+                name: 'screenButton'
+              }
+            ]
+          }),
+          init()
+          {
+            this.listenTo(this,'change:name',this.nameChange);
+          },
+          nameChange()
+          {
+            const enteredName=this.changed['name'];
+            console.log("Name:",enteredName);
+          },
+      },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        }),
+        // Define the View
+        view: defaultType.view,
+    });
+  }
+
   // link traits
   initializeLinkMethod(screenGlobalVariable:any) 
   {
