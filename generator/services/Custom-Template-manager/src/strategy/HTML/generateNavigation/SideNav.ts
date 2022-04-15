@@ -12,13 +12,12 @@ export class TemplateSideNav {
         let bottomNav = [];
         let sideNav: string = '';
         let screen_default;
-        
         let externalFeature = Constant.externalFeature;
         if (humanLanguageMenus && humanLanguageMenus.length > 0) {
             humanLanguageMenus.forEach((element: any) => {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
-                        if (menuElement.featuremenu[0].name.feature !== 'default' || 
+                        if (menuElement.featuremenu[0].name.feature !== 'default' && 
                             menuElement.featuremenu[0].name.feature !== 'gepitemtagsmanager') {
                             // externalFeature.filter( async sharedfeatureservice => {
                             //     (sharedfeatureservice.name !== menuElement.featuremenu[0].name.feature && sharedfeatureservice.type !== false) ? screen_default = true : screen_default = false;

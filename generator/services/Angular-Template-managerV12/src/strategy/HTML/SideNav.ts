@@ -13,7 +13,8 @@ export class SideNav {
             humanLanguageMenus.forEach((element: any) => {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
-                        if (menuElement.featuremenu[0].name.feature !== 'default') {
+                        if (menuElement.featuremenu[0].name.feature !== 'default' &&
+                        menuElement.featuremenu[0].name.feature !== 'gepitemtagsmanager') {
                             mainNav.push(`<div class="list-group panel">
     <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
     <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);

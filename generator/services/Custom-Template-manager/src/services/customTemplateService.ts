@@ -227,11 +227,11 @@ export class CustomTemplateService {
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
                 let responseArray = [];
-                if (res.includes(`<nav data-gjs="navbar-menu"`)) {
+                if (res.includes(`<div id="MainMenu" class="">`)) {
                     const sideNavHtml = TemplateSideNav.generatedSideNav(menuList);
                     responseArray = res.split('\n');
                     for (let i = 0; i < responseArray.length; i++) {
-                        if (responseArray[i].includes(`<nav data-gjs="navbar-menu"`)) {
+                        if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
                             responseArray.splice(i + 1, 0, sideNavHtml);
                             break;
                         }
@@ -257,6 +257,7 @@ export class CustomTemplateService {
             });
         } else if (tagName === 'section') {
             // Generate Template Component
+            this.htmlContent = '';
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
                 const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
@@ -421,6 +422,7 @@ export class CustomTemplateService {
                 callback();
             });
         } else if (tagName === 'section') {
+            this.htmlContent = '';
             // Generate Template Component
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
@@ -463,6 +465,7 @@ export class CustomTemplateService {
         if (gjsComponents && gjsComponents.length > 0) {
             asyncLoop(gjsComponents, (gjsElement, next) => {
                 const tagName = componentSupportWorker.tagNameFunction(gjsElement);
+                console.log('tagname', tagName);
                 // Geppetto Template Generation
                 if(navigationType === 'side'){
                     this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
@@ -531,19 +534,27 @@ export class CustomTemplateService {
      * @param item 
      * @param tagName 
      */
-    setClasses(item, tagName) {
+     setClasses(item, tagName) {
         let classess = '';
-        if (item.hasOwnProperty('classes')) {
+        if(item.hasOwnProperty('classes')) {
+            console.log("inside set class", item);
             item.classes.forEach((element, index) => {
-                if (index + 1 === item.classes.length) {
-                    classess += element.name;
-                } else {
-                    classess += element.name + ' ';
+                console.log("element===>",element);
+                if((index + 1 === item.classes.length)) {
+                        classess += element.name;
+                        if(!element.name){
+                            classess = '';
+                            for (const class_value of item.classes) {
+                                console.log("val",class_value);
+                                classess +=  class_value + ' ';
+                            }
+                        }
+                        console.log("classess",classess);
                 }
             });
         }
         this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
-    }
+    } 
     /**
      * Set Content
      * @param item 
@@ -557,9 +568,13 @@ export class CustomTemplateService {
      * Set close tag
      * @param tagName 
      */
-    setCloseTag(tagName) {
-        if (tagName !== 'img' && tagName !== 'input') {
-            this.htmlContent += `</${tagName}>\n`;
+     setCloseTag(tagName) {
+        if(tagName !== 'img' && tagName !== 'input') {
+            if(tagName === 'dynamicdropdown-type' || tagName === 'specialdropdown-type') {
+                this.htmlContent += `</ng-select>`;
+            } else {
+                this.htmlContent += `</${tagName}>\n`;
+            }
         }
     }
     // public createLandingPage() {

@@ -26,8 +26,9 @@ export class TemplateFooter {
       </div>
     </div>
   </footer>`
-  public static CSS_DATA = `footer {
-      margin-top: 9rem !important;
-  } 
-  `;
+  // public static CSS_DATA = `footer {
+  //     margin-top: 9rem !important;
+  // } 
+  // `;
+  public static CSS_DATA = ``;
 }

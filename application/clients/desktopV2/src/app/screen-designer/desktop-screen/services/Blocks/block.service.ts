@@ -155,7 +155,7 @@ export class BlockService
       },
       label: `<div class="gjs-block-label"> Section Block </div>`,
       content: `
-            <section class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
+            <section id="main" class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
               <div class="row-cell" data-gjs-draggable=".row"></div>
             </section>
             <style>
@@ -192,7 +192,7 @@ export class BlockService
       },
       label: `<div class="gjs-block-label"> Footer Block </div>`,
       content: `
-            <footer class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
+            <footer id="foot" class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
               <div class="row-cell" data-gjs-draggable=".row"></div>
             </footer>
             <style>

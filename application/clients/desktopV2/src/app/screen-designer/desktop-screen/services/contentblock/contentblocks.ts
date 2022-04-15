@@ -2,19 +2,19 @@ export let contentblocks = `
 <nav id="template-i090p" class="">
     <div id="i8k8l" class="container"></div>
     <div id="ighf" class="gdp-row gpd-grid sticky">
-        <div id="ik48" class="cell gpd-clm">
+        <div id="ik48" class="gpd-clm gpd-cell">
             <div id="ij0o8m" class="gdp-row gpd-grid">
                 <span onclick="openNav()" id="template-i2uji" class="">
-                    <div id="i8h3sg" class="cell gpd-clm">
+                    <div id="i8h3sg" class="gpd-clm gpd-cell">
                         <img id="igjp1x" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/8762113d99a84fa5baf2345306d4f0c3_hamburger3.png" />
                     </div>
                     </span>
-                <div id="ip9j7w" class="cell gpd-clm"><img id="i4dr2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/dad97ef59d704ea0b66e4e5416c67f0a_new_logo_gep.png" /></div>
+                <div id="ip9j7w" class="gpd-clm gpd-cell"><img id="i4dr2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/dad97ef59d704ea0b66e4e5416c67f0a_new_logo_gep.png" /></div>
             </div>
         </div>
         <div id="mySidenav" class="sidenav">
             <a [routerLink]="['javascript:void(0)']" onclick="closeNav()" id="template-if7ki" class="closebtn">
-                <div id="ibuiwl" class="cell gpd-clm">
+                <div id="ibuiwl" class="gpd-clm gpd-cell">
                     <img id="imvflv" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/cdca723990474ba9ba33337d35ef399d_close.png" class="" />
                 </div>
             </a>
@@ -25,20 +25,6 @@ export let contentblocks = `
         </div>
     </div>
 </nav>
-<script id='template-i29cx'>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-        document.getElementById("foot").style.marginLeft = "250px";
-        document.getElementById("mySidenav").style.backgroundColor = "#1E1E1E";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("foot").style.marginLeft = "0%";
-    }
-</script>
 <style>
     .gpd-container {
       width: 90%;
@@ -182,7 +168,7 @@ export let contentblocks = `
     padding-left: 16px;
     white-space: normal;
 }
-.cell {
+.gpd-cell {
     flex-grow: 1;
     flex-basis: 100%;
     padding-top: 5px;
