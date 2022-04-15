@@ -1,5 +1,5 @@
-export class Constants {
-
+export class Constants 
+{
     public static appUrl: String;
     public static generationUrl: String;
 
@@ -24,6 +24,7 @@ export class Constants {
     public static gepFileUrl: String;
     public static modifierUrl: String;
     public static SharedFeaturesUrl: String;
+    public static wizardUrl: String;
 
 
     //generator - declaration
@@ -50,17 +51,19 @@ export class Constants {
     public static reactgenUrl: String;
     public static reactTemplateGenUrl: String;
     public static sharedFeaturesGenUrl: String;
-    // public static apiGatewayURL: String;
 
-    constructor() {
+    // public static apiGatewayURL: String;
+    constructor() 
+    {
         this.getURL();
     }
 
-    public getURL() {
-
-        switch (process.env.localname) {
-
-            case process.env.name: Constants.appUrl = process.env.localUrl;
+    public getURL() 
+    {
+        switch (process.env.localname) 
+        {
+            case process.env.name: 
+                Constants.appUrl = process.env.localUrl;
                 Constants.generationUrl = process.env.localUrl;
                 // app 
                 Constants.projectUrl = process.env.projectmanager + ":3003";
@@ -83,6 +86,7 @@ export class Constants {
                 Constants.gepFileUrl = process.env.gepfilemanager + ":3015";
                 Constants.modifierUrl = process.env.modifiermanager + ":3030";
                 Constants.SharedFeaturesUrl = process.env.sharedfeaturesmanager + ":3017";
+                Constants.wizardUrl = process.env.wizardmanager + ":3018";
 
                 //generator
                 Constants.projectGenUrl = process.env.generationmanager + ":5000";
@@ -111,7 +115,8 @@ export class Constants {
 
                 break;
 
-            default: Constants.appUrl = process.env.liveappUrl;
+            default: 
+                Constants.appUrl = process.env.liveappUrl;
                 Constants.generationUrl = process.env.livegenerationUrl;
 
                 // app 
@@ -134,6 +139,7 @@ export class Constants {
                 Constants.externalfeature = Constants.appUrl + ":3016";
                 Constants.modifierUrl = Constants.appUrl + ":3030";
                 Constants.SharedFeaturesUrl = Constants.appUrl + ":3017";
+                Constants.wizardUrl = Constants.appUrl + ":3018";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";

@@ -81,6 +81,15 @@ export class Constants
         public static get searchByNameFeatue(): string { return this.DESKTOP_ROUTER + '/gfc/get/search'}
         public static get searchByUpdateFeature(): string { return this.DESKTOP_ROUTER + '/gfc/get/update'}
         public static get getGfcById(): string { return this.DESKTOP_ROUTER + '/gfc/get/:id'}
+
+        //wizard
+        public static get deleteWizard(): string { return this.DESKTOP_ROUTER + '/wizard/:id'}
+        public static get getAllWizard(): string {return this.DESKTOP_ROUTER + '/wizard'}
+        public static get createWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}
+        public static get updateWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}
+        public static get searchByNameWizard(): string { return this.DESKTOP_ROUTER + '/wizard/get/search'}
+        public static get searchByUpdateWizard(): string { return this.DESKTOP_ROUTER + '/wizard/get/update'}
+        public static get getWizardById(): string { return this.DESKTOP_ROUTER + '/wizard/get/:id'}
         
 
         //get the feature entities 

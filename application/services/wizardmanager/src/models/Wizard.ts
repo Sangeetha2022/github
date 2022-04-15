@@ -8,12 +8,14 @@ export const WizardSchema = new Schema({
    created_by: { type: String },
    last_modified_by: { type: String },
    last_modified_date: { type: Date, default: Date.now },
-   wizardid: String,
-   wizardname: String,
-   wizarddescription: String,
-   posinwizard: Number,
-   screenname: String,
-   screenid: String
+   wizardname: { type: String },
+   wizarddescription: { type: String },
+   screen_info:
+   [{
+      posinwizard: { type: Number },
+      screenname: { type: String },
+      screenid: { type: String }
+   }]
 })
 
 const WizardModel = mongoose.model('Wizard', WizardSchema, 'Wizard');
