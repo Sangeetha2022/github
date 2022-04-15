@@ -7,14 +7,15 @@ import { WinstonLogger } from './config/WinstonLogger';
 
 const PORT = 3018;
 
-class App {
-
+class App 
+{
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     public mongoUrl: string = process.env.mongoUrl;
 
-    constructor() { 
+    constructor() 
+    { 
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
@@ -22,13 +23,15 @@ class App {
         this.routePrv.routes(this.app);
     }
 
-    private initializeMiddlewares() {
+    private initializeMiddlewares() 
+    {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors({ credentials: true, origin: true }))
     }
 
-    private mongoSetup(): void {
+    private mongoSetup(): void 
+    {
         // mongoose.Promise = global.Promise;
         mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(res => { console.log('mongodb connected') })
@@ -37,7 +40,8 @@ class App {
 
 }
 
-new App().app.listen(PORT, () => {
+new App().app.listen(PORT, () => 
+{
     console.log('Express server listening on port  ' + PORT);
 })
 

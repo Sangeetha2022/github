@@ -4,71 +4,84 @@ import { CustomLogger } from '../config/Logger';
 import * as jwt from 'jsonwebtoken';
 let Wizard = new WizardDao();
 
-export class WizardService {
-    
+export class WizardService 
+{    
     constructor() { }
     
-    public  GpDelete(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpDelete')
-     let  WizardId = req.params.id;
-     Wizard.GpDelete(WizardId,(response)=>{
+    public  GpDelete(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpDelete')
+        let  WizardId = req.params.id;
+        Wizard.GpDelete(WizardId,(response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpDelete')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
-public  GpSearch(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpSearch')
-     let  WizardData = req.query;
-     Wizard.GpSearch(WizardData,(response)=>{
+    public  GpSearch(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpSearch')
+        let  WizardData = req.query;
+        Wizard.GpSearch(WizardData,(response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpSearch')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
-public  GpSearchForUpdate(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpSearchForUpdate')
-     let  WizardData = req.body;
-     Wizard.GpSearchForUpdate(WizardData,(response)=>{
+    public  GpSearchForUpdate(req: Request, callback)
+    {
+         new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpSearchForUpdate')
+         let  WizardData = req.body;
+         Wizard.GpSearchForUpdate(WizardData,(response)=>
+         {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpSearchForUpdate')
-         callback(response);
+             callback(response);
          });
     }
     
-public  GpGetNounById(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpGetNounById')
-     let  WizardId = req.params.id;
-     Wizard.GpGetNounById(WizardId,(response)=>{
+    public  GpGetNounById(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpGetNounById')
+        let  WizardId = req.params.id;
+        Wizard.GpGetNounById(WizardId,(response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpGetNounById')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
-public  GpUpdate(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpUpdate')
-     let  WizardData = req.body;
-     Wizard.GpUpdate(WizardData,(response)=>{
+    public  GpUpdate(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpUpdate')
+        let  WizardData = req.body;
+        Wizard.GpUpdate(WizardData,(response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpUpdate')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
-public  GpGetAllValues(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpGetAllValues')
-     
-     Wizard.GpGetAllValues((response)=>{
+    public  GpGetAllValues(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpGetAllValues')     
+        Wizard.GpGetAllValues((response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpGetAllValues')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
-public  GpCreate(req: Request, callback){
-    new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpCreate')
-     let  WizardData = req.body;
-     Wizard.GpCreate(WizardData,(response)=>{
+    public  GpCreate(req: Request, callback)
+    {
+        new CustomLogger().showLogger('info', 'Enter into WizardService.ts: GpCreate')
+        let  WizardData = req.body;
+        Wizard.GpCreate(WizardData,(response)=>
+        {
              new CustomLogger().showLogger('info', 'Exit from WizardService.ts: GpCreate')
-         callback(response);
-         });
+             callback(response);
+        });
     }
     
     
