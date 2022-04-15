@@ -4,20 +4,22 @@ export let contentblocks = `
     <div id="ighf" class="gdp-row gpd-grid sticky">
         <div id="ik48" class="gpd-clm gpd-cell">
             <div id="ij0o8m" class="gdp-row gpd-grid">
-                <span onclick="openNav()" id="template-i2uji" class="">
+                <div onclick="openNav()" id="template-i2uji" class="">
                     <div id="i8h3sg" class="gpd-clm gpd-cell">
                         <img id="igjp1x" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/8762113d99a84fa5baf2345306d4f0c3_hamburger3.png" />
                     </div>
-                    </span>
-                <div id="ip9j7w" class="gpd-clm gpd-cell"><img id="i4dr2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/dad97ef59d704ea0b66e4e5416c67f0a_new_logo_gep.png" /></div>
+                </div>
+                <div id="ip9j7w" class="gpd-clm gpd-cell">
+                    <img id="i4dr2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/dad97ef59d704ea0b66e4e5416c67f0a_new_logo_gep.png" />
+                </div>
             </div>
         </div>
         <div id="mySidenav" class="sidenav">
-            <a [routerLink]="['javascript:void(0)']" onclick="closeNav()" id="template-if7ki" class="closebtn">
+            <div [routerLink]="['javascript:void(0)']" onclick="closeNav()" id="template-if7ki" class="closebtn">
                 <div id="ibuiwl" class="gpd-clm gpd-cell">
                     <img id="imvflv" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/cdca723990474ba9ba33337d35ef399d_close.png" class="" />
                 </div>
-            </a>
+            </div>
 
             <div id="MainMenu" class="">
 

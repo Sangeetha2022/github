@@ -258,11 +258,19 @@ export class FrontendTemplateService {
     }
 
     generateReactTemplate(details) {
-        return new Promise(resolve => {
-            this.reactTemplateManagerService.generateReactTemplate(details, (data) => {
-                resolve(data);
-            });
-        })
+        if(details.template['template-type'] === 'CUSTOMTEMPLATE'){
+            return new Promise(resolve => {
+                this.reactTemplateManagerService.generateCustomReactTemplate(details, (data) => {
+                    resolve(data);
+                });
+            })
+        } else {
+            return new Promise(resolve => {
+                this.reactTemplateManagerService.generateReactTemplate(details, (data) => {
+                    resolve(data);
+                });
+            })
+        }
     }
 
     generateAuthFrontendComponent(details) {

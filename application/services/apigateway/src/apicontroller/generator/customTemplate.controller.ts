@@ -13,6 +13,7 @@ export class CustomTemplateController implements Controller {
 
     private initializeRoutes() {
         this.router.route('/template/customtemplatev13').post(this.createCustomTemplate);
+        this.router.route('/template/customtemplate/react').post(this.createCustomReactTemplate);
     }
 
     public async createCustomTemplate(req: Request, res: Response) {
@@ -20,6 +21,17 @@ export class CustomTemplateController implements Controller {
             console.log('create custom template v13 in apigateway -----  ');
             let response = await Promise.resolve(new ApiAdapter().post(
                 `${Constants.customTemplateGenUrl}/template/customtemplatev13`, req.body));
+            res.send(response);
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+    public async createCustomReactTemplate(req: Request, res: Response) {
+        try {
+            console.log('create custom template react in apigateway -----  ');
+            let response = await Promise.resolve(new ApiAdapter().post(
+                `${Constants.customTemplateGenUrl}/template/customtemplate/react`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);

@@ -1,0 +1,57 @@
+import * as path from 'path';
+import * as util from 'util'
+
+import { ComponentSupportWorker } from "../../supportworker/componentSupportWorker";
+import { Constant } from "../../config/Constant";
+import { Footer } from '../../strategy/REACT_HTML/Footer';
+import { AssetWorker } from '../assetWorker/assetsWorker';
+import { DependencyReactWorker } from '../dependency-worker/dependencyReactWorker';
+
+const componentSupportWorker = new ComponentSupportWorker();
+const assetWorker = new AssetWorker();
+const footer = new Footer()
+const dependencyReactWorker = new DependencyReactWorker();
+const templatePath = path.resolve(__dirname, '../../../templates_react');
+export class ReactCommonWorker {
+    /**
+     * Generate styles.scss file
+     * @param filePath 
+     * @param grapesjsCSS 
+     * @param callback 
+     */
+    public async generateStyleScss(filePath, CSSData, callback) {
+        const fileData = {
+            styleScssContent: [
+                { data: CSSData }
+            ]
+        }
+        const generationPath = `${filePath}/${Constant.SRC_FOLDERNAME}`
+        assetWorker.checkAssetFile(filePath, CSSData, templatePath);
+        await componentSupportWorker.handleBarsFile(`${templatePath}/StyleScss.handlebars`, fileData, generationPath, Constant.INDEX_FILENAME);
+        callback('style.scss file generated');
+    }
+
+    public createFooterHtml(generationPath, metaData) {
+        const footerHtmlMetaData = JSON.parse(JSON.stringify(metaData))
+        footer.footerHTMLGeneration(generationPath, footerHtmlMetaData, async (res) => {
+        })
+    }
+
+    generateMainFile(generationPath, details, sharedObj, projectName, callback) {
+        //return dependencyReactWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
+            return dependencyReactWorker.generateNginxFile(generationPath, templatePath, details, (res) => {
+                return dependencyReactWorker.generateProxyFile(generationPath, templatePath, details, (res) => {
+                    return dependencyReactWorker.generateDockerFile(generationPath, templatePath, details, (res) => {
+                        //return dependencyReactWorker.generateTranslatorModuleFile(generationPath, templatePath, details, (res) => {
+                            return dependencyReactWorker.generateTranslatorJsonFile(generationPath, templatePath, details, (res) => {
+                                dependencyReactWorker.modifyTsConfig(generationPath, (tsConfigRes, tsConfigErr) => {
+                                    callback('main files are generated');
+                                });
+                            })
+                        //})
+                    })
+                })
+            })
+        //});
+    }
+}

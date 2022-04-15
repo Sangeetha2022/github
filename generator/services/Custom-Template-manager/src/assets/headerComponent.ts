@@ -544,3 +544,42 @@ export const ConfimModalPopup = {
 </div>`
   ]
 }
+
+export const HeaderComponent = {
+  htmlImport : [
+    `import React, { useState } from 'react';
+    import {
+        Collapse,
+        Navbar,
+        NavbarToggler,
+        NavbarBrand,
+        Nav,
+        NavItem,
+        NavLink,
+        UncontrolledDropdown,
+        DropdownToggle,
+        DropdownMenu,
+        DropdownItem,
+        NavbarText
+    } from 'reactstrap';
+    import "./header.scss";
+    import DropdownButton from 'react-bootstrap/DropdownButton';
+    import Dropdown from 'react-bootstrap/Dropdown';
+
+    const Header = () => {
+        const [isOpen, setIsOpen] = useState(false);
+
+        const toggle = () => setIsOpen(!isOpen);
+        return (
+    `
+  ],
+  htmlEnd: [
+    `
+        );
+      };
+      
+      export default Header;
+    `
+  ]
+
+}

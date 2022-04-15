@@ -14,5 +14,6 @@ export class Routes {
             })
         })
         app.route('/template/customtemplatev13').post(this.customTemplateController.createCustomTemplate);
+        app.route('/template/customtemplate/react').post(this.customTemplateController.createReactCustomTemplate);
     }
 }

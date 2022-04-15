@@ -224,7 +224,7 @@ export class CustomTemplateService {
         if (tagName === 'nav') {
             // Generating Header Component
             this.htmlContent = '';
-            this.createHtmlfromNestedObject([gjsElement], (res) => {
+            this.createHtmlfromNestedObject([gjsElement], async (res) => {
                 const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
                 let responseArray = [];
                 if (res.includes(`<div id="MainMenu" class="">`)) {
@@ -238,6 +238,10 @@ export class CustomTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                await responseArray.forEach((item, index) => {
+                    responseArray[index] = item.replace('id="template-i2uji"', ' onclick="openNav()" id="template-i2uji" ')
+                    .replace('id="template-if7ki"', 'onclick="closeNav()" id="template-if7ki"')
+                });
                 const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {

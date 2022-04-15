@@ -19,6 +19,12 @@ export class Constant {
   public static NGINX_CONF_TEMPLATE_NAME: String = 'nginx_default_conf';
   public static ENV_FOLDERNAME: String = 'src/environments';
 
+  //react filename foldername 
+  public static INDEX_FILENAME: String = 'index.scss';
+  public static APP_ROUTES_TSX: String = 'routes.tsx'
+  public static PUBLIC_FOLDERNAME: String = 'public';
+  public static APP_TS: string = 'App.tsx';
+  public static INDEX_TS: string = 'index.tsx';
 
   // file name
   public static STYLE_FILENAME: String = 'styles.scss';
