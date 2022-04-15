@@ -279,6 +279,26 @@ export class BlockService
     this.traitService.addUpload(editor, 'upload');
   }
 
+  customnavigationblock(dt:any)
+  {
+    dt.editor.BlockManager.add('navigationblock',
+    {
+        id: 'customnavigationblock',
+        label: ` <div class="gjs-block-label"> Icon NavBlock </div>`,
+        category:'Extra',
+        content: `<div id="navigationblock" data-gjs-type="navigationblock-type" style="width:15%; height:165px;">
+                  <img src="https://path/image" /> <br> <br> 
+                  <lable draggable= "true" >Enter Your Text</lable> </div>`,
+        draggable: true,
+        removable: true,
+        attributes:
+        {
+            class:'fa fa-object-group'
+        }
+      });
+      this.traitService.addNavigationblock(dt,'navigationblock-type');
+  }
+
   addDownload(editor:any)
   {
     // editor upload custom blocks added

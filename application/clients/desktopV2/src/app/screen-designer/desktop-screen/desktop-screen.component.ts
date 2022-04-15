@@ -145,6 +145,7 @@ export class DesktopScreenComponent implements OnInit
   public allflowlist: any;
   specialEvents: any[] = [];
   linkArray: any[] = [];
+  screenRouteArray:any[]=[];
   public allModifierList: any = [];
   allEntityByProject: Array<object> = [];
   public filterModifiers: any;
@@ -238,6 +239,7 @@ export class DesktopScreenComponent implements OnInit
   public featurelist: any;
   existScreenDetail: any;
   screenArrayByProjectId: any;
+  screenArrayByFeatureId:any;
   templateObj:any= 
   {
     _id: '',
@@ -267,6 +269,22 @@ export class DesktopScreenComponent implements OnInit
     flowList: [],
     flowObj: {},
     selectedEntity: undefined,
+    paramEntity: null,
+    entityField: [],
+    selectedField: null,
+    isParamMapping: false,
+    paramArray: [],
+    htmlId: '',
+    componentId: '',
+    elementName: ''
+  };
+  public screenRouteObj:any = 
+  {
+    linkType: '',
+    externalURL: '',
+    internalURL: null,
+    flowList: [],
+    flowObj: {},
     paramEntity: null,
     entityField: [],
     selectedField: null,
@@ -568,6 +586,7 @@ export class DesktopScreenComponent implements OnInit
       });
       this.getScreenById();
       this.getScreenByProjectId();
+      this.getScreenByFeatureId();
       this.getFeatureById();
       this.getEntityType();
       this.getAllFlows();
@@ -634,6 +653,7 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addFooterTag(this.editor);
    this.blockservice.addNavTag(this.editor);
    this.blockservice.addDynamicDropdown(this.editor);
+   this.blockservice.customnavigationblock(this);
    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
    {
       console.log("projFeature:",projFeature);
@@ -842,6 +862,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   public entityData:any;
   public isLinkPopup = false;
+  public isRoutePopup = false;
   EntityField: any[] = [];
   entitydetails:any;
   public selectentityarray: any[] = [];
@@ -1168,6 +1189,19 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       },
       error => { });
   }
+
+  getScreenByFeatureId() 
+  {
+      this.screenDesignerService.getScreenByFeatureId(this.feature_id, this.logId).subscribe(featureData => 
+      {
+          console.log("Route Popup:",featureData);
+          if (featureData.body) 
+          {
+            this.screenArrayByFeatureId = featureData.body.filter((x: { screenName: string; }) => x.screenName !== this.screenName);
+          }
+      },
+      error => { });
+  }
   getFeatureById() 
   {
     if (this.feature_id) 
@@ -1256,6 +1290,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           flows_info: this.screenFlows,
           route_info: this.routeFlows,
           link_info: this.linkArray,
+          screenRoute_info:this.screenRouteArray,
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
           grid_fields: this.agGridObject,
@@ -1370,6 +1405,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                 this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                 this.linkArray = this.existScreenDetail[0]['link_info'];
+                this.screenRouteArray=this.existScreenDetail[0]['screenRoute_info']
                 this.addGridBlocks();                
                 this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                 this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
@@ -1970,22 +2006,42 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           }
         });
     }
+    addScreenRouteParams() 
+    {
+      this.screenRouteObj.paramArray.push
+      ({
+        name: null,
+        fieldName: null
+      });
+      console.log('add link params value are --- ', this.screenRouteObj.paramArray);
+      this.ref.detectChanges();
+    }
+    removeScreenRouteParams(index:any) 
+    {
+      this.screenRouteObj.paramArray.splice(index, 1);
+      this.ref.detectChanges();
+    }
 
-    addLinkParams() {
-      this.pageLinkObj.paramArray.push({
+    addLinkParams() 
+    {
+      this.pageLinkObj.paramArray.push
+      ({
         name: null,
         fieldName: null
       });
       console.log('add link params value are --- ', this.pageLinkObj.paramArray);
       this.ref.detectChanges();
     }
-    removeLinkParams(index:any) {
+    removeLinkParams(index:any) 
+    {
       this.pageLinkObj.paramArray.splice(index, 1);
       this.ref.detectChanges();
     }
     internal:boolean=false;external:boolean=false;
-    resetLinkDetails(type:any) {
-      switch (type) {
+    resetLinkDetails(type:any) 
+    {
+      switch (type) 
+      {
         case 'internal':
           this.internal=true;
           this.external=false;
@@ -2011,6 +2067,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       this.isLinkPopup = false;
       this.ref.detectChanges();
     }
+
+    onCloseScreenRoute() 
+    {
+      this.isRoutePopup = false;
+      this.ref.detectChanges();
+    }
     changeLinkDetails(event:any) 
     {
       console.log("pageLinkObj.linkType",this.pageLinkObj.linkType);      
@@ -2028,6 +2090,80 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       {
         this.pageLinkObj.entityField = this.pageLinkObj.paramEntity.field;
       }
+      this.ref.detectChanges();
+    }
+
+    saveScreenRouteDetails() 
+    {
+      const linkInformation: any = 
+      {
+        linkType: '',
+        externalURL: null,
+        internalURL: 
+        {
+          screenId: '',
+          screenName: ''
+        },
+        paramArray: [],
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        paramType: 'queryParameter'
+      };
+      console.log('save linkd details arear --pageLinkObj--- ', this.screenRouteObj);
+      console.log('save linkd details arear --linkInformation--- ',linkInformation);
+      console.log('save linkd details arear --this.editor.getSelected()--- ',this.editor.getSelected());
+      console.log('save linkd details arear --this.editor.getSelected() traits--- ',this.editor.getSelected().get('traits'));
+      console.log('save linkd details arear --linkInformation--- ',linkInformation);
+      const findIndex = this.screenRouteArray.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+      if (findIndex > -1) 
+      {
+        this.screenRouteArray.splice(findIndex, 1);
+      }
+      linkInformation.htmlId = this.editor.getSelected().ccid;
+      linkInformation.componentId = this.editor.getSelected().cid;
+      linkInformation.elementName = this.editor.getSelected().attributes.name;
+      linkInformation.linkType = this.screenRouteObj.linkType;
+      linkInformation.externalURL = this.screenRouteObj.externalURL;
+      if (this.screenRouteObj.internalURL) 
+      {
+        linkInformation.internalURL.screenId = this.screenRouteObj.internalURL._id;
+        linkInformation.internalURL.screenName = this.screenRouteObj.internalURL.screenName;
+      }
+      else if (this.screenRouteObj.paramEntity) 
+      {
+        linkInformation.entity.id = this.screenRouteObj.paramEntity._id;
+        linkInformation.entity.name = this.screenRouteObj.paramEntity.name;
+      }
+      if (this.screenRouteObj.selectedField) 
+      {
+        linkInformation.entity.fieldId = this.screenRouteObj.selectedField._id;
+        linkInformation.entity.fieldName = this.screenRouteObj.selectedField.name;
+      }
+      if (this.screenRouteObj.paramArray.length > 0) 
+      {
+        linkInformation.paramArray = this.screenRouteObj.paramArray;
+      }  
+      this.screenRouteArray.push(linkInformation);
+      console.log('after set screenRouteArrays are --- ', this.screenRouteArray);      
+      this.isRoutePopup = false;
+      this.screenRouteObj = 
+      {
+        linkType: '',
+        externalURL: '',
+        internalURL: null,
+        flowList: [],
+        flowObj: {},
+        paramEntity: null,
+        entityField: [],
+        selectedField: null,
+        isParamMapping: false,
+        paramArray: [],
+        htmlId: '',
+        componentId: '',
+        elementName: ''
+      };  
+      this.saveRemoteStorage();
       this.ref.detectChanges();
     }
     saveLinkDetails() 

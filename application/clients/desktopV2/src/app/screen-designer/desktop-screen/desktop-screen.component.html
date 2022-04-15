@@ -548,3 +548,80 @@
         </div>
     </div>
 </div>
+
+<!-- route popup modal -->
+<div *ngIf="isRoutePopup" id="LinkPopup" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <h3 id="fields_heading">Route Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="m-3">
+                        <h4 class="TitleText">URL Binding</h4>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <b for="Screen">Link Type</b>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" value="internal" (ngModelChange)="changeLinkDetails('internal')" [(ngModel)]="screenRouteObj.linkType" name="routeOption">Internal</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" (ngModelChange)="changeLinkDetails('external')" value="external" [(ngModel)]="screenRouteObj.linkType" name="routeOption">External</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="external">
+                            <br>
+                            <label class="BoldText" for="externalURL">External URL</label>
+                            <input type="text" class="form-control" name="externalURL" id="externalURL" [(ngModel)]="screenRouteObj.externalURL" placeholder="Enter your external link url">
+                        </div>
+                        <div class="form-group row" *ngIf="internal">
+                            <br>
+                            <label class="BoldText" for="internal">Internal Page</label>
+                            <select class="form-select" name="iternalOptions" id="dropdown_style" [(ngModel)]="screenRouteObj.internalURL" (ngModelChange)="changeLinkDetails('internalPage')">
+                                <option value="null" selected>none</option>
+                                <ng-container *ngFor="let screenObj of screenArrayByFeatureId">
+                                  <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'" [ngValue]="screenObj">
+                                    <span>{{ screenObj.screenName }}</span>
+                                  </option>
+                               </ng-container>
+                            </select>
+                        </div>
+                        <div class="row mt-4" *ngIf="screenRouteObj.internalURL">
+                            <button class="btn btn-primary" (click)="addScreenRouteParams()">Add Query Params</button>
+                        </div>
+                        <br>
+                        <div class="parentScroll">
+                            <div class="row paramsDiv" *ngFor="let element of screenRouteObj.paramArray; let i=index">
+                                <div class="col-md-5">
+                                    <label for="paramName">Param Name</label>
+                                    <input type="text" class="form-control" id="dropdown_style" name="paramName{{i}}" [(ngModel)]="element.name">
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="entityfield">Param Value</label>
+                                    <input type="text" class="form-control" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                                </div>
+                                <div class="col-md-2 trashDiv" style="top: 31px; position: relative;">
+                                    <i class="fa fa-trash fa-2x trash" aria-hidden="true" (click)="removeScreenRouteParams(i)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveScreenRouteDetails()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="onCloseScreenRoute()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
