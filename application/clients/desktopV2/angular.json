@@ -44,9 +44,11 @@
                             "node_modules/ag-grid-community/dist/styles/ag-theme-material.css",
                             "node_modules/ag-grid-community/dist/styles/ag-theme-bootstrap.css",
                             "node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css",
-                            "node_modules/ng-multiselect-dropdown/themes/ng-multiselect-dropdown.theme.scss"
+                            "node_modules/ng-multiselect-dropdown/themes/ng-multiselect-dropdown.theme.scss",
+                            "node_modules/grapesjs-plugin-toolbox/dist/grapesjs-plugin-toolbox.min.css"
                         ],
                         "scripts": [
+                            "node_modules/grapesjs-plugin-toolbox/dist/grapesjs-plugin-toolbox.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.min.js",
                             "node_modules/grapesjs/dist/grapes.min.js",
                             "node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
