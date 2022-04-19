@@ -1,0 +1,44 @@
+{{#ifCond tagName '==' "footer" }}
+{{!-- footer --}}
+<footer id="{{attributes.id}}">
+  {{#each components}}
+  {{#ifCond tagName '==' "div"}}
+  {{!-- div --}}
+  <div class="{{classNames}}" id="{{attributes.id}}">
+    {{#each components}}
+    {{#ifCond tagName '==' "div"}}
+    {{!-- div --}}
+    <div class="{{#each classes}}{{name}} {{/each}}" id="{{attributes.id}}">
+      {{#each components}}
+      {{#ifCond tagName '==' "div"}}
+      {{!-- div --}}
+      <div class="{{#each classes}}{{name}} {{/each}}" id="{{attributes.id}}"> {{content}}
+        {{#each components}}
+        {{#ifCond tagName '==' "h3"}}
+        {{!-- h3 --}}
+        <h3 id="{{attributes.id}}">{{content}}</h3>
+        {{/ifCond}}
+        {{#ifCond tagName '==' "p"}}
+        {{!-- p --}}
+        <p id="{{attributes.id}}">
+          {{#each components}}
+          {{#ifCond tagName '==' "div"}}
+          {{!-- "" -- content only --}}
+          {{content}}
+          {{/ifCond}}
+          {{/each}}
+          {{content}}
+        </p>
+        {{/ifCond}}
+        {{/each}}
+      </div>
+      {{/ifCond}}
+      {{/each}}
+    </div>
+    {{/ifCond}}
+    {{/each}}
+  </div>
+  {{/ifCond}}
+  {{/each}}
+</footer>
+{{/ifCond}}

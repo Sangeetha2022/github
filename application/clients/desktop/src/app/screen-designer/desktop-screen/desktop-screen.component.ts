@@ -1835,6 +1835,7 @@ export class DesktopScreenComponent implements OnInit {
     this.blockService.addSpecialDropdown(this.editor);
     this.blockService.dynamicDropdown(this.editor);
     this.blockService.addSpecialCharts(this.editor);
+    this.blockService.addCustomFootertag(this.editor);
     this.addGridBlocks();
   }
 

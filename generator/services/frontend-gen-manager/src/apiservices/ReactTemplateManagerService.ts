@@ -12,4 +12,14 @@ export class ReactTemplateManagerService {
             callback(error);
         })
     }
+
+    generateCustomReactTemplate(details, callback) {
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/template/customtemplate/react`, details).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }
