@@ -422,7 +422,7 @@ export class DesktopScreenComponent implements OnInit
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms',
-                     'grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
+                     'grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion', 'grapesjs-plugin-toolbox'];
     let addStyles:any = [];
     let addScripts:any = [];
     if (this.stylesheets) 
@@ -474,6 +474,11 @@ export class DesktopScreenComponent implements OnInit
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
           'grapesjs-plugin-forms':{},
+          'grapesjs-plugin-toolbox':{
+            traitsInSm:false,
+            breadcrumbs:false,
+            categoryGrid:'Extra',
+          },
           'grapesjs-lory-slider': 
            {
              slideEls:'<div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div>',
@@ -649,6 +654,9 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
+   this.blockservice.addSectionTag(this.editor);
+   this.blockservice.addFooterTag(this.editor);
+   this.blockservice.addNavTag(this.editor);
    this.blockservice.addDynamicDropdown(this.editor);
    this.blockservice.customnavigationblock(this);
    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
@@ -1186,7 +1194,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       },
       error => { });
   }
-
+// get screens by Feature id in IconNavBlock
   getScreenByFeatureId() 
   {
       this.screenDesignerService.getScreenByFeatureId(this.feature_id, this.logId).subscribe(featureData => 
@@ -1500,6 +1508,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
               let project_template_object = {
                   flag: 'inactive',
                   project_id: this.currentProjectId,
+                  'template-type': 'CUSTOMTEMPLATE',
                   'navigation-type': this.template_navigation_type,
                   'gjs-assets': project_template_data['gjs-assets'],
                   'gjs-css': project_template_data['gjs-css'],

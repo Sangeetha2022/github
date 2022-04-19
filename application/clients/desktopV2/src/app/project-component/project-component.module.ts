@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.component';
 import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.component';
+import { WizardPopupComponent } from './wizard-popup/wizard-popup.component';
+import { ShowscreenPopupComponent } from './showscreen-popup/showscreen-popup.component';
 
 @NgModule
 ({
@@ -26,6 +28,8 @@ import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.comp
     FieldPopupModalComponent,
     ProjentitypopUpComponent,
     DeletefeatpopupComponent,
+    WizardPopupComponent,
+    ShowscreenPopupComponent,
   ],
   imports: 
   [

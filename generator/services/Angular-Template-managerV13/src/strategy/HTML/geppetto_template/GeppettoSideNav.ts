@@ -13,7 +13,8 @@ export class GeppettoSideNav {
             humanLanguageMenus.forEach((element: any) => {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
-                        if (menuElement.featuremenu[0].name.feature !== 'default') {
+                        if (menuElement.featuremenu[0].name.feature !== 'default' &&
+                        menuElement.featuremenu[0].name.feature !== 'gepitemtagsmanager') {
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 // mainNav.push(`<div class="list-group panel" *ngIf='userId'>
                                 // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>

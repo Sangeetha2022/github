@@ -50,6 +50,7 @@ import
     AngularTemplateControllerV12,
     AngularControllerV13,
     AngularTemplateControllerV13,
+    CustomTemplateController,
     SharedFeaturesController,
     SharedFeaturesGenController,
     WizardController
@@ -90,6 +91,7 @@ let apisController =
     new AngularTemplateController(),
     new AngularTemplateControllerV12(),
     new AngularTemplateControllerV13(),
+    new CustomTemplateController(),
     new AdminController(),
     new TemplateController(),
     new customConnectors(),

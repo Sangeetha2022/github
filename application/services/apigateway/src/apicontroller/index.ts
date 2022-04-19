@@ -41,6 +41,7 @@ export * from './generator/authgencontroller';
 export * from './generator/angularTemplate.controller';
 export * from './generator/angularTemplateV12.controller';
 export * from './generator/angularTemplateV13.controller';
+export * from './generator/customTemplate.controller';
 export * from './generator/swagger.controller';
 export * from './generator/react.controller';
 export * from './generator/defaultServices.controller';

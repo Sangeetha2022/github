@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TraitsService } from '../Traits/traits.service';
+import { contentblocks } from '../contentblock/contentblocks';
 
 @Injectable
 ({
@@ -140,6 +141,98 @@ export class BlockService
       }
     });
     this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+
+  addSectionTag(editor:any) 
+  {
+    editor.BlockManager.add('section', 
+    {
+      id: 'section',
+      category: 'Extra',
+      attributes:
+      {
+        class:'fa fa-hand-lizard-o'
+      },
+      label: `<div class="gjs-block-label"> Section Block </div>`,
+      content: `
+            <section id="main" class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
+              <div class="row-cell" data-gjs-draggable=".row"></div>
+            </section>
+            <style>
+              .row {
+                display: flex;
+                justify-content: flex-start;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                padding: 50px;
+                min-height: 75px;
+              }
+              .row-cell {
+                flex-grow: 1;
+                flex-basis: 100%;
+                padding: 50px;
+              }
+            </style>
+          `,
+          draggable: true,
+          removable: true,
+    });
+    // this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+
+  addFooterTag(editor:any) 
+  {
+    editor.BlockManager.add('footer', 
+    {
+      id: 'footer',
+      category: 'Extra',
+      attributes:
+      {
+        class:'fa fa-hand-lizard-o'
+      },
+      label: `<div class="gjs-block-label"> Footer Block </div>`,
+      content: `
+            <footer id="foot" class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
+              <div class="row-cell" data-gjs-draggable=".row"></div>
+            </footer>
+            <style>
+              .row {
+                display: flex;
+                justify-content: flex-start;
+                align-items: stretch;
+                flex-wrap: nowrap;
+                padding: 0px;
+                min-height: 0px;
+              }
+              .row-cell {
+                flex-grow: 1;
+                flex-basis: 100%;
+                padding: 0px;
+              }
+            </style>
+          `,
+          draggable: true,
+          removable: true,
+    });
+    // this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+
+  addNavTag(editor:any) 
+  {
+    editor.BlockManager.add('sidenav', 
+    {
+      id: 'sidenav',
+      category: 'Extra',
+      attributes:
+      {
+        class:'fa fa-hand-lizard-o'
+      },
+      label: `<div class="gjs-block-label"> SideNav Block </div>`,
+      content: contentblocks,
+          draggable: true,
+          removable: true,
+    });
+    // this.traitService.addHighChartTraits(editor, 'highcharts-type');
   }
 
   addAgGrid(ds:any) 

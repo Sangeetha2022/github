@@ -126,6 +126,8 @@ export class TemplateDao {
                         'gjs-html': templatedetails[0]['gjs-html'],
                         'template_id': templatedetails[0]._id,
                         'template_name': templatedetails[0].template_name,
+                        'navigation-type': templatedetails[0]['navigation-type'],
+                        'template-type': templatedetails[0]['template-type']
                     };
                 }
                 callback(template, null);

@@ -83,7 +83,7 @@ export class Constants
         public static get getGfcById(): string { return this.DESKTOP_ROUTER + '/gfc/get/:id'}
 
         //wizard
-        public static get deleteWizard(): string { return this.DESKTOP_ROUTER + '/wizard/:id'}
+        public static get deleteWizardById(): string { return this.DESKTOP_ROUTER + '/wizard'}
         public static get getAllWizard(): string {return this.DESKTOP_ROUTER + '/wizard'}
         public static get createWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}
         public static get updateWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}

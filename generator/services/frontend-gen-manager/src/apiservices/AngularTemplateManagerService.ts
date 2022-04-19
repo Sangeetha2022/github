@@ -30,4 +30,14 @@ export class AngularTemplateManagerService {
             callback(error);
         })
     }
+
+    generateCustomTemplate(details, callback) {
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/template/customtemplatev13`, details).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }
