@@ -48,7 +48,8 @@ export class TemplateManagerComponent implements OnInit
         {
           queryParams: 
           {
-            'project-template-id': response.body[0]._id
+            'project-template-id': response.body[0]._id,
+            'ismodifyTemplate': true
           }
         });
       }
@@ -64,7 +65,8 @@ export class TemplateManagerComponent implements OnInit
         queryParams: 
         {
           'template-project-id': response.body[0]._id,
-          'projectId': this.projectId
+          'projectId': this.projectId,
+          'iscreateTemplate': true
         }
       });
     });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TraitsService } from '../Traits/traits.service';
-import { contentblocks } from '../contentblock/contentblocks';
+import { contentblocks, footeritems, topnavbar } from '../contentblock/contentblocks';
 
 @Injectable
 ({
@@ -148,10 +148,10 @@ export class BlockService
     editor.BlockManager.add('section', 
     {
       id: 'section',
-      category: 'Extra',
+      category: 'Gep Custom Template',
       attributes:
       {
-        class:'fa fa-hand-lizard-o'
+        class:'fa fa-braille'
       },
       label: `<div class="gjs-block-label"> Section Block </div>`,
       content: `
@@ -185,32 +185,13 @@ export class BlockService
     editor.BlockManager.add('footer', 
     {
       id: 'footer',
-      category: 'Extra',
+      category: 'Gep Custom Template',
       attributes:
       {
-        class:'fa fa-hand-lizard-o'
+        class:'fa fa-server'
       },
       label: `<div class="gjs-block-label"> Footer Block </div>`,
-      content: `
-            <footer id="foot" class="row" data-gjs-droppable=".row-cell" data-gjs-custom-name="Row">
-              <div class="row-cell" data-gjs-draggable=".row"></div>
-            </footer>
-            <style>
-              .row {
-                display: flex;
-                justify-content: flex-start;
-                align-items: stretch;
-                flex-wrap: nowrap;
-                padding: 0px;
-                min-height: 0px;
-              }
-              .row-cell {
-                flex-grow: 1;
-                flex-basis: 100%;
-                padding: 0px;
-              }
-            </style>
-          `,
+      content: footeritems,
           draggable: true,
           removable: true,
     });
@@ -222,10 +203,10 @@ export class BlockService
     editor.BlockManager.add('sidenav', 
     {
       id: 'sidenav',
-      category: 'Extra',
+      category: 'Gep Custom Template',
       attributes:
       {
-        class:'fa fa-hand-lizard-o'
+        class:'fa fa-bars'
       },
       label: `<div class="gjs-block-label"> SideNav Block </div>`,
       content: contentblocks,
@@ -233,6 +214,24 @@ export class BlockService
           removable: true,
     });
     // this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+
+  topNavBar(editor:any) 
+  {
+    editor.BlockManager.add('topnav', 
+    {
+      id: 'topnav',
+      category: 'Gep Custom Template',
+      attributes:
+      {
+        class:'fa fa-th-list'
+      },
+      label: `<div class="gjs-block-label"> TopNav Block </div>`,
+      content: topnavbar,
+          draggable: true,
+          removable: true,
+    });
+    
   }
 
   addAgGrid(ds:any) 
