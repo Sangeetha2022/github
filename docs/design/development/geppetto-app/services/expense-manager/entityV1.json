@@ -1,0 +1,13 @@
+{
+    "expense-id": "7347hf4sy7871jh",
+    "expense-name": "app cloud expense",
+    "expense-date":  "April 23 2022",
+    "expense-time":  "node time date",
+    "expense-type": {
+        "type-id": "cloud",
+        "sub-type": "AWS",
+        "OJO-LEFT-OFF": "HOW DO YOU CAPTURE EACH SEPARATE COST FOR THE INFRA?"
+
+
+    } 
+}
