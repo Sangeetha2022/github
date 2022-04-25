@@ -104,7 +104,7 @@
                                 <img id="wizard_img" src="/assets/images/project_components/wizard.png">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <mat-icon (click)="editWizard(wizard._id)" style="cursor:pointer">edit</mat-icon>
+                                        <mat-icon (click)="editWizard(wizard._id,wizard.wizardName)" style="cursor:pointer">edit</mat-icon>
                                     </div>
                                     <div class="col-lg-6">
                                         <mat-icon (click)="deleteWizard(wizard._id)" style="cursor:pointer">delete</mat-icon>
@@ -119,6 +119,7 @@
                 </div>
                 <div class="row mx-4 pl-5">
                     <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                        <!-- <div *ngIf="!screen.isPartOfWizard"> -->
                         <p id="Entry_text_heading">{{screen?.screenName}}</p>
                         <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'web'" alt="Desktop">
                         <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
@@ -130,6 +131,7 @@
                                 <mat-icon (click)="deleteScreen(screen._id)" style="cursor:pointer">delete</mat-icon>
                             </div>
                         </div>
+                        <!-- </div> -->
                     </div>
                     <div class="col-md-4" *ngIf="screenDetails.length === 0">
                         No Screen Available.

@@ -701,8 +701,7 @@ export class FeatureDetailsComponent implements OnInit
     this.spinner.show();
     this.featuredetailsservice.getAllWizard().subscribe((wizardData: any) => 
     {
-            console.log("WizardData",wizardData);
-            
+            console.log("WizardData",wizardData);            
             this.spinner.hide();
             this.wizardDetails = wizardData.body;
     },
@@ -712,17 +711,23 @@ export class FeatureDetailsComponent implements OnInit
     });
   }
 
-  editWizard(wizardId:any)
+  editWizard(wizardId:any,wizardName:any)
   {
     this.selectedWizardId=wizardId;
-    this.showScreensDialog();   
+    this.showScreensDialog(wizardId,wizardName);   
   }
 
-  showScreensDialog()
+  showScreensDialog(wizardId: any,wizardName: any)
   {
     const dialogRef = this.dialog.open(ShowscreenPopupComponent, 
     {
-            width: '350px',
+            width: '550px',
+            height:'auto',
+            data:
+            {
+                wizardId:wizardId,
+                wizardName:wizardName
+            }
     });
   }
 
@@ -743,7 +748,7 @@ export class FeatureDetailsComponent implements OnInit
           console.log(data);
           if(data==true)
           {
-            console.log('feature id', this.selectedWizardId);
+            console.log('wizard id', this.selectedWizardId);
             this.featuredetailsservice.deleteWizardById(this.selectedWizardId).subscribe((data)=>
             {
              console.log("Data after Delete:",data);
@@ -762,7 +767,8 @@ export class FeatureDetailsComponent implements OnInit
         {
             queryParams: 
             {
-                projectId: this.project_id, screenId: screenId,
+                projectId: this.project_id, 
+                screenId: screenId,
                 featureId: this.feature_id,
                 screenType: screenType
             }

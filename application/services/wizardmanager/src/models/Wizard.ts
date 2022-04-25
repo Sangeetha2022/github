@@ -10,11 +10,12 @@ export const WizardSchema = new Schema({
    last_modified_date: { type: Date, default: Date.now },
    wizardName: { type: String },
    wizardDescription: { type: String },
-   featureId: {type:String},
+   featureId: { type: String },
    screen_info:
    [{
-      posinwizard: { type: Number },
-      screenName: { type: String }
+      posInWizard: { type: Number },
+      screenName: { type: String },
+      screenId: { type: String }
    }]
 })
 

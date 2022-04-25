@@ -25,10 +25,11 @@ import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { Dataservice } from 'src/app/broadcast.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
-import { trigger,state,style,transition,animate } from '@angular/animations';
+import { trigger,state,style,transition,animate, query } from '@angular/animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TemplateManagerService } from 'src/app/template-manager/template-manager.service';
 import { project_template_styles } from 'src/app/config/assets';
+import { FeatureDetailsService } from 'src/app/project-component/feature-details/feature-details.service';
   
 @Component
 ({
@@ -63,7 +64,9 @@ export class DesktopScreenComponent implements OnInit
   screenType: String='';
   feature_id: String='';
   project_id: String='';
-  screen_id: String='';
+  iscreateTemplate: boolean=false;
+  ismodifyTemplate: boolean=false;
+  screen_id: string='';
   traitsName: String='';
   isTemplateEdit:boolean=false;
   isNewTemplate:boolean=false;
@@ -152,6 +155,14 @@ export class DesktopScreenComponent implements OnInit
   modifierUsageObject: any;
   modifiersDetails: any = [];
   is_grid_present: Boolean=false;
+  isPartOfWizard: Boolean=false;
+  wizardData:any=
+  {
+    _id:'',
+    screen_info: []
+  };
+  wizardName: String='';
+  wizardId: String='';
   is_tagBlock_present:Boolean=false;
   is_bootStrapTable_present: Boolean=false;
   isGridPopup:boolean=false;
@@ -341,7 +352,7 @@ export class DesktopScreenComponent implements OnInit
               private sharedService:SharedService,private customTraitService:CustomTraitsService, 
               private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
               public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,
-              public templateManagerService: TemplateManagerService) 
+              public templateManagerService: TemplateManagerService,public featuredetailsservice:FeatureDetailsService) 
   {
       this.columnDefs= 
       [
@@ -388,8 +399,24 @@ export class DesktopScreenComponent implements OnInit
 
   ngOnInit(): void 
   {
-    this.activatedRoute.queryParams.subscribe(params => 
+    this.activatedRoute.queryParams.subscribe(params =>  
     {
+      if(params.iscreateTemplate !== undefined)
+      {
+        this.iscreateTemplate = params.iscreateTemplate
+      }
+      
+      if(params.ismodifyTemplate !== undefined)
+      {
+        this.ismodifyTemplate = params.ismodifyTemplate
+      }
+
+      if(params.isPartOfWizard !== undefined)
+      {
+        this.isPartOfWizard = params.isPartOfWizard;
+        this.wizardName = params.wizardName;
+        this.wizardId = params.wizardId;
+      }
       if (params.featureId !== undefined && params.featureId !== null) 
       {
         this.feature_id = params.featureId;
@@ -654,11 +681,15 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
-   this.blockservice.addSectionTag(this.editor);
-   this.blockservice.addFooterTag(this.editor);
-   this.blockservice.addNavTag(this.editor);
-   this.blockservice.addDynamicDropdown(this.editor);
    this.blockservice.customnavigationblock(this);
+   if(this.iscreateTemplate || this.ismodifyTemplate)
+   {
+    this.blockservice.addSectionTag(this.editor);
+    this.blockservice.addFooterTag(this.editor);
+    this.blockservice.addNavTag(this.editor);
+    this.blockservice.topNavBar(this.editor);   
+   }
+   this.blockservice.addDynamicDropdown(this.editor);
    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
    {
       console.log("projFeature:",projFeature);
@@ -675,7 +706,7 @@ export class DesktopScreenComponent implements OnInit
    });
    this.blockservice.addMultiSelectDropdown(this.editor);
    this.addGridBlocks();
-  }
+      }
   //Function Contains custom buttons in panels
   panelManager() 
   {
@@ -1304,7 +1335,10 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           screenOption: this.screenOption,
           specific_attribute_Event: this.specific_attribute_Event,
           is_tagBlock_present:this.is_tagBlock_present,
-          tagValues:this.tagValues
+          tagValues:this.tagValues,
+          isPartOfWizard:this.isPartOfWizard,
+          wizardName:this.wizardName,
+          wizardId:this.wizardId
         });
       }
   }
@@ -1426,7 +1460,9 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         {
             console.log('screenId error are ---- ', error);
         });
-      } else if(this.currentProjectId) {
+      } 
+      else if(this.currentProjectId) 
+      {
         this.editor.StorageManager.get('remote').set
         ({
           urlStore: this.addTemplateUrl,
@@ -1442,7 +1478,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   updateScreeName() 
   {
-    if(this.feature_id){
+    if(this.feature_id)
+    {
         if (this.isTemplateEdit) 
         {
           this.saveRemoteStorage(this.templateObj);
@@ -1467,11 +1504,26 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
             console.log("ScreenName:",this.scr);
             this.spinner.hide();
             this.getScreenById();
+            if(this.isPartOfWizard)
+            {
+                this.wizardData._id=this.wizardId;
+                this.featuredetailsservice.getWizardById(this.wizardId).subscribe((data:any)=>
+                {
+                  this.wizardData=data.body;
+                  this.wizardData.screen_info.push({screenName:this.scr,screenId:this.screen_id});
+                  this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
+                  {
+                    console.log("updatedWizardData:",response);
+                  })
+                })
+            }
           });
         }
-    } else if(this.feature_id === '' || null){
+    } 
+    else if(this.feature_id === '' || null)
+    {
       if (this.isTemplateEdit) 
-        {
+      {
           this.saveRemoteStorage(this.templateObj);
           this.closeScreeName();
           this.spinner.show();
@@ -1480,9 +1532,9 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
             console.log(data);
             //this.getProjectTemplate(this.projectTemplateId);
           });
-        } 
-        else 
-        {
+      } 
+      else 
+      {
           this.saveRemoteStorage();
           this.getScreenById();
           this.closeScreeName();
@@ -1505,7 +1557,8 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
               };
 
               //current updateProjectTemplate object data
-              let project_template_object = {
+              let project_template_object = 
+              {
                   flag: 'inactive',
                   project_id: this.currentProjectId,
                   'template-type': 'CUSTOMTEMPLATE',
@@ -1523,10 +1576,14 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
                   'template_name': `gep_${screen_name.toUpperCase()}`
               }
 
-              this.templateManagerService.updateCustomNewTemplate(project_template_object, newTemplateId, this.logId).subscribe(res => {
-                this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => { 
-                  this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => {
-                    this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
+              this.templateManagerService.updateCustomNewTemplate(project_template_object, newTemplateId, this.logId).subscribe(res => 
+              {
+                this.templateManagerService.updateProjectTemplate(project_template_object, this.templateProjectId, this.logId).subscribe(postRes => 
+                { 
+                  this.templateManagerService.updateProjectById(this.currentProjectId, project_template_Obj, this.logId).subscribe( res => 
+                  {
+                    this.templateManagerService.getProjectByUserId(this.UserId, this.logId).subscribe(data => 
+                    {
                       
                     });
                   });
@@ -1534,10 +1591,11 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
               });
             }
           });
-        }
+      }
     }
   }
-  screen_name(screen_name: any) {
+  screen_name(screen_name: any) 
+  {
     throw new Error('Method not implemented.');
   }
 

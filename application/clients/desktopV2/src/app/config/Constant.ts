@@ -86,10 +86,10 @@ export class Constants
         public static get deleteWizardById(): string { return this.DESKTOP_ROUTER + '/wizard'}
         public static get getAllWizard(): string {return this.DESKTOP_ROUTER + '/wizard'}
         public static get createWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}
-        public static get updateWizard(): string { return this.DESKTOP_ROUTER + '/wizard'}
+        public static get updateWizardById(): string { return this.DESKTOP_ROUTER + '/wizard'}
         public static get searchByNameWizard(): string { return this.DESKTOP_ROUTER + '/wizard/get/search'}
         public static get searchByUpdateWizard(): string { return this.DESKTOP_ROUTER + '/wizard/get/update'}
-        public static get getWizardById(): string { return this.DESKTOP_ROUTER + '/wizard/get/:id'}
+        public static get getWizardById(): string { return this.DESKTOP_ROUTER + '/wizard/get'}
         
 
         //get the feature entities 
