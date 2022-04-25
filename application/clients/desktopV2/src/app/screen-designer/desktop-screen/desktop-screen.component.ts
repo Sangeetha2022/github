@@ -25,7 +25,7 @@ import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { Dataservice } from 'src/app/broadcast.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
-import { trigger,state,style,transition,animate } from '@angular/animations';
+import { trigger,state,style,transition,animate, query } from '@angular/animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TemplateManagerService } from 'src/app/template-manager/template-manager.service';
 import { project_template_styles } from 'src/app/config/assets';
@@ -63,6 +63,8 @@ export class DesktopScreenComponent implements OnInit
   screenType: String='';
   feature_id: String='';
   project_id: String='';
+  iscreateTemplate: boolean=false;
+  ismodifyTemplate: boolean=false;
   screen_id: String='';
   traitsName: String='';
   isTemplateEdit:boolean=false;
@@ -388,8 +390,18 @@ export class DesktopScreenComponent implements OnInit
 
   ngOnInit(): void 
   {
-    this.activatedRoute.queryParams.subscribe(params => 
+    this.activatedRoute.queryParams.subscribe(params =>  
     {
+      if(params.iscreateTemplate !== undefined)
+      {
+        this.iscreateTemplate = params.iscreateTemplate
+      }
+      
+      if(params.ismodifyTemplate !== undefined)
+      {
+        this.ismodifyTemplate = params.ismodifyTemplate
+      }
+
       if (params.featureId !== undefined && params.featureId !== null) 
       {
         this.feature_id = params.featureId;
@@ -654,11 +666,15 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
-   this.blockservice.addSectionTag(this.editor);
-   this.blockservice.addFooterTag(this.editor);
-   this.blockservice.addNavTag(this.editor);
-   this.blockservice.addDynamicDropdown(this.editor);
    this.blockservice.customnavigationblock(this);
+   if(this.iscreateTemplate || this.ismodifyTemplate)
+   {
+    this.blockservice.addSectionTag(this.editor);
+    this.blockservice.addFooterTag(this.editor);
+    this.blockservice.addNavTag(this.editor);
+    this.blockservice.topNavBar(this.editor);   
+   }
+   this.blockservice.addDynamicDropdown(this.editor);
    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => 
    {
       console.log("projFeature:",projFeature);
@@ -675,7 +691,7 @@ export class DesktopScreenComponent implements OnInit
    });
    this.blockservice.addMultiSelectDropdown(this.editor);
    this.addGridBlocks();
-  }
+      }
   //Function Contains custom buttons in panels
   panelManager() 
   {
