@@ -26,8 +26,7 @@ export class FeatureDetailsService
       return this.http.post(`${this.sharedService.Apigateway}${Constants.createWizard}`,wizardData);
   }
   updateWizardById(wizardData:any):Observable<any>
-  {
-    
+  {    
     return this.http.put(`${this.sharedService.Apigateway}${Constants.updateWizardById}`,wizardData);
   }
   getWizardById(wizardId:any):Observable<any>

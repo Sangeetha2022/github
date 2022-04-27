@@ -17,6 +17,7 @@ import { ProjentitypopUpComponent } from './projentitypop-up/projentitypop-up.co
 import { DeletefeatpopupComponent } from './deletefeatpopup/deletefeatpopup.component';
 import { WizardPopupComponent } from './wizard-popup/wizard-popup.component';
 import { ShowscreenPopupComponent } from './showscreen-popup/showscreen-popup.component';
+import { EditpositionComponent } from './showscreen-popup/editposition/editposition.component';
 
 @NgModule
 ({
@@ -30,6 +31,7 @@ import { ShowscreenPopupComponent } from './showscreen-popup/showscreen-popup.co
     DeletefeatpopupComponent,
     WizardPopupComponent,
     ShowscreenPopupComponent,
+    EditpositionComponent,
   ],
   imports: 
   [

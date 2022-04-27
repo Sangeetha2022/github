@@ -12,17 +12,22 @@
         <table *ngIf="wizardScreenDetails.length>0">
             <tr>
                 <th>ScreenName</th>
-                <th>Edit</th>
+                <th>Edit Position</th>
                 <th>Delete</th>
             </tr>
-            <tr *ngFor="let screen of wizardScreenDetails;let i=index">
+            <tr *ngFor="let screen of wizardScreenDetails;let i=index;">
                 <td>{{screen.screenName}}</td>
-                <td><i class="fa fa-pencil" style="cursor:pointer" (click)="editWizardScreen(screen.screenId, screen.screenType)"></i></td>
+                <td><i class="fa fa-pencil" style="cursor:pointer" (click)="editWizardScreen(i,screen.screenName)"></i></td>
                 <td><i class="fa fa-trash" style="cursor:pointer" (click)="deleteWizardScreen(screen.screenId)"></i></td>
             </tr>
         </table>
+        <div class="row pt-4" *ngIf="showInput">
+            <div class="col">
+                <button class="btn" id="ihclgr" style="float:right;margin-right:-30px;" (click)="updateWizard()" color="primary">Save Position</button>
+            </div>
+        </div>
     </div>
-    <div class="row pt-4">
+    <div class="row p-2">
         <div class="col-lg-6 p-4">
             <button class="btn" id="ihclgr" color="primary">Add ExistingScreen</button>
         </div>

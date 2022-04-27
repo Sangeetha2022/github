@@ -5,7 +5,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { FeatureDetailsService } from '../feature-details/feature-details.service';
 import { DeletefeatpopupComponent } from '../deletefeatpopup/deletefeatpopup.component';
 import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
-
+import { EditpositionComponent } from './editposition/editposition.component';
 @Component({
   selector: 'app-showscreen-popup',
   templateUrl: './showscreen-popup.component.html',
@@ -21,7 +21,13 @@ export class ShowscreenPopupComponent implements OnInit
     _id:'',
     screen_info: []
   };
-  wizardScreenDetails:any[]=[];
+  showInput:boolean=false;
+  fromIndex:number=0;
+  toIndex:number=0;
+  wizardScreenDetails:any=
+  {
+    posInWizard:0
+  };
   public logId = sessionStorage.getItem('LogId');
 
   constructor(private dialog: MatDialog,private router:Router,private route:ActivatedRoute,
@@ -99,22 +105,48 @@ export class ShowscreenPopupComponent implements OnInit
         });
   }
 
-  editWizardScreen(screenId:any, screenType:any) 
+  editWizardScreen(index:any,screenName:any) 
   {
-        this.dialogRef.close();
-        this.router.navigate(['/desktopscreen'], 
-        {
-            queryParams: 
-            {
-                projectId: this.project_id, 
-                screenId: screenId,
-                featureId: this.feature_id,
-                screenType: screenType,
-                isPartOfWizard:true,
-                wizardName:this.matWizardData.wizardName,
-                wizardId:this.matWizardData.wizardId
-            }
-        });
+      this.showInput=true;
+      this.fromIndex=index;
+      console.log("Index:",this.fromIndex);
+      const dialogRef = this.dialog.open(EditpositionComponent, 
+      {
+          width: '350px',
+          height:'auto',
+          data:
+          {
+             fromIndex:this.fromIndex,
+             screenName:screenName
+          }
+      });
+      dialogRef.afterClosed().subscribe((data)=>
+      {
+          console.log("NewPosition:",data);
+          this.arrayMove(data);
+      })
+  }
+  arrayMove(data:any)
+  {
+    this.toIndex=data;
+    var element=this.wizardScreenDetails.splice(this.fromIndex,1)[0];
+    this.wizardScreenDetails.splice(this.toIndex,0,element);
+    console.log("Screen:",element);
+    console.log("FromIndex:",this.fromIndex);
+    console.log("ToIndex:",this.toIndex);
+    console.log("position of Screens:",this.wizardScreenDetails);
+  }
+
+  updateWizard()
+  {
+    this.wizardData._id=this.matWizardData.wizardId;
+    this.wizardData.screen_info=this.wizardScreenDetails;
+    console.log("WizardData JSON:",this.wizardData);
+    this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
+    {
+      console.log("updatedWizardData:",response);
+    })
+    this.dialogRef.close();
   }
 
   deleteWizardScreen(screenId:any)
@@ -156,10 +188,6 @@ export class ShowscreenPopupComponent implements OnInit
                     console.log("updatedWizardData:",response);
                   })
                 })
-                this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
-                {
-                    console.log("updatedWizardData:",response);
-                }) 
             },
             (error:any) => {  });
             

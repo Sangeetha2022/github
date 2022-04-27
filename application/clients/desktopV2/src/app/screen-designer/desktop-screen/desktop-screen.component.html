@@ -20,32 +20,15 @@
                         <small *ngIf="screenNameExist" style="font-style: italic;color: red;">Screen Name already exists!</small>
                     </div>
                 </div>
-                <!-- <br>
-                <div class="form-group row">
-                    <div>
-                        <label for="maintemplate" class="col-sm-4 col-form-label">MainTemplate</label>
-                        <input id="screen" class="col-sm-1 col-form-label" type="radio" value="screen" name="maintemplate" formControlName="maintemplate" (change)="changeTemplate($event)">
-                        <label for="screen" class="col-sm-2 col-form-label">Screen</label>
-
-                        <input id="template" class="col-sm-1 col-form-label" type="radio" value="template" name="maintemplate" formControlName="maintemplate" (change)="changeTemplate($event)">
-                        <label for="template">Template</label>
-                    </div>
-
-                    <div *ngIf="f.maintemplate.touched && f.maintemplate.invalid" class="alert alert-danger">
-                        <div *ngIf="f.maintemplate.errors?.required">Name is required.</div>
-                    </div>
-                </div> -->
                 <br>
-                <div class="form-group row">
+                <div class="form-group row" *ngIf="iscreateTemplate || ismodifyTemplate">
                     <div>
                         <label for="navigationtype" class="col-sm-4 col-form-label">Navigation Type</label>
                         <input id="side" class="col-sm-1 col-form-label" type="radio" value="side" name="navigationtype" formControlName="navigationtype" (change)="chooseNavType($event)">
                         <label for="side" class="col-sm-2 col-form-label">SIDENAV</label>
-
                         <input id="top" class="col-sm-1 col-form-label" type="radio" value="top" name="navigationtype" formControlName="navigationtype" (change)="chooseNavType($event)">
                         <label for="top">TOPNAV</label>
                     </div>
-
                     <div *ngIf="nav.navigationtype.touched && nav.navigationtype.invalid" class="alert alert-danger">
                         <div *ngIf="nav.navigationtype.errors?.required">Name is required.</div>
                     </div>
