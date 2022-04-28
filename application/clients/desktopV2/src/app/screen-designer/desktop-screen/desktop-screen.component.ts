@@ -629,6 +629,7 @@ export class DesktopScreenComponent implements OnInit
       const nanoid = customAlphabet('1234567890', 6)
       this.screenName = `screen${nanoid()}`;
       this.RemoteStorage = this.editor.StorageManager.get('remote');
+      console.log("RemoteStorage:",this.RemoteStorage);
       this.saveRemoteStorage();
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
@@ -2007,6 +2008,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
           if (response.body) 
           {
             const screendetails = response.body[0];
+            console.log("ScreenDetails:",screendetails);
             const flowsarray = screendetails['flows_info'];
             if (flowsarray.find((x:any) => x.flowName === GetByIdFlowObj.name)) 
             {

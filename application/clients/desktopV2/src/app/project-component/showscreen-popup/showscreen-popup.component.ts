@@ -6,16 +6,20 @@ import { FeatureDetailsService } from '../feature-details/feature-details.servic
 import { DeletefeatpopupComponent } from '../deletefeatpopup/deletefeatpopup.component';
 import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
 import { EditpositionComponent } from './editposition/editposition.component';
-@Component({
+
+@Component
+({
   selector: 'app-showscreen-popup',
   templateUrl: './showscreen-popup.component.html',
   styleUrls: ['./showscreen-popup.component.scss']
 })
+
 export class ShowscreenPopupComponent implements OnInit 
 {
   project_id:any;
   feature_id: any;
   selectedScreenId:any;
+  isClick:boolean=false;
   wizardData:any=
   {
     _id:'',
@@ -24,10 +28,8 @@ export class ShowscreenPopupComponent implements OnInit
   showInput:boolean=false;
   fromIndex:number=0;
   toIndex:number=0;
-  wizardScreenDetails:any=
-  {
-    posInWizard:0
-  };
+  wizardScreenDetails:any={ };
+  screenDetails:any={ };
   public logId = sessionStorage.getItem('LogId');
 
   constructor(private dialog: MatDialog,private router:Router,private route:ActivatedRoute,
@@ -49,6 +51,20 @@ export class ShowscreenPopupComponent implements OnInit
           }
     });
     this.getAllWizard();
+    this.getScreenByFeatureId();
+  }
+
+  getScreenByFeatureId() 
+  {
+      this.screenService.getScreenByFeatureId(this.feature_id, this.logId).subscribe((screenData) => 
+      {
+          console.log("screenData",screenData);
+          this.screenDetails = screenData.body;
+      },
+      (error) => 
+      {
+          console.log('cannot able to get the screen based on featureId  ', error);
+      });
   }
 
   getAllWizard()
@@ -149,6 +165,46 @@ export class ShowscreenPopupComponent implements OnInit
     this.dialogRef.close();
   }
 
+  addExisting()
+  {
+    this.isClick=!this.isClick;
+  }
+
+  addToList(screenName:any,screenId:any,isPartOfWizard:any)
+  {
+    console.log("IsPartOfWizard:",isPartOfWizard);
+    this.wizardData._id=this.matWizardData.wizardId;
+    this.wizardScreenDetails.push({screenName:screenName,screenId:screenId});
+    this.wizardData.screen_info=this.wizardScreenDetails;
+    console.log("WizardData JSON:",this.wizardData);
+    this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
+    {
+      console.log("updatedWizardData:",response);
+    });
+    this.screenDetails.forEach((screen:any)=>
+    {
+      if(screen._id==screenId)
+      {
+        screen.isPartOfWizard=true;
+      }
+    });
+    console.log("ScreenDetails:",this.screenDetails);
+    this.screenService.getScreenById(screenId, this.logId).subscribe(response => 
+    {
+      if (response.body) 
+      {
+        const screenData = response.body[0];
+        console.log("screenData:",screenData);
+        screenData.isPartOfWizard=true;
+        console.log("screenData:",screenData);
+        this.screenService.updateScreen(screenId,screenData,this.logId).subscribe((screenresponse: any) => 
+        {
+           console.log('------update done--', screenresponse);
+        });
+      }
+    });    
+  }
+
   deleteWizardScreen(screenId:any)
   {
      this.selectedScreenId=screenId;
@@ -167,30 +223,45 @@ export class ShowscreenPopupComponent implements OnInit
           if(data==true)
           {
             console.log('Screen id', this.selectedScreenId);
-            this.screenService.deleteScreenById(this.selectedScreenId, this.logId).subscribe((data) => 
+            this.wizardData._id=this.matWizardData.wizardId;
+            this.featuredetailsservice.getWizardById(this.matWizardData.wizardId).subscribe((data:any)=>
             {
-                console.log(data);
-                this.wizardData._id=this.matWizardData.wizardId;
-                this.featuredetailsservice.getWizardById(this.matWizardData.wizardId).subscribe((data:any)=>
+                this.wizardData=data.body;
+                this.wizardScreenDetails.forEach((data:any,index:any)=>
                 {
-                  this.wizardData=data.body;
-                  this.wizardScreenDetails.forEach((data:any,index:any)=>
+                  if(data.screenId==this.selectedScreenId)
                   {
-                    if(data.screenId==this.selectedScreenId)
-                    {
-                       this.wizardScreenDetails.splice(index,1);                                               
-                    }              
-                  })
-                  this.wizardData.screen_info=this.wizardScreenDetails;
-                  console.log("WizardData JSON:",this.wizardData);
-                  this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
-                  {
-                    console.log("updatedWizardData:",response);
-                  })
+                    this.wizardScreenDetails.splice(index,1);                                               
+                  }              
                 })
-            },
-            (error:any) => {  });
-            
+                this.wizardData.screen_info=this.wizardScreenDetails;
+                console.log("WizardData JSON:",this.wizardData);
+                this.featuredetailsservice.updateWizardById(this.wizardData).subscribe((response:any)=>
+                {
+                  console.log("updatedWizardData:",response);
+                })
+            }); 
+            this.screenDetails.forEach((screen:any)=>
+            {
+               if(screen._id==this.selectedScreenId)
+               {
+                  screen.isPartOfWizard=false;
+               }
+            });
+            this.screenService.getScreenById(this.selectedScreenId, this.logId).subscribe(response => 
+            {
+              if (response.body) 
+              {
+                const screenData = response.body[0];
+                console.log("screenData:",screenData);
+                screenData.isPartOfWizard=false;
+                console.log("screenData:",screenData);
+                this.screenService.updateScreen(this.selectedScreenId,screenData,this.logId).subscribe((screenresponse: any) => 
+                {
+                   console.log('------update done--', screenresponse);
+                });
+              }
+            });           
           }
         })
   }

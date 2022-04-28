@@ -29,10 +29,17 @@
     </div>
     <div class="row p-2">
         <div class="col-lg-6 p-4">
-            <button class="btn" id="ihclgr" color="primary">Add ExistingScreen</button>
+            <button class="btn" id="ihclgr" color="primary" (click)="addExisting()">Add ExistingScreen</button>
         </div>
         <div class="col-lg-6 p-4">
             <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add NewScreen</button>
+        </div>
+    </div>
+    <div class="row pt-4" *ngIf="isClick">
+        <div *ngFor="let screen of screenDetails;let i=index;">
+            <ul *ngIf="!screen.isPartOfWizard">
+                <li style="cursor:pointer" (click)="addToList(screen.screenName,screen._id,screen.isPartOfWizard)">{{screen.screenName}}</li>
+            </ul>
         </div>
     </div>
 </div>
