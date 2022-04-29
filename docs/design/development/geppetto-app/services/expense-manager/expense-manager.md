@@ -63,3 +63,10 @@ The user should be able to modify their password as well their avatar/picture an
 
 In the image below the User Name should be accessible from the menu item located at the far right of the Geppetto Header - in the image image below it is missing
 ![Missing User Icon/Name](./images/missing%20user%20section.png)
+
+
+### STEP THREE  - Create User screen
+
+### STEP FOUR - Modify UserManager
+
+### STEP N (TBD) - work on Cloud expense manager
