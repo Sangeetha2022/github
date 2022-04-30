@@ -1,7 +1,7 @@
 # High Level Design for the Geppetto Expense Manager
 
 The purpose of the Expense Manager is to manage a users or organizations purchases in Geppetto
-a purchase can include but not limited to the following:
+a purchase can include but not limited to the following TYPES:
 
 - Cloud Expenses for an application
 - Development services
@@ -15,11 +15,44 @@ As with all things Geppetto, the system will be based on a MicroService Architec
 
 ## Phased Approach
 
-At the time of the start of this effort (circa late April 2022) the only chargeable Geppetto component/service was the auto deploy of a generated application to the AWS cloud.
+At the time of the start of this effort (circa late April 2022) the only chargeable Geppetto component/service is the auto deploy of a generated application to the AWS cloud.
 
 Given the limited scope available at the start of development, the Expense Manager will mostly be a wrapper that calls the MicroService responsible for capturing the charges incurred by an application that is deployed to AWS.
 
 ### Phase One - Cloud Expenses
+
+#### STEP Zero - Expense Manager Entity
+
+{
+    "purchase-type" : "see start of HLD for various types"
+    "type-source-id" : "this is the ID for the geppetto microservice manager that handles this type of expense"
+    "date-of-purchase" : "the date it was bought"
+    "purchase-name" : "the name",
+    "purchase-description" : "jdhajsdfjasdla",
+    "purchase-duration" : "monthly&consumption, yearly, monthly, one-time"
+    "gep-reserve-tag-one" : "Typically the app ID",
+    "gep-reserve-tag-two" : "TBD",
+    "gep-reserve-tag-three" : "TBD",
+    "user-defined-tags" :
+    [
+        {
+            "tag-name" : "hfgahjsd",
+            "tag-id" : "38034",
+            tag-description" : "hq90kasdcj0ru0ur"
+        },
+        {
+            "tag-name" : "hfgahjsd",
+            "tag-id" : "38034",
+            tag-description" : "hq90kasdcj0ru0ur"
+        }
+        {
+            "tag-name" : "hfgahjsd",
+            "tag-id" : "38034",
+            tag-description" : "hq90kasdcj0ru0ur"
+        }
+
+    ]
+}
 
 #### STEP ONE - Modify User Entity in Geppetto System
 
