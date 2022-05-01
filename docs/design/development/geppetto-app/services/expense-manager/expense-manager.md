@@ -85,7 +85,7 @@ To start the Expense Manager Entity will conform to the structure described belo
 
 #### STEP TWO - Modify User Entity in Geppetto System
 
-Update the User.ts to include the following:
+Update the User.ts to include the following:    
 {
     "organization" : "by default their email-id",
     "sub-org-one"  : "by default N/A",
