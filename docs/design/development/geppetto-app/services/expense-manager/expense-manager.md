@@ -88,12 +88,12 @@ To start the Expense Manager Entity will conform to the structure described belo
 Update the User.ts to include the following:    
     
 {
-    "organization" : "by default their email-id",
-    "org-user-type" " "org admin, sub-org-admin, developer, standard user",
-    "sub-org-one"  : "by default N/A",
-    "sub-org-two"  : "by default N/A",
-    "sub-org-three"  : "by default N/A",
-    "sub-org-n"     :  "what ever string the user wants",
+    "organization": "by default their email-id",
+    "org-user-type": " "org admin, sub-org-admin, developer, standard user",
+    "sub-org-one": "by default N/A",
+    "sub-org-two": "by default N/A",
+    "sub-org-three": "by default N/A",
+    "sub-org-n":  "what ever string the user wants",
     "payment-info:{
         "billing-status":{
             "active": "true",
