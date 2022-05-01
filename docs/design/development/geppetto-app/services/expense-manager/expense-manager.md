@@ -30,7 +30,18 @@ To start the Expense Manager Entity will conform to the structure described belo
     "date-of-purchase" : "the date it was bought"
     "purchase-name" : "the name",
     "purchase-description" : "jdhajsdfjasdla",
-    "purchase-duration" : "monthly&consumption, yearly, monthly, one-time",
+    "payment-info" :
+    {
+        "payment-amount" : "",
+        "payment-currency" : "",
+    },
+    "purchase-entitlement" :
+    {
+        "duration" : "monthly&consumption, yearly, monthly, one-time",
+        "entitlement-start-date" : "a date",
+        "entitlement-end-date" : "a date",
+        "allowed-consumption" : ""
+    },
     "gep-reserve-tags" :
     [
         {
