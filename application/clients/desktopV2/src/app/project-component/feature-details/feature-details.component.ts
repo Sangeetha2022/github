@@ -10,6 +10,10 @@ import { EntitypopUpComponent } from '../entitypop-up/entitypop-up.component';
 import { IEntity } from '../interface/Entity';
 import { ProjectComponentService } from '../project-component.service';
 import { ScreenPopupComponent } from '../screen-popup/screen-popup.component';
+import { WizardPopupComponent } from '../wizard-popup/wizard-popup.component';
+import { FeatureDetailsService } from './feature-details.service';
+import { DeletefeatpopupComponent } from '../deletefeatpopup/deletefeatpopup.component';
+import { ShowscreenPopupComponent } from '../showscreen-popup/showscreen-popup.component';
 
 
 @Component
@@ -40,8 +44,10 @@ export class FeatureDetailsComponent implements OnInit
     frameworkComponents: { buttonRenderer: any; };
     rowData: any = [];
     screenDetails:any[]=[];
+    wizardDetails:any[]=[];
     selectEntity:any;
     selectedEntityId:any;
+    selectedWizardId:any;
     modifyConnectorsId: any;
     columnFlow: any = [];
     displayFeatureFlowModal:string='none';
@@ -74,10 +80,12 @@ export class FeatureDetailsComponent implements OnInit
     public selectedFlow: any;
     public modifyComponents: any = [];
     quickConnectorName: string='';
+    isClick:boolean=false;
 
     constructor(private spinner:NgxSpinnerService,private projectComponentService:ProjectComponentService,
                 private broadcastservice:Brodcastservice,private route:ActivatedRoute,private dialog: MatDialog,
-                private router:Router,private logger:LoggingService,private screenService: ScreenDesignerService) 
+                private router:Router,private logger:LoggingService,private screenService: ScreenDesignerService,
+                private featuredetailsservice:FeatureDetailsService) 
     {        
         this.frameworkComponents = 
         {
@@ -170,6 +178,12 @@ export class FeatureDetailsComponent implements OnInit
       this.getFeatureById();
       this.getEntityByFeatureId();
       this.getScreenByFeatureId();
+      this.getAllWizard();
+  }
+
+  openWizardLibrary()
+  {
+    this.isClick=!this.isClick;
   }
 
   //To remove the particular feature flow
@@ -378,6 +392,31 @@ export class FeatureDetailsComponent implements OnInit
     {
             this.logger.log('error',error);
     });
+  }
+
+  goToWizard()
+  {
+      this.openWizardDialog();
+  }
+
+  openWizardDialog()
+  {
+    const dialogRef = this.dialog.open(WizardPopupComponent, 
+    {
+            width: '450px',
+    });
+    dialogRef.afterClosed().subscribe(wizardData => 
+    {
+        if (wizardData) 
+        {
+            console.log("WizardData:",wizardData);
+            this.featuredetailsservice.createWizard(wizardData).subscribe((response) => 
+            {
+                console.log("newWizard:",response);
+                this.getAllWizard();
+            })
+        }
+    })
   }
 
   //This function called in button click event in add screen
@@ -657,13 +696,79 @@ export class FeatureDetailsComponent implements OnInit
         });
   }
 
+  getAllWizard()
+  {
+    this.spinner.show();
+    this.featuredetailsservice.getAllWizard().subscribe((wizardData: any) => 
+    {
+            console.log("WizardData",wizardData);            
+            this.spinner.hide();
+            this.wizardDetails = wizardData.body;
+    },
+    (error) => 
+    {
+            console.log('cannot able to get the screen based on featureId  ', error);
+    });
+  }
+
+  editWizard(wizardId:any,wizardName:any)
+  {
+    this.selectedWizardId=wizardId;
+    this.showScreensDialog(wizardId,wizardName);   
+  }
+
+  showScreensDialog(wizardId: any,wizardName: any)
+  {
+    const dialogRef = this.dialog.open(ShowscreenPopupComponent, 
+    {
+            width: '550px',
+            height:'auto',
+            data:
+            {
+                wizardId:wizardId,
+                wizardName:wizardName
+            }
+    });
+  }
+
+  deleteWizard(wizardId:any)
+  {
+     this.selectedWizardId=wizardId;
+     this.deleteDialog();
+  }
+
+  deleteDialog() 
+  {
+        const dialogRef = this.dialog.open(DeletefeatpopupComponent, 
+        {
+            width: '350px',
+        });
+        dialogRef.afterClosed().subscribe((data)=>
+        {
+          console.log(data);
+          if(data==true)
+          {
+            console.log('wizard id', this.selectedWizardId);
+            this.featuredetailsservice.deleteWizardById(this.selectedWizardId).subscribe((data)=>
+            {
+             console.log("Data after Delete:",data);
+             if(data)
+             {
+               this.getAllWizard();
+             }
+            })
+          }
+        })
+  }
+
   editScreen(screenId:any, screenType:any) 
   {
         this.router.navigate(['/desktopscreen'], 
         {
             queryParams: 
             {
-                projectId: this.project_id, screenId: screenId,
+                projectId: this.project_id, 
+                screenId: screenId,
                 featureId: this.feature_id,
                 screenType: screenType
             }

@@ -141,6 +141,7 @@ export const ScreenSchema = new Schema
     screenType: { type: String, default: null },
     screenOption: { type: String, default: null },
     isTemplate: { type: Boolean, default: false },
+    isPartOfWizard: { type: Boolean, default: false },
     stylesheets: [],
     scripts: [],
     'css-guidelines': [],
@@ -150,6 +151,9 @@ export const ScreenSchema = new Schema
         default: Date.now
     },
     is_tagBlock_present:{type:Boolean,default:false},
+    wizardName: { type: String },
+    wizardId: { type: String },
+    posInWizard: { type: Number },
     tagValues:
     [{
         name:{type:String,default:''},

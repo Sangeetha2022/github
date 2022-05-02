@@ -8,96 +8,136 @@
             <p id="project_heading">Selected Feature: {{ selectedFeatureName }}</p>
         </div>
     </div>
-    <div class="row" style="margin-top: 5%;">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Entities </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button class="btn" id="ihclgr" color="primary" (click)="saveEntityModel()">Add Entity</button>
-                    </div>
+</div>
+<div class="container-md-12 mx-5 p-4">
+    <mat-accordion [togglePosition]="'before'">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Entities</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn" id="ihclgr" color="primary" (click)="saveEntityModel()">Add Entity</button>
                 </div>
-                <div class="row mt-2" *ngIf="featureEntityDetails.length> 0">
-                    <div class="col-lg-4" *ngFor="let entity of featureEntityDetails; let i = index">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <img src="./assets/images/project_components/entity.png" alt="">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h5 id="Entry_text_heading" class="card-title">{{entity.name}}</h5>
-                                        <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 ">
-                                        <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <button class="btn btn-block btn-outline-danger w-100 mt-3" (click)="openDeleteModel(entity)" type="button">Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
-                        No Feature Available.
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Feature Flows</mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <button class="btn" id="ihclgr" (click)="openFeatureFlowDialog(feature_id)" color="primary">Add Flows</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="flowTable container mt-sm-3">
-                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
-                            [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
-                        </ag-grid-angular>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Screens</mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
-                            <p id="Entry_text_heading">{{screen?.screenName}}</p>
-                            <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'web'" alt="Desktop">
-                            <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
+            </div>
+            <div class="row mt-2" *ngIf="featureEntityDetails.length> 0">
+                <div class="col-lg-4" *ngFor="let entity of featureEntityDetails; let i = index">
+                    <div class="card">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <mat-icon style="cursor:pointer" (click)="editScreen(screen._id, screen.screenType)">edit</mat-icon>
+                                    <img src="./assets/images/project_components/entity.png" alt="">
                                 </div>
                                 <div class="col-lg-6">
-                                    <mat-icon (click)="deleteScreen(screen._id)" style="cursor:pointer">delete</mat-icon>
+                                    <h5 id="Entry_text_heading" class="card-title">{{entity.name}}</h5>
+                                    <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 ">
+                                    <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button class="btn btn-block btn-outline-danger w-100 mt-3" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4" *ngIf="screenDetails.length === 0">
-                            No Screen Available.
+                    </div>
+                </div>
+                <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
+                    No Feature Available.
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Feature Flows</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <button class="btn" id="ihclgr" (click)="openFeatureFlowDialog(feature_id)" color="primary">Add Flows</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="flowTable container mt-sm-3">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
+                        [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header style="padding: 3%;">
+                <mat-panel-title id="feature_heading">
+                    <h3>Screens</h3>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-10">
+                        <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn" id="ih" color="primary" (click)="openWizardLibrary()">Wizard Library</button>
+                    </div>
+                </div>
+                <div class="card m-4 p-4" style="width:auto;height:auto;" *ngIf="isClick">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-8 p-4">
+                                <div id="Entry_text_heading">
+                                    <h3>List of Wizards</h3>
+                                </div>
+                            </div>
+                            <div class="col pt-3">
+                                <button class="btn" id="ihclgr" color="primary" (click)="goToWizard()">Create Wizard</button>
+                            </div>
+                        </div>
+                        <div class="row mx-4 pl-5">
+                            <div class="col-md-3" *ngFor="let wizard of wizardDetails; let i = index">
+                                <p id="Entry_text_heading">{{wizard.wizardName}}</p>
+                                <img id="wizard_img" src="/assets/images/project_components/smoke.png">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <mat-icon (click)="editWizard(wizard._id,wizard.wizardName)" style="cursor:pointer">edit</mat-icon>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <mat-icon (click)="deleteWizard(wizard._id)" style="cursor:pointer">delete</mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" *ngIf="wizardDetails.length === 0">
+                                No Wizard Available.
+                            </div>
                         </div>
                     </div>
-                </mat-card-content>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
+                </div>
+                <div class="row mx-4 pl-5">
+                    <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                        <p id="Entry_text_heading">{{screen?.screenName}}</p>
+                        <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'web'" alt="Desktop">
+                        <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <mat-icon style="cursor:pointer" (click)="editScreen(screen._id, screen.screenType)">edit</mat-icon>
+                            </div>
+                            <div class="col-lg-6">
+                                <mat-icon (click)="deleteScreen(screen._id)" style="cursor:pointer">delete</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="screenDetails.length === 0">
+                        No Screen Available.
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
 
 <!-- TO Display Delete model popup -->

@@ -6,7 +6,8 @@ import * as bodyParser from "body-parser";
 import Controller from './interfaces/controller.interface';
 import { Constants } from "./config/Constants";
 
-import {
+import 
+{
     ProjectController,
     FlowManagerController,
     EntityController,
@@ -51,14 +52,16 @@ import {
     AngularTemplateControllerV13,
     CustomTemplateController,
     SharedFeaturesController,
-    SharedFeaturesGenController
+    SharedFeaturesGenController,
+    WizardController
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
 
 const PORT = 3000;
 
-let apisController = [
+let apisController = 
+[
     new ProjectController(),
     new FlowManagerController(),
     new EntityController(),
@@ -103,23 +106,26 @@ let apisController = [
     new DefaultServicesController(),
     new GepFileManagerController(),
     new SharedFeaturesController(),
-    new SharedFeaturesGenController()
+    new SharedFeaturesGenController(),
+    new WizardController()
 ]
 
-class App {
-
+class App 
+{
     public app: express.Application = express();
     public logger: WinstonLogger = new WinstonLogger();
     public apiUrl : Constants = new Constants();
 
-    constructor(controllers: Controller[]) {
+    constructor(controllers: Controller[]) 
+    {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
     }
 
-    private initializeMiddlewares() {
+    private initializeMiddlewares() 
+    {
         // this.app.use(bodyParser.json());
         // this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json({ limit: '50mb' }));
@@ -127,10 +133,14 @@ class App {
         this.app.use(cors({ credentials: true, origin: true }))
     }
 
-    private initializeControllers(controllers: Controller[]) {
-        controllers.forEach((controller) => {
-            this.app.route('/health/apigateway').get((req: express.Request, res: express.Response) => {
-                res.status(200).send({
+    private initializeControllers(controllers: Controller[]) 
+    {
+        controllers.forEach((controller) => 
+        {
+            this.app.route('/health/apigateway').get((req: express.Request, res: express.Response) => 
+            {
+                res.status(200).send
+                ({
                     status: 'up'
                 })
             })
@@ -138,9 +148,9 @@ class App {
             this.app.use('/desktop', controller.router);
         });
     }
-
 }
 
-new App(apisController).app.listen(PORT, () => {
+new App(apisController).app.listen(PORT, () => 
+{
     console.log('Express server listening on port ' + PORT);
 })

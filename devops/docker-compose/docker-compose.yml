@@ -121,6 +121,16 @@ services:
     depends_on:
       - mongo
 
+  wizardmanager:
+    build: ../../application/services/wizardmanager
+    image: wizardmanager
+    container_name: wizardmanager
+    ports:
+      - "3018:3018"
+    env_file: ../../.env
+    depends_on:
+      - mongo    
+
   securitymanager:
     build: ../../application/services/securitymanager
     image: securitymanager

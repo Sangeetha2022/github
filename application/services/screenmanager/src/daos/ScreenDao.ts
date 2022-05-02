@@ -132,7 +132,8 @@ export class ScreenDao {
 
     }
 
-    public getAllScreenByFeatureId(req, callback) {
+    public 
+    getAllScreenByFeatureId(req, callback) {
         let featureId = req.params.featureId;
         screenModel.find({ feature: req.params.id }).populate({ path: 'feature', model: featureDetailModel }).
             exec(function (err, result) {

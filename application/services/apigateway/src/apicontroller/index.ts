@@ -20,6 +20,7 @@ export * from './externalfeature.controller';
 export * from './gepfilemanager.controller';
 export * from './modifiermanager.controller';
 export * from './sharedfeatures.controller';
+export * from './wizard.controller';
 
 
 // generator

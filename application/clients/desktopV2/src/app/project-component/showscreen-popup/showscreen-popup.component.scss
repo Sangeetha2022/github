@@ -1,0 +1,35 @@
+#ihclgr {
+    white-space: nowrap;
+    background-color: #5DB18C;
+    color: #ffffff;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+}
+
+#entity_heading {
+    font-size: 28px;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    margin: 5px 0 5px 0;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+li:hover {
+    font-size: 25px;
+    color: rgb(32, 81, 172);
+}
