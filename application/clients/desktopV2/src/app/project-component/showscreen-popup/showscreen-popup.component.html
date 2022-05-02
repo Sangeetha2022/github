@@ -36,9 +36,10 @@
         </div>
     </div>
     <div class="row pt-4" *ngIf="isClick">
+        <p *ngIf="isZero(screenDetails)">No Screens to add!</p>
         <div *ngFor="let screen of screenDetails;let i=index;">
-            <ul *ngIf="!screen.isPartOfWizard">
-                <li style="cursor:pointer" (click)="addToList(screen.screenName,screen._id,screen.isPartOfWizard)">{{screen.screenName}}</li>
+            <ul *ngIf=" !screen.isPartOfWizard ">
+                <li style="cursor:pointer " (click)="addToList(screen.screenName,screen._id,screen.isPartOfWizard) ">{{screen.screenName}}</li>
             </ul>
         </div>
     </div>

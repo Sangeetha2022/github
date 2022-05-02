@@ -121,9 +121,13 @@ export class ShowscreenPopupComponent implements OnInit
         });
   }
 
+  isZero(screenDetails:any):boolean
+  {
+     return screenDetails.filter((i: { isPartOfWizard: boolean; })=>i.isPartOfWizard===false).length===0;
+  }
+
   editWizardScreen(index:any,screenName:any) 
   {
-      this.showInput=true;
       this.fromIndex=index;
       console.log("Index:",this.fromIndex);
       const dialogRef = this.dialog.open(EditpositionComponent, 
@@ -138,6 +142,10 @@ export class ShowscreenPopupComponent implements OnInit
       });
       dialogRef.afterClosed().subscribe((data)=>
       {
+          if(data)
+          {
+            this.showInput=true;
+          }
           console.log("NewPosition:",data);
           this.arrayMove(data);
       })

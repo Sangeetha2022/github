@@ -101,7 +101,7 @@ module.exports = {
         },
         {
             "name": "apigateway-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -149,7 +149,7 @@ module.exports = {
         },        
         {
             "name": "authproxy-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-authproxy:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-authproxy:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -193,7 +193,7 @@ module.exports = {
         },
         {
             "name": "camundasvc-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-camunda:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-camunda:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -237,7 +237,7 @@ module.exports = {
         },
         {
             "name": "gcam-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -281,7 +281,7 @@ module.exports = {
         },
         {
             "name": "gepfilemanager-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -325,7 +325,7 @@ module.exports = {
         },
         {
             "name": "securitymanager-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -368,7 +368,7 @@ module.exports = {
         },
         {
             "name": "systemcredentialmanager-{{project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,
@@ -410,9 +410,10 @@ module.exports = {
             }
         },
           {{#each custom_features}}
+          
         {
             "name": "{{this.name}}-{{../project_unique_id}}",
-            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{../project_name}}-{{../project_unique_id}}-{{this.name}}:1`,
+            "image": `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/geppetto-generatedcode-{{../project_name}}-{{../project_unique_id}}-{{this.name}}:latest`,
             "memoryReservation": "300",
             "resourceRequirements": null,
             "essential": true,

@@ -29,18 +29,20 @@ jobs:
           aws-secret-access-key: ${{#surroundWithCurlyBraces ' env.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
           aws-region: ${{#surroundWithCurlyBraces ' env.AWS_REGION '}}{{/surroundWithCurlyBraces}}
       - name: Creating the S3 bucket
-        run: aws s3api create-bucket --bucket ${{#surroundWithCurlyBraces 'env.AWS_S3_BUCKET_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+        run: |
+          aws s3api create-bucket --bucket ${{#surroundWithCurlyBraces 'env.AWS_S3_BUCKET_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws s3api put-bucket-tagging --bucket ${{#surroundWithCurlyBraces 'env.AWS_S3_BUCKET_NAME'}}{{/surroundWithCurlyBraces}} --tagging 'TagSet=[{Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} },{Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} }]'
       - name: Creating the aws ECR for each micro service
         run: |
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-authproxy  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-camunda  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager  --image-scanning-configuration scanOnPush=true  --region us-east-1
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd  --image-scanning-configuration scanOnPush=true  --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-authproxy --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-camunda --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-securitymanager --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gcam --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-gepfilemanager --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
           {{#each custom_features}}
-          aws ecr create-repository --repository-name geppetto-generatedcode-{{../project_name}}-{{../project_unique_id}}-{{this.name}}  --image-scanning-configuration scanOnPush=true  --region us-east-1
+          aws ecr create-repository --repository-name geppetto-generatedcode-{{../project_name}}-{{../project_unique_id}}-{{this.name}} --tags Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}} --region us-east-1
           {{/each}}
   Build_and_upload_docker_images_to_ECR:
     needs: Prerequisites
@@ -60,7 +62,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{#surroundWithCurlyBraces ' steps.login-ecr.outputs.registry '}}{{/surroundWithCurlyBraces}}
-          IMAGE_TAG: 1
+          IMAGE_TAG: latest
         run: |
      
           cd application/services/default_services/authproxy
@@ -93,7 +95,7 @@ jobs:
           docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-fluentd:$IMAGE_TAG
           echo "Successfully build the  docker image for fluentd and pushed to aws ecr"
 
-          cd ../../custom_services/apigateway
+          cd ../../../custom_services/apigateway
           docker build -t $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway:$IMAGE_TAG .
           docker push $ECR_REGISTRY/geppetto-generatedcode-{{project_name}}-{{project_unique_id}}-apigateway:$IMAGE_TAG
           echo "Successfully build the docker image for apigateway and pushed to aws ecr"
@@ -119,7 +121,7 @@ jobs:
           node-version: 10
       - name: EFS volume attach task definition
         id: EfsID
-        run: echo "::set-output name=FILESYSTEM_ID::$(aws efs create-file-system --performance-mode generalPurpose --throughput-mode bursting --encrypted --tags Key=Name,Value={{s3_bucket_name}} | jq '.FileSystemId')"
+        run: echo "::set-output name=FILESYSTEM_ID::$(aws efs create-file-system --performance-mode generalPurpose --throughput-mode bursting --encrypted --tags Key=Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}}  Key=Project_Name,Value=${{#surroundWithCurlyBraces 'env.PROJECT_NAME'}}{{/surroundWithCurlyBraces}}  | jq '.FileSystemId')"
       - name: EFS SecurityGroups Added
         run: |
           sleep 40s

@@ -21,7 +21,7 @@ Given the limited scope available at the start of development, the Expense Manag
 
 ### Phase One - Cloud Expenses
 
-#### STEP ONE
+#### STEP ONE - Modify User Entity in Geppetto System
 
 Update the User.ts to include the following:
 {
@@ -29,8 +29,37 @@ Update the User.ts to include the following:
     "sub-org-one"  : "by default N/A",
     "sub-org-two"  : "by default N/A",
     "sub-org-three"  : "by default N/A",
-    "sub-org-n"     :  "what ever string the user wants"
+    "sub-org-n"     :  "what ever string the user wants",
+    "payment-info:{
+        "billing-status":{
+            "active": "true",
+            "start-date": "date client gave consent to start billing",
+            "stop-date": "date client withdrew consent for billing"
+        },
+        "type":  "credit-card,invoice,wire",
+        "credit-card": {
+            "number": "767283647826347627",
+            "expiration": "12/2022",
+            "CVV": "635 or 7272 for AMEX"
+        },
+        "invoice": {
+            "section-one": "sample I don't know what this",
+            "section-two": "sample I don't know what this",
+            "section-three": "sample I don't know what this",
+            "terms": "30 days net or 90 days net"
+        },
+        "wire-transfer": {
+            "section-one": "sample I don't know what this",
+            "section-two": "sample I don't know what this",
+            "section-three": "sample I don't know what this"
+        }
+
+    }
 }
 
-#### STEP TWO
+#### STEP TWO - Add User section in Geppetto UI
 
+The user should be able to modify their password as well their avatar/picture and any other pertinent personal information such as payment method
+
+In the image below the User Name should be accessible from the menu item located at the far right of the Geppetto Header - in the image image below it is missing
+![Missing User Icon/Name](./images/missing%20user%20section.png)
